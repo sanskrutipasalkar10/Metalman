@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Metalman Auto-Engineer — Industrial B2B palette */
+    --background: 0 0% 100%;
+    --foreground: 215 28% 17%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 28% 17%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 28% 17%;
+
+    /* Steel Blue */
+    --primary: 210 65% 38%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 210 70% 55%;
+
+    /* Slate Gray surface */
+    --secondary: 215 20% 95%;
+    --secondary-foreground: 215 28% 17%;
+
+    --muted: 215 20% 96%;
+    --muted-foreground: 215 15% 45%;
+
+    /* Safety Orange — used as accent for CTAs */
+    --accent: 22 95% 54%;
+    --accent-foreground: 0 0% 100%;
+    --accent-hover: 22 95% 48%;
+
+    --success: 142 71% 38%;
+    --success-foreground: 0 0% 100%;
+
+    --destructive: 0 75% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 215 20% 88%;
+    --input: 215 20% 88%;
+    --ring: 210 65% 38%;
+
+    --slate-deep: 215 35% 15%;
+    --slate-mid: 215 25% 27%;
+
+    --gradient-hero: linear-gradient(135deg, hsl(215 35% 15%) 0%, hsl(210 50% 22%) 100%);
+    --gradient-orange: linear-gradient(135deg, hsl(22 95% 54%), hsl(18 95% 48%));
+    --gradient-steel: linear-gradient(135deg, hsl(210 65% 38%), hsl(210 70% 55%));
+    --gradient-grid: linear-gradient(hsl(215 20% 92%) 1px, transparent 1px), linear-gradient(90deg, hsl(215 20% 92%) 1px, transparent 1px);
+
+    --shadow-card: 0 1px 3px 0 hsl(215 28% 17% / 0.06), 0 1px 2px -1px hsl(215 28% 17% / 0.06);
+    --shadow-elevated: 0 10px 30px -10px hsl(215 35% 15% / 0.15);
+    --shadow-orange: 0 8px 24px -8px hsl(22 95% 54% / 0.45);
+    --shadow-steel: 0 8px 24px -8px hsl(210 65% 38% / 0.4);
+
+    --radius: 0.625rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 215 35% 8%;
+    --foreground: 210 30% 96%;
+    --card: 215 30% 12%;
+    --card-foreground: 210 30% 96%;
+    --popover: 215 30% 12%;
+    --popover-foreground: 210 30% 96%;
+    --primary: 210 70% 55%;
+    --primary-foreground: 215 35% 8%;
+    --secondary: 215 25% 18%;
+    --secondary-foreground: 210 30% 96%;
+    --muted: 215 25% 18%;
+    --muted-foreground: 215 15% 65%;
+    --accent: 22 95% 54%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 75% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 215 25% 22%;
+    --input: 215 25% 22%;
+    --ring: 210 70% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1, h2, h3, h4, h5 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer utilities {
+  .grid-bg {
+    background-image: var(--gradient-grid);
+    background-size: 32px 32px;
+  }
+  .text-balance { text-wrap: balance; }
+}

@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+pandas
+python-multipart
+celery
+redis
+python-dotenv
+pydantic
+PyMuPDF
+Pillow
+openpyxl
+opencv-python-headless
+openai
