@@ -1,23 +1,56 @@
-from fastapi import APIRouter, UploadFile, File, BackgroundTasks, Form
+from fastapi import APIRouter, UploadFile, File, BackgroundTasks, Form, HTTPException
 import os
 import shutil
 import uuid
 import json
 import re
 import pandas as pd
+from pydantic import BaseModel
+from typing import List
 from services.pfd_renderer import render_sub_assy_index, render_sub_assy_sheet, render_sheetmetal_sheet, render_bop_sheet
 from services.cad_service import export_step_to_stl
 from services.bom_generator import generate_bom_excel
 from services.tooling_generator import generate_tooling_list
+from services.fitment_generator import generate_fitment_check_sheet
+from services.pfmea_generator import generate_pfmea_excel
+from services.control_plan_generator import generate_control_plan_excel
+from services.fixture_plan_generator import generate_fixture_plan
+from services.correction_service import apply_bulk_correction
+from xlsx2html import xlsx2html
+from fastapi.responses import HTMLResponse, FileResponse
+import io
+import pythoncom
+try:
+    import win32com.client
+    HAS_WIN32 = True
+except ImportError:
+    HAS_WIN32 = False
 
 router = APIRouter()
 
-UPLOAD_DIR = "uploads"
-OUTPUT_DIR = "outputs"
+class CorrectionItem(BaseModel):
+    document: str
+    column: str
+    cell_no: str
+    replacement_content: str
+
+class BulkCorrectionRequest(BaseModel):
+    task_id: str
+    corrections: List[CorrectionItem]
+
+
+UPLOAD_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "uploads"))
+OUTPUT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "outputs"))
 TASKS_FILE = "tasks_db.json"
-PFD_TEMPLATE_PATH = os.path.join("assets", "pfd template.xlsx")
-BOM_TEMPLATE_PATH = os.path.join("assets", "BLANK_BOM_TEMPLATE.xlsx")
+PFD_TEMPLATE_PATH     = os.path.join("assets", "pfd template.xlsx")
+BOM_TEMPLATE_PATH     = os.path.join("assets", "BLANK_BOM_TEMPLATE.xlsx")
 TOOLING_TEMPLATE_PATH = os.path.join("assets", "tooling list temp.xlsx")
+FITMENT_TEMPLATE_PATH = os.path.join("assets", "fitment_checksheet_template.xlsx")
+PFMEA_TEMPLATE_PATH   = os.path.join("assets", "PFMEA_TEMPLATE.xlsx")
+PFMEA_DICT_DIR             = os.path.join("assets", "pfmea_dicts")
+CONTROL_PLAN_TEMPLATE_PATH = os.path.join("assets", "CONTROL_PLAN_TEMPLATE.xlsx")
+CONTROL_PLAN_DICT_DIR           = os.path.join("assets", "control_plan_dicts")
+FIXTURE_PLAN_TEMPLATE_PATH     = os.path.join("assets", "fixture_plan_template.xlsx")
 
 # Task tracking
 TASKS = {} # task_id -> {status, progress, stl_url, files: [], message, error}
@@ -88,11 +121,13 @@ def process_engineering_task(task_id: str, cad_path: str, feasibility_path: str,
             save_tasks()
             print(f"[TASK {task_id}] STL export successful.")
         
-        # 2. BOM Generation
-        if requested_outputs.get("bom"):
-            print(f"[TASK {task_id}] Starting BOM generation...")
-            TASKS[task_id]["message"] = "Generating Bill of Materials..."
+        # 2. BOM Generation & Image Extraction
+        # Note: Fitment Checksheet also relies on images extracted during this phase.
+        if requested_outputs.get("bom") or requested_outputs.get("fitment") or requested_outputs.get("control_plan"):
+            print(f"[TASK {task_id}] Starting BOM/Image generation...")
+            TASKS[task_id]["message"] = "Generating Bill of Materials & Extracting Images..."
             TASKS[task_id]["progress"] = 20
+            
             bom_filename = f"BOM_Result_{part_no}.xlsx"
             bom_path = os.path.join(OUTPUT_DIR, bom_filename)
             
@@ -106,10 +141,13 @@ def process_engineering_task(task_id: str, cad_path: str, feasibility_path: str,
                 tmp_img_dir, 
                 bom_path
             )
-            TASKS[task_id]["files"].append({"name": "Bill of Materials", "url": f"/outputs/{bom_filename}", "type": "xlsx"})
+            
+            if requested_outputs.get("bom"):
+                TASKS[task_id]["files"].append({"name": "Bill of Materials", "url": f"/outputs/{bom_filename}", "type": "xlsx"})
+            
             TASKS[task_id]["progress"] = 45
             save_tasks()
-            print(f"[TASK {task_id}] BOM generation complete.")
+            print(f"[TASK {task_id}] BOM/Image generation complete.")
 
         # 3. PFD Generation
         if requested_outputs.get("pfd"):
@@ -153,9 +191,99 @@ def process_engineering_task(task_id: str, cad_path: str, feasibility_path: str,
             if generate_tooling_list(feasibility_path, TOOLING_TEMPLATE_PATH, tool_path, tool_img_dir):
                 TASKS[task_id]["files"].append({"name": "Tooling Master List", "url": f"/outputs/{tool_filename}", "type": "xlsx"})
             
-            TASKS[task_id]["progress"] = 98
+            TASKS[task_id]["progress"] = 95
             save_tasks()
             print(f"[TASK {task_id}] Tooling List generation complete.")
+
+        # 5. Fitment Checksheet
+        if requested_outputs.get("fitment"):
+            print(f"[TASK {task_id}] Starting Fitment Checksheet generation...")
+            TASKS[task_id]["message"] = "Generating Fitment Checksheet..."
+            TASKS[task_id]["progress"] = 97
+            save_tasks()
+
+            fitment_filename = f"Fitment_Checksheet_{part_no}.xlsx"
+            fitment_path = os.path.join(OUTPUT_DIR, fitment_filename)
+
+            # Use the shared image directory (ensured to be populated by Step 2)
+            tmp_img_dir = os.path.join(UPLOAD_DIR, f"tmp_imgs_{task_id}")
+            
+            if generate_fitment_check_sheet(feasibility_path, FITMENT_TEMPLATE_PATH, fitment_path, tmp_img_dir):
+                TASKS[task_id]["files"].append({"name": "Fitment Checksheet", "url": f"/outputs/{fitment_filename}", "type": "xlsx"})
+
+            save_tasks()
+            print(f"[TASK {task_id}] Fitment Checksheet generation complete.")
+
+        # 6. PFMEA Generation
+        if requested_outputs.get("pfmea"):
+            print(f"[TASK {task_id}] Starting PFMEA generation...")
+            TASKS[task_id]["message"] = "Generating PFMEA Document..."
+            TASKS[task_id]["progress"] = 98
+            save_tasks()
+
+            pfmea_filename = f"PFMEA_Result_{part_no}.xlsx"
+            pfmea_path = os.path.join(OUTPUT_DIR, pfmea_filename)
+
+            if generate_pfmea_excel(feasibility_path, PFMEA_TEMPLATE_PATH, pfmea_path, PFMEA_DICT_DIR):
+                TASKS[task_id]["files"].append({"name": "Process FMEA", "url": f"/outputs/{pfmea_filename}", "type": "xlsx"})
+            
+            save_tasks()
+            print(f"[TASK {task_id}] PFMEA generation complete.")
+
+        # 7. Control Plan Generation
+        if requested_outputs.get("control_plan"):
+            print(f"[TASK {task_id}] Starting Control Plan generation...")
+            TASKS[task_id]["message"] = "Generating Control Plan..."
+            TASKS[task_id]["progress"] = 99
+            save_tasks()
+
+            cp_filename = f"Control_Plan_{part_no}.xlsx"
+            cp_path     = os.path.join(OUTPUT_DIR, cp_filename)
+
+            # Resolve paths needed by the generator
+            tmp_img_dir  = os.path.join(UPLOAD_DIR, f"tmp_imgs_{task_id}")
+            pfd_filename = f"PFD_Result_{part_no}.xlsx"
+            pfd_out_path = os.path.join(OUTPUT_DIR, pfd_filename)
+
+            # Build sub-assy index data from feasibility (reuse same extraction logic)
+            try:
+                from services.pfd_renderer import extract_feasibility_data
+                _, assy_data = extract_feasibility_data(feasibility_path)
+            except Exception as e:
+                print(f"[CP] Failed to extract sub assy data: {e}")
+                assy_data = []
+
+            generated = generate_control_plan_excel(
+                feasibility_path=feasibility_path,
+                template_path=CONTROL_PLAN_TEMPLATE_PATH,
+                output_path=cp_path,
+                dict_dir=CONTROL_PLAN_DICT_DIR,
+                pfd_output_path=pfd_out_path,
+                img_dir=tmp_img_dir,
+                assy_data=assy_data,
+                pfd_img_dir=OUTPUT_DIR,
+            )
+            if generated:
+                TASKS[task_id]["files"].append({"name": "Control Plan", "url": f"/outputs/{cp_filename}", "type": "xlsx"})
+
+            save_tasks()
+            print(f"[TASK {task_id}] Control Plan generation complete.")
+
+        # 8. Fixture PM Master Plan
+        if requested_outputs.get("fixture_plan"):
+            print(f"[TASK {task_id}] Starting Fixture Plan generation...")
+            TASKS[task_id]["message"] = "Generating Fixture PM Master Plan..."
+            TASKS[task_id]["progress"] = 99.5
+            save_tasks()
+
+            fp_filename = f"Fixture_Plan_{part_no}.xlsx"
+            fp_path     = os.path.join(OUTPUT_DIR, fp_filename)
+
+            if generate_fixture_plan(feasibility_path, FIXTURE_PLAN_TEMPLATE_PATH, fp_path):
+                TASKS[task_id]["files"].append({"name": "Fixture PM Master Plan", "url": f"/outputs/{fp_filename}", "type": "xlsx"})
+
+            save_tasks()
+            print(f"[TASK {task_id}] Fixture Plan generation complete.")
 
         TASKS[task_id]["progress"] = 100
         TASKS[task_id]["status"] = "completed"
@@ -223,3 +351,97 @@ async def get_analysis_status(task_id: str):
     if task_id in TASKS:
         return TASKS[task_id]
     return {"status": "not_found"}
+
+@router.post("/correct")
+async def correct_document(req: BulkCorrectionRequest):
+    return apply_bulk_correction(
+        task_id=req.task_id,
+        corrections=[c.dict() for c in req.corrections]
+    )
+
+@router.get("/preview/{filename}")
+async def preview_excel(filename: str):
+    """
+    High-fidelity 'Sure Shot' preview solution.
+    """
+    excel_path = os.path.join(OUTPUT_DIR, filename)
+    pdf_filename = filename.replace(".xlsx", ".pdf")
+    pdf_path = os.path.join(OUTPUT_DIR, pdf_filename)
+    
+    # 1. IMMEDIATE RETURN: If PDF already exists, serve it instantly
+    if os.path.exists(pdf_path):
+        return FileResponse(pdf_path, media_type="application/pdf")
+
+    if not os.path.exists(excel_path):
+        raise HTTPException(status_code=404, detail=f"File not found: {filename}")
+    
+    # 2. GENERATE PDF: Try native Excel conversion
+    if HAS_WIN32:
+        try:
+            pythoncom.CoInitialize()
+            # Use DispatchEx for a new instance and better isolation
+            excel = win32com.client.DispatchEx("Excel.Application")
+            excel.Visible = False
+            excel.DisplayAlerts = False
+            try:
+                wb = excel.Workbooks.Open(excel_path)
+                # Ensure all sheets are processed for full visibility
+                for sheet in wb.Sheets:
+                    try:
+                        # Clear any existing print areas that might clip the document
+                        sheet.PageSetup.PrintArea = ""
+                        # Enable Row and Column headings (A,B,C... 1,2,3...)
+                        sheet.PageSetup.PrintHeadings = True
+                        
+                        # Ensure everything fits on one page width but can span multiple pages down
+                        sheet.PageSetup.Zoom = False
+                        sheet.PageSetup.FitToPagesWide = 1
+                        sheet.PageSetup.FitToPagesTall = False
+                        
+                        # Force black and white or other settings if needed? No, keep color.
+                    except Exception as sheet_err:
+                        print(f"[PREVIEW] Sheet setup error: {sheet_err}")
+                
+                # Export the entire workbook to PDF, ignoring any internal print areas that might clip data
+                # 0 = xlTypePDF, 1 = xlQualityStandard, IncludeDocProperties=True, IgnorePrintAreas=True
+                wb.ExportAsFixedFormat(0, pdf_path, Quality=0, IncludeDocProperties=True, IgnorePrintAreas=True) 
+                wb.Close(False)
+            finally:
+                excel.Quit()
+            
+            if os.path.exists(pdf_path):
+                return FileResponse(pdf_path, media_type="application/pdf")
+        except Exception as e:
+            print(f"[PREVIEW ERROR] Native conversion failed: {e}")
+        finally:
+            try: pythoncom.CoUninitialize()
+            except: pass
+
+    # 3. FALLBACK: Data View (if PDF fails)
+    try:
+        # Use pandas for a clean data-only fallback instead of xlsx2html which is buggy with images
+        df = pd.read_excel(excel_path, sheet_name=0)
+        html_content = df.to_html(classes="table table-striped", index=False)
+        
+        styled_html = f"""
+        <html>
+        <head>
+            <style>
+                body {{ font-family: 'Segoe UI', sans-serif; padding: 20px; background: #f0f2f5; }}
+                .container {{ background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin: auto; }}
+                table {{ border-collapse: collapse; width: 100%; font-size: 13px; }}
+                td, th {{ border: 1px solid #dfe3e8; padding: 10px; text-align: left; }}
+                th {{ background-color: #f4f6f8; font-weight: 600; color: #454f5b; }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h3 style="margin-top:0">Data Preview (Low Fidelity)</h3>
+                {html_content}
+            </div>
+        </body>
+        </html>
+        """
+        return HTMLResponse(content=styled_html)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Preview failed: {str(e)}")

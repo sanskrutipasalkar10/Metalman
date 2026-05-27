@@ -10,9 +10,13 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 
 const OUTPUTS = [
-  { id: "bom", label: "Bill of Materials (BOM)", desc: "Consolidated list of parts for NPD costing and procurement" },
-  { id: "pfd", label: "Progressive Flow Diagram (PFD)", desc: "Sequential manufacturing workflow for PPAP approval" },
-  { id: "tooling", label: "Fixture Master List", desc: "Complete inventory of jigs, fixtures, and shop floor tooling" },
+  { id: "bom",          label: "Bill of Materials (BOM)",        desc: "Consolidated list of parts for NPD costing and procurement" },
+  { id: "pfd",          label: "Progressive Flow Diagram (PFD)", desc: "Sequential manufacturing workflow for PPAP approval" },
+  { id: "tooling",      label: "Fixture Master List",            desc: "Complete inventory of jigs, fixtures, and shop floor tooling" },
+  { id: "fitment",      label: "Fitment Checksheet",             desc: "Part fitment verification sheet with part images and BOM data" },
+  { id: "pfmea",        label: "Process FMEA (All Sheets)",      desc: "Failure Mode & Effects Analysis for Assembly, SM & BOP" },
+  { id: "control_plan", label: "Control Plan (All Sheets)",      desc: "Contractual Control Plan: Sub Assy Index, Assy, Sheetmetal & BOP" },
+  { id: "fixture_plan", label: "Fixture PM Master Plan",          desc: "Monthly fixture preventive maintenance schedule with day-wise tracking (1–31)" },
 ];
 
 const Dashboard = () => {
@@ -21,7 +25,7 @@ const Dashboard = () => {
   const [cadFile, setCadFile] = useState<File | null>(null);
   const [drawingFiles, setDrawingFiles] = useState<File[]>([]);
   
-  const [outputs, setOutputs] = useState<Record<string, boolean>>({ bom: true, pfd: true, tooling: false });
+  const [outputs, setOutputs] = useState<Record<string, boolean>>({ bom: true, pfd: true, tooling: false, fitment: false, pfmea: false, control_plan: false, fixture_plan: false });
   const [processing, setProcessing] = useState(false);
   const [taskId, setTaskId] = useState<string | null>(null);
 

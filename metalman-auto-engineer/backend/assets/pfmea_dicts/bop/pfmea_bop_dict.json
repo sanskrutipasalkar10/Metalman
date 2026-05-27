@@ -1,0 +1,275 @@
+{
+    "RM_PROCUREMENT": {
+        "*MATERIAL FROM APPROVED SOURCE": [
+            {
+                "Process function": "RM Procurement",
+                "Potential Failure mode": "*MATERIAL FROM APPROVED SOURCE",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Operation. Effected",
+                    "CU:-": "Part Failure",
+                    "EU-": "M/C Breakdown"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "Material from local market",
+                "Current Controls Prevention": "Material from Approved source",
+                "Current Controls Detection": "Approved Source/ supplier list"
+            }
+        ]
+    },
+    "INCOMING_INSPECTION": {
+        "* THICKNESS OVER SIZE": [
+            {
+                "Process function": "INCOMING INSPECTION",
+                "Potential Failure mode": "* THICKNESS OVER SIZE",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Bending Dim. Effected",
+                    "CU:-": "Fitment Issue",
+                    "EU-": "NIL"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "1. Wrong PO / Incomplete Details in PO Issued to supplier.",
+                "Current Controls Prevention": "1. Verification by Sign. Authority of PO with Purchase indent and before issue to supplier.",
+                "Current Controls Detection": "1. MATERIAL CROSS VERIFY BY QA INSPECTOR BEFORE ENTERING THE PLANT AGAINST MTC & INVOICE."
+            },
+            {
+                "Process function": "INCOMING INSPECTION",
+                "Potential Failure mode": "* THICKNESS OVER SIZE",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Bending Dim. Effected",
+                    "CU:-": "Fitment Issue",
+                    "EU-": "NIL"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "2. Wrong TC Provided by Supplier.",
+                "Current Controls Prevention": "2. Check at receiving stage",
+                "Current Controls Detection": "2. Mill TC should be verified by field inspector."
+            },
+            {
+                "Process function": "INCOMING INSPECTION",
+                "Potential Failure mode": "* THICKNESS OVER SIZE",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Bending Dim. Effected",
+                    "CU:-": "Fitment Issue",
+                    "EU-": "NIL"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "3. No verification of TC by QA inspector.",
+                "Current Controls Prevention": "3. Third party material test Plan to be adhered.",
+                "Current Controls Detection": "3. Verification of Mill TC material by MRN and third party test Report."
+            },
+            {
+                "Process function": "INCOMING INSPECTION",
+                "Potential Failure mode": "* THICKNESS OVER SIZE",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Bending Dim. Effected",
+                    "CU:-": "Fitment Issue",
+                    "EU-": "NIL"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "4. NON CALIBRATED INSTRUMENT USE FOR INSPECTION",
+                "Current Controls Prevention": "4. Instrument calibration plan to be adhered.",
+                "Current Controls Detection": "4. Calibrated instrument should be used to check the material."
+            }
+        ],
+        "* THICKNESS UNDER SIZE": [
+            {
+                "Process function": "INCOMING INSPECTION",
+                "Potential Failure mode": "* THICKNESS UNDER SIZE",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Bending Dim. Effected",
+                    "CU:-": "Fitment Issue",
+                    "EU-": "NIL"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "1. Wrong PO / Incomplete Details in PO Issued to supplier.",
+                "Current Controls Prevention": "1. Verification by Sign. Authority of PO with Purchase indent and before issue to supplier.",
+                "Current Controls Detection": "1. MATERIAL CROSS VERIFY BY QA INSPECTOR BEFORE ENTERING THE PLANT AGAINST MTC & INVOICE."
+            },
+            {
+                "Process function": "INCOMING INSPECTION",
+                "Potential Failure mode": "* THICKNESS UNDER SIZE",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Bending Dim. Effected",
+                    "CU:-": "Fitment Issue",
+                    "EU-": "NIL"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "2. Wrong TC Provided by Supplier.",
+                "Current Controls Prevention": "2. Check at receiving stage",
+                "Current Controls Detection": "2. Mill TC should be verified by field inspector."
+            },
+            {
+                "Process function": "INCOMING INSPECTION",
+                "Potential Failure mode": "* THICKNESS UNDER SIZE",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Bending Dim. Effected",
+                    "CU:-": "Fitment Issue",
+                    "EU-": "NIL"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "3. No verification of TC by QA inspector.",
+                "Current Controls Prevention": "3. Third party material test Plan to be adhered.",
+                "Current Controls Detection": "3. Verification of Mill TC material by MRN and third party test Report."
+            },
+            {
+                "Process function": "INCOMING INSPECTION",
+                "Potential Failure mode": "* THICKNESS UNDER SIZE",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Bending Dim. Effected",
+                    "CU:-": "Fitment Issue",
+                    "EU-": "NIL"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "4. NON CALIBRATED INSTRUMENT USE FOR INSPECTION",
+                "Current Controls Prevention": "4. Instrument calibration plan to be adhered.",
+                "Current Controls Detection": "4. Calibrated instrument should be used to check the material."
+            }
+        ],
+        "*  PLATE  RUSTY": [
+            {
+                "Process function": "INCOMING INSPECTION",
+                "Potential Failure mode": "*  PLATE  RUSTY",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Poor surface Treatment",
+                    "CU:-": "Fail in test",
+                    "EU-": "Durability Effected"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "1. Material Stored in open condition.",
+                "Current Controls Prevention": "1. Material Stored in covered area. Awareness about it to Quality inspector.",
+                "Current Controls Detection": "1. Incoming Inspection Report. Before next process operator will ensure that Plate is free from RUST."
+            },
+            {
+                "Process function": "INCOMING INSPECTION",
+                "Potential Failure mode": "*  PLATE  RUSTY",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Poor surface Treatment",
+                    "CU:-": "Fail in test",
+                    "EU-": "Durability Effected"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "2. FIFO Not maintained",
+                "Current Controls Prevention": "2. FIFO system applied",
+                "Current Controls Detection": "2. Color coding to be done on the steel plates. Green, Yellow."
+            }
+        ],
+        "*  SHEET BEND": [
+            {
+                "Process function": "INCOMING INSPECTION",
+                "Potential Failure mode": "*  SHEET BEND",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Bending Dim Effected",
+                    "CU:-": "Fitment Issue",
+                    "EU-": "Durability Effected"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "1. Plate may be hit / damage during unloading.",
+                "Current Controls Prevention": "1. PROPER LOADING & UNLOADING BY HOST (CRANE)",
+                "Current Controls Detection": "1. Incoming Inspection Report"
+            },
+            {
+                "Process function": "INCOMING INSPECTION",
+                "Potential Failure mode": "*  SHEET BEND",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Bending Dim Effected",
+                    "CU:-": "Fitment Issue",
+                    "EU-": "Durability Effected"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "2. Plate may not be stored properly",
+                "Current Controls Prevention": "2. STORAGE LOCATION DEFINED FOR RAW MATERIAL",
+                "Current Controls Detection": "2. Before next process start operator should ensure that Plate is not bend / Inprocess inspection Report."
+            }
+        ],
+        "*  MATERIAL GRADE WRONG": [
+            {
+                "Process function": "INCOMING INSPECTION",
+                "Potential Failure mode": "*  MATERIAL GRADE WRONG",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Bending Effected",
+                    "CU:-": "Part Crack",
+                    "EU-": "Durability Effected"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "1. Wrong PO / Incomplete Details in PO Issued to supplier.",
+                "Current Controls Prevention": "1. Verification by Sign. Authority of PO with Purchase indent and before issue to supplier.",
+                "Current Controls Detection": "1. Incoming Inspection Report"
+            },
+            {
+                "Process function": "INCOMING INSPECTION",
+                "Potential Failure mode": "*  MATERIAL GRADE WRONG",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Bending Effected",
+                    "CU:-": "Part Crack",
+                    "EU-": "Durability Effected"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "2. Wrong TC Provided by Supplier.",
+                "Current Controls Prevention": "2. Verification of TC by Field inspector.",
+                "Current Controls Detection": ""
+            },
+            {
+                "Process function": "INCOMING INSPECTION",
+                "Potential Failure mode": "*  MATERIAL GRADE WRONG",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Bending Effected",
+                    "CU:-": "Part Crack",
+                    "EU-": "Durability Effected"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "3. Chemical and Physical properties not matched with std",
+                "Current Controls Prevention": "3. Chemical and Physical properties be checked & matched with std.",
+                "Current Controls Detection": "3. Third party test to be done as per plan."
+            }
+        ]
+    },
+    "STORAGE": {
+        "*  STORAGE ON WRONG LOCATION / MIX-UP": [
+            {
+                "Process function": "Storage",
+                "Potential Failure mode": "*  STORAGE ON WRONG LOCATION / MIX-UP",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Part may reject",
+                    "CU:-": "Part Failure",
+                    "EU-": "Field Failure"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "1. No proper place for storage of material by grade and thickness.",
+                "Current Controls Prevention": "1. Storage area is Identified as per grade and thickness wise.",
+                "Current Controls Detection": "1. WI Displayed near Raw material Storage area and Incoming Inspector Gives colour code after Inspection."
+            },
+            {
+                "Process function": "Storage",
+                "Potential Failure mode": "*  STORAGE ON WRONG LOCATION / MIX-UP",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Part may reject",
+                    "CU:-": "Part Failure",
+                    "EU-": "Field Failure"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "2. No identification on sheets",
+                "Current Controls Prevention": "",
+                "Current Controls Detection": "2. Operator will use the material as per the color coding / FIFO system."
+            }
+        ]
+    },
+    "MOVE_FOR_NEXT_PROCESS": {}
+}

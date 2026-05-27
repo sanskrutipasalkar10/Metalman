@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
-import { CheckCircle2, Download, RotateCcw, Sparkles, AlertCircle, ExternalLink } from "lucide-react";
+import { CheckCircle2, Download, RotateCcw, Sparkles, AlertCircle, ExternalLink, Edit, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { CADWireframe } from "./CADWireframe";
+import { ExcelPreviewModal } from "./ExcelPreviewModal";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -23,6 +24,7 @@ export const ProcessingView = ({ taskId, onReset }: Props) => {
   const [stlUrl, setStlUrl] = useState<string | null>(null);
   const [files, setFiles] = useState<GeneratedFile[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [previewFile, setPreviewFile] = useState<string | null>(null);
 
   const pollStatus = useCallback(async () => {
     try {
@@ -83,31 +85,56 @@ export const ProcessingView = ({ taskId, onReset }: Props) => {
                 </div>
                 <div className="truncate font-mono text-xs font-semibold">{f.name}</div>
               </div>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="ml-3 h-8 text-xs text-primary"
-                onClick={() => window.open(`http://127.0.0.1:8000${f.url}`, '_blank')}
-              >
-                <Download className="mr-1.5 h-3.5 w-3.5" /> Get File
-              </Button>
+              <div className="flex gap-1.5">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="h-8 w-8 p-0 text-muted-foreground hover:text-primary"
+                  onClick={() => setPreviewFile(f.url)}
+                  title="Preview Document"
+                >
+                  <Eye className="h-4 w-4" />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="h-8 text-xs text-primary"
+                  onClick={() => window.open(`http://127.0.0.1:8000${f.url}`, '_blank')}
+                >
+                  <Download className="mr-1.5 h-3.5 w-3.5" /> Get File
+                </Button>
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="flex flex-col gap-3">
           <Button 
-            className="h-12 flex-1 bg-accent text-accent-foreground shadow-orange hover:bg-accent-hover"
+            className="h-12 w-full bg-accent text-accent-foreground shadow-orange hover:bg-accent-hover"
             onClick={() => {
               if (files.length > 0) window.open(`http://127.0.0.1:8000${files[0].url}`, '_blank');
             }}
           >
             <Download className="mr-2 h-4 w-4" /> Download Primary Output
           </Button>
-          <Button variant="outline" className="h-12 flex-1" onClick={onReset}>
-            <RotateCcw className="mr-2 h-4 w-4" /> Start New Project
-          </Button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <Button 
+              variant="secondary" 
+              className="h-12 w-full border border-border"
+              onClick={() => window.open(`/correction?taskId=${taskId}`, "_blank")}
+            >
+              <Edit className="mr-2 h-4 w-4" /> Document Correction
+            </Button>
+            <Button variant="outline" className="h-12 w-full" onClick={onReset}>
+              <RotateCcw className="mr-2 h-4 w-4" /> Start New Project
+            </Button>
+          </div>
         </div>
+
+        <ExcelPreviewModal 
+          filename={previewFile} 
+          onClose={() => setPreviewFile(null)} 
+        />
       </div>
     );
   }
@@ -172,10 +199,14 @@ export const ProcessingView = ({ taskId, onReset }: Props) => {
 
         <Progress value={progress} className="h-2" />
 
-        <div className="grid grid-cols-3 gap-2 pt-2 text-center font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+        <div className="grid grid-cols-7 gap-1.5 pt-2 text-center font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-muted-foreground">
           <div className={cn("transition-colors duration-500", progress >= 15 ? "text-success font-bold" : "")}>● Geometric NPD</div>
           <div className={cn("transition-colors duration-500", progress >= 60 ? "text-success font-bold" : "")}>● PPAP Docs</div>
           <div className={cn("transition-colors duration-500", progress >= 95 ? "text-success font-bold" : "")}>● Tooling List</div>
+          <div className={cn("transition-colors duration-500", progress >= 97 ? "text-success font-bold" : "")}>● Fitment Sheet</div>
+          <div className={cn("transition-colors duration-500", progress >= 98 ? "text-success font-bold" : "")}>● PFMEA</div>
+          <div className={cn("transition-colors duration-500", progress >= 99 ? "text-success font-bold" : "")}>● Control Plan</div>
+          <div className={cn("transition-colors duration-500", progress >= 99.5 ? "text-success font-bold" : "")}>● Fixture Plan</div>
         </div>
       </div>
     </div>

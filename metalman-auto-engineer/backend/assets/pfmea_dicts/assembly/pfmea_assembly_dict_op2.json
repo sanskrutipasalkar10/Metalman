@@ -1,0 +1,877 @@
+{
+    "CHILD_PART_COLLECTION": {
+        "Wrong child part used": [
+            {
+                "Process function": "Child Part Collection",
+                "Potential Failure mode": "Wrong child part used",
+                "Potential Effect of failure": {
+                    "M/C:": " Part may be not fitted",
+                    "SO:": " Operation. Effected",
+                    "CU:": " Fitment Issue",
+                    "EU:": " NIL"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "Wrong part taken",
+                "Current Controls Prevention": "Part no. wise child part storage",
+                "Current Controls Detection": "Fixture Control"
+            }
+        ]
+    },
+    "TACK_WELDING": {
+        "Visual Appearance": [
+            {
+                "Process function": "Tack Welding",
+                "Potential Failure mode": "Visual Appearance",
+                "Potential Effect of failure": {
+                    "NO:": " Part visual appearance poor (4)",
+                    "SO:": " No Effect (1)",
+                    "CE:": " Customer dis-satisfied due to poor visual appearance (3)",
+                    "EU:": " NO EFFECT (1)",
+                    "MC:": " N/A"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "1. Weld feed rate high",
+                "Current Controls Prevention": "1. Set up approval by attribute method",
+                "Current Controls Detection": "1. Operator Training for Welding"
+            },
+            {
+                "Process function": "Tack Welding",
+                "Potential Failure mode": "Visual Appearance",
+                "Potential Effect of failure": {
+                    "NO:": " Part visual appearance poor (4)",
+                    "SO:": " No Effect (1)",
+                    "CE:": " Customer dis-satisfied due to poor visual appearance (3)",
+                    "EU:": " NO EFFECT (1)",
+                    "MC:": " N/A"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "2. Oil surface",
+                "Current Controls Prevention": "",
+                "Current Controls Detection": ""
+            },
+            {
+                "Process function": "Tack Welding",
+                "Potential Failure mode": "Visual Appearance",
+                "Potential Effect of failure": {
+                    "NO:": " Part visual appearance poor (4)",
+                    "SO:": " No Effect (1)",
+                    "CE:": " Customer dis-satisfied due to poor visual appearance (3)",
+                    "EU:": " NO EFFECT (1)",
+                    "MC:": " N/A"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "3. Untrained Operator",
+                "Current Controls Prevention": "",
+                "Current Controls Detection": ""
+            }
+        ],
+        "Weld Strength": [
+            {
+                "Process function": "Tack Welding",
+                "Potential Failure mode": "Weld Strength",
+                "Potential Effect of failure": {
+                    "NO:": " Part failure during testing, may be complete lot segregate (6)",
+                    "SO:": " No Effect (1)",
+                    "CE:": " Customer high dis-satisfied may be reject the material (8)",
+                    "EU:": " Weld part failure during long run (5)",
+                    "MC:": " N/A"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "1. Process parameter variation",
+                "Current Controls Prevention": "1. Set up approval by attribute method",
+                "Current Controls Detection": "1. SET UP INSPECTION OF PART 2. INPROCESS INSPECTION WITH BEND GAUGE"
+            },
+            {
+                "Process function": "Tack Welding",
+                "Potential Failure mode": "Weld Strength",
+                "Potential Effect of failure": {
+                    "NO:": " Part failure during testing, may be complete lot segregate (6)",
+                    "SO:": " No Effect (1)",
+                    "CE:": " Customer high dis-satisfied may be reject the material (8)",
+                    "EU:": " Weld part failure during long run (5)",
+                    "MC:": " N/A"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "2. Oil surface",
+                "Current Controls Prevention": "",
+                "Current Controls Detection": ""
+            },
+            {
+                "Process function": "Tack Welding",
+                "Potential Failure mode": "Weld Strength",
+                "Potential Effect of failure": {
+                    "NO:": " Part failure during testing, may be complete lot segregate (6)",
+                    "SO:": " No Effect (1)",
+                    "CE:": " Customer high dis-satisfied may be reject the material (8)",
+                    "EU:": " Weld part failure during long run (5)",
+                    "MC:": " N/A"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "3. Less Weld Area",
+                "Current Controls Prevention": "",
+                "Current Controls Detection": ""
+            },
+            {
+                "Process function": "Tack Welding",
+                "Potential Failure mode": "Weld Strength",
+                "Potential Effect of failure": {
+                    "NO:": " Part failure during testing, may be complete lot segregate (6)",
+                    "SO:": " No Effect (1)",
+                    "CE:": " Customer high dis-satisfied may be reject the material (8)",
+                    "EU:": " Weld part failure during long run (5)",
+                    "MC:": " N/A"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "4. Fan Over Head",
+                "Current Controls Prevention": "4. Follow SOP FAN Caution while welding Format no F/NPD/11 & SOP no MAPL/FAN/01",
+                "Current Controls Detection": ""
+            }
+        ]
+    },
+    "FULL_WELDING": {
+        "Visual Appearance": [
+            {
+                "Process function": "Full Welding",
+                "Potential Failure mode": "Visual Appearance",
+                "Potential Effect of failure": {
+                    "NO:": " Part visual appearance poor (4)",
+                    "SO:": " No Effect (1)",
+                    "CE:": " Customer dis-satisfied due to poor visual appearance (3)",
+                    "EU:": " NO EFFECT (1)",
+                    "MC:": " N/A"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "1. Weld feed rate high",
+                "Current Controls Prevention": "1. Set up approval by attribute method",
+                "Current Controls Detection": "1. Operator Training for Welding"
+            },
+            {
+                "Process function": "Full Welding",
+                "Potential Failure mode": "Visual Appearance",
+                "Potential Effect of failure": {
+                    "NO:": " Part visual appearance poor (4)",
+                    "SO:": " No Effect (1)",
+                    "CE:": " Customer dis-satisfied due to poor visual appearance (3)",
+                    "EU:": " NO EFFECT (1)",
+                    "MC:": " N/A"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "2. Oil surface",
+                "Current Controls Prevention": "",
+                "Current Controls Detection": ""
+            },
+            {
+                "Process function": "Full Welding",
+                "Potential Failure mode": "Visual Appearance",
+                "Potential Effect of failure": {
+                    "NO:": " Part visual appearance poor (4)",
+                    "SO:": " No Effect (1)",
+                    "CE:": " Customer dis-satisfied due to poor visual appearance (3)",
+                    "EU:": " NO EFFECT (1)",
+                    "MC:": " N/A"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "3. Untrained Operator",
+                "Current Controls Prevention": "",
+                "Current Controls Detection": ""
+            }
+        ],
+        "Weld Strength": [
+            {
+                "Process function": "Full Welding",
+                "Potential Failure mode": "Weld Strength",
+                "Potential Effect of failure": {
+                    "NO:": " Part failure during testing, may be complete lot segregate (6)",
+                    "SO:": " No Effect (1)",
+                    "CE:": " Customer high dis-satisfied may be reject the material (8)",
+                    "EU:": " Weld part failure during long run (5)",
+                    "MC:": " N/A"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "1. Process parameter variation",
+                "Current Controls Prevention": "1. Set up approval by attribute method",
+                "Current Controls Detection": "1. SET UP INSPECTION OF PART 2. INPROCESS INSPECTION WITH BEND GAUGE"
+            },
+            {
+                "Process function": "Full Welding",
+                "Potential Failure mode": "Weld Strength",
+                "Potential Effect of failure": {
+                    "NO:": " Part failure during testing, may be complete lot segregate (6)",
+                    "SO:": " No Effect (1)",
+                    "CE:": " Customer high dis-satisfied may be reject the material (8)",
+                    "EU:": " Weld part failure during long run (5)",
+                    "MC:": " N/A"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "2. Oil surface",
+                "Current Controls Prevention": "",
+                "Current Controls Detection": ""
+            },
+            {
+                "Process function": "Full Welding",
+                "Potential Failure mode": "Weld Strength",
+                "Potential Effect of failure": {
+                    "NO:": " Part failure during testing, may be complete lot segregate (6)",
+                    "SO:": " No Effect (1)",
+                    "CE:": " Customer high dis-satisfied may be reject the material (8)",
+                    "EU:": " Weld part failure during long run (5)",
+                    "MC:": " N/A"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "3. Less Weld Area",
+                "Current Controls Prevention": "",
+                "Current Controls Detection": ""
+            },
+            {
+                "Process function": "Full Welding",
+                "Potential Failure mode": "Weld Strength",
+                "Potential Effect of failure": {
+                    "NO:": " Part failure during testing, may be complete lot segregate (6)",
+                    "SO:": " No Effect (1)",
+                    "CE:": " Customer high dis-satisfied may be reject the material (8)",
+                    "EU:": " Weld part failure during long run (5)",
+                    "MC:": " N/A"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "4. Fan Over Head",
+                "Current Controls Prevention": "4. Follow SOP FAN Caution while welding Format no F/NPD/11 & SOP no MAPL/FAN/01",
+                "Current Controls Detection": ""
+            }
+        ]
+    },
+    "FINISHING/DEBURRING": {
+        "GRINDING MARKS ON THE SURFACE": [
+            {
+                "Process function": "Finishing/Deburring",
+                "Potential Failure mode": "GRINDING MARKS ON THE SURFACE",
+                "Potential Effect of failure": {
+                    "M/C:": " NIL",
+                    "SO:": " PART MAY BE REJECTED",
+                    "CU:": " NIL",
+                    "EU:": " APPEARANCE NOT SMOOTH"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "1. LOW GRIT GRINDING WHEEL USED",
+                "Current Controls Prevention": "1. USE HIGH GRIT GRINDING WHEEL",
+                "Current Controls Detection": "1. 100% VISUAL INSPECTION BY OPERATOR"
+            }
+        ]
+    },
+    "MOVE_FOR_NEXT_PROCESS": {},
+    "Transportation to pretreatment (Material through trolly)": {
+        "Material Spillage, wrong placement": [
+            {
+                "Process function": "Transportation to pretreatment (Material through trolly)",
+                "Potential Failure mode": "Material Spillage, wrong placement",
+                "Potential Effect of failure": "Material Loss and Damage",
+                "Potential Cause(s) of Failure": "Material Overflow",
+                "Current Controls Prevention": "SOP",
+                "Current Controls Detection": "Area wise 5S audit & CLIR check sheet As per production plan, and PO."
+            },
+            {
+                "Process function": "Transportation to pretreatment (Material through trolly)",
+                "Potential Failure mode": "Material Spillage, wrong placement",
+                "Potential Effect of failure": "Dent, Damage and Dirt",
+                "Potential Cause(s) of Failure": "1. Wrong stacking\n2. Un Skilled Transport operator LR Crane",
+                "Current Controls Prevention": "1. Stack Designed\n2. 100% visual insp. by operator\nPeriodic insp. by inspector",
+                "Current Controls Detection": "Spec Sheet, random check"
+            }
+        ]
+    },
+    "Knock of Degrease": {
+        "Total alkeli less than 70 ml": [
+            {
+                "Process function": "Knock of Degrease",
+                "Potential Failure mode": "Total alkeli less than 70 ml",
+                "Potential Effect of failure": "Surface not cleaned properly",
+                "Potential Cause(s) of Failure": "Due to continueous production Bonderite AK - 5055 is less",
+                "Current Controls Prevention": "Inspection of the Titration once in every shift before start of the process",
+                "Current Controls Detection": "Inspection of the Titration once in every shift before start of the process"
+            }
+        ],
+        "Total alkeli less than 90 ml": [
+            {
+                "Process function": "Knock of Degrease",
+                "Potential Failure mode": "Total alkeli less than 90 ml",
+                "Potential Effect of failure": "Water Brake",
+                "Potential Cause(s) of Failure": "More Bonderite Ak - 5055 is mixed by operator",
+                "Current Controls Prevention": "1.Inspection of the Titration once in every shift before start of the process.\n2.training given to operator for material mixup",
+                "Current Controls Detection": "Inspection of the Titration once in every shift before start of the process"
+            }
+        ],
+        "Temparature less than 50'C": [
+            {
+                "Process function": "Knock of Degrease",
+                "Potential Failure mode": "Temparature less than 50'C",
+                "Potential Effect of failure": "Surface not cleaned properly",
+                "Potential Cause(s) of Failure": "1. Addition of the AKVN water.\n2. Heater not working.",
+                "Current Controls Prevention": "1.Daily checking of the temperature before start of the process.\n2.Controller stop the process automatically if temperatre getting down.",
+                "Current Controls Detection": "Visually on pannel display"
+            }
+        ],
+        "Pressure of water less than 0.8 kg/Cm2": [
+            {
+                "Process function": "Knock of Degrease",
+                "Potential Failure mode": "Pressure of water less than 0.8 kg/Cm2",
+                "Potential Effect of failure": "Part cleaning not done properly",
+                "Potential Cause(s) of Failure": "Filter bag choke due to dust",
+                "Current Controls Prevention": "1. Visuall inspection by the operator in pressure gauge beore start of the process and 2 times visually in every shift",
+                "Current Controls Detection": "1. Visuall inspection by the operator in pressure gauge beore start of the process and 2 times visually in every shift"
+            }
+        ],
+        "Oil content more than 4gm/Ltr.": [
+            {
+                "Process function": "Knock of Degrease",
+                "Potential Failure mode": "Oil content more than 4gm/Ltr.",
+                "Potential Effect of failure": "Part surface should be oily",
+                "Potential Cause(s) of Failure": "1. Oil separator off\n2. Oil separator not working properly",
+                "Current Controls Prevention": "Using oil seperator to remove oil from water",
+                "Current Controls Detection": "Tank water inspection in third party lab once in every month"
+            }
+        ]
+    },
+    "Degrease": {
+        "Total alkeli less than 70 ml": [
+            {
+                "Process function": "Degrease",
+                "Potential Failure mode": "Total alkeli less than 70 ml",
+                "Potential Effect of failure": "Surface not cleaned properly",
+                "Potential Cause(s) of Failure": "Due to continueous production Bonderite AK - 5055 is less",
+                "Current Controls Prevention": "Inspection of the Titration once in every shift before start of the process",
+                "Current Controls Detection": "Inspection of the Titration once in every shift before start of the process"
+            }
+        ],
+        "Total alkeli less than 90 ml": [
+            {
+                "Process function": "Degrease",
+                "Potential Failure mode": "Total alkeli less than 90 ml",
+                "Potential Effect of failure": "Water Brake",
+                "Potential Cause(s) of Failure": "More Bonderite Ak - 5055 is mixed by operator",
+                "Current Controls Prevention": "1.Inspection of the Titration once in every shift before start of the process.\n2.training given to operator for material mixup",
+                "Current Controls Detection": "Inspection of the Titration once in every shift before start of the process"
+            }
+        ],
+        "Temparature less than 50'C": [
+            {
+                "Process function": "Degrease",
+                "Potential Failure mode": "Temparature less than 50'C",
+                "Potential Effect of failure": "Surface not cleaned properly",
+                "Potential Cause(s) of Failure": "1. Addition of the AKVN water.\n2. Heater not working.",
+                "Current Controls Prevention": "1.Daily checking of the temperature before start of the process.\n2.Controller stop the process automatically if temperatre getting down.",
+                "Current Controls Detection": "Visually on pannel display"
+            }
+        ],
+        "Pressure of water less than 0.8 kg/Cm2": [
+            {
+                "Process function": "Degrease",
+                "Potential Failure mode": "Pressure of water less than 0.8 kg/Cm2",
+                "Potential Effect of failure": "Part cleaning not done properly",
+                "Potential Cause(s) of Failure": "Filter bag choke due to dust",
+                "Current Controls Prevention": "1. Visuall inspection by the operator in pressure gauge beore start of the process and 2 times visually in every shift",
+                "Current Controls Detection": "1. Visuall inspection by the operator in pressure gauge beore start of the process and 2 times visually in every shift"
+            }
+        ],
+        "Oil content more than 4gm/Ltr.": [
+            {
+                "Process function": "Degrease",
+                "Potential Failure mode": "Oil content more than 4gm/Ltr.",
+                "Potential Effect of failure": "Part surface should be oily",
+                "Potential Cause(s) of Failure": "1. Oil separator off\n2. Oil separator not working properly",
+                "Current Controls Prevention": "Using oil seperator to remove oil from water",
+                "Current Controls Detection": "Tank water inspection in third party lab once in every month"
+            }
+        ]
+    },
+    "Water Rinse 1": {
+        "Removal of alkali content": [
+            {
+                "Process function": "Water Rinse 1",
+                "Potential Failure mode": "Removal of alkali content",
+                "Potential Effect of failure": "Customer dissatisfaction due to appearance not ok",
+                "Potential Cause(s) of Failure": "Improper cleaning of material",
+                "Current Controls Prevention": "1. Inspection of the Alkali once in every shift",
+                "Current Controls Detection": "1. Inspection of the Alkali once in every shift"
+            }
+        ]
+    },
+    "Water Rinse 2": {
+        "Removal of alkali content": [
+            {
+                "Process function": "Water Rinse 2",
+                "Potential Failure mode": "Removal of alkali content",
+                "Potential Effect of failure": "Customer dissatisfaction due to appearance not ok",
+                "Potential Cause(s) of Failure": "Improper cleaning of material",
+                "Current Controls Prevention": "1. Inspection of the Alkali once in every shift",
+                "Current Controls Detection": "1. Inspection of the Alkali once in every shift"
+            }
+        ]
+    },
+    "Surface Activation": {
+        "Improper Surface activation": [
+            {
+                "Process function": "Surface Activation",
+                "Potential Failure mode": "Improper Surface activation",
+                "Potential Effect of failure": "Customer dissatisfaction due to appearance not ok",
+                "Potential Cause(s) of Failure": "1) Improper cleaning of material\n2) Chemical concentration Not in Range",
+                "Current Controls Prevention": "1. volumetric analysis,\n2. pH",
+                "Current Controls Detection": "Check all the parameters of bath once in a shift"
+            }
+        ]
+    },
+    "Phosphate": {
+        "Uneven phosphate layer on job": [
+            {
+                "Process function": "Phosphate",
+                "Potential Failure mode": "Uneven phosphate layer on job",
+                "Potential Effect of failure": "Customer dissatisfaction due to appearance not ok",
+                "Potential Cause(s) of Failure": "1) Improper cleaning of material\n2) Improper parameters of the phospate process",
+                "Current Controls Prevention": "1. Check all the parameters of bath once in a shift\n2. Temp. of bath.",
+                "Current Controls Detection": "Check all the parameters of bath once in a shift"
+            }
+        ]
+    },
+    "Water Rinse 03": {
+        "Traces of acid": [
+            {
+                "Process function": "Water Rinse 03",
+                "Potential Failure mode": "Traces of acid",
+                "Potential Effect of failure": "Customer dissatisfaction due to appearance not ok",
+                "Potential Cause(s) of Failure": "Improper cleaning of material",
+                "Current Controls Prevention": "1. volumetric analysis",
+                "Current Controls Detection": "Check all the parameters of bath once in a shift"
+            }
+        ]
+    },
+    "Water Rinse 04": {
+        "Traces of acid": [
+            {
+                "Process function": "Water Rinse 04",
+                "Potential Failure mode": "Traces of acid",
+                "Potential Effect of failure": "Customer dissatisfaction due to appearance not ok",
+                "Potential Cause(s) of Failure": "Improper cleaning of material",
+                "Current Controls Prevention": "1. volumetric analysis",
+                "Current Controls Detection": "Check all the parameters of bath once in a shift"
+            }
+        ]
+    },
+    "PTRCDM": {
+        "Cleaning of component not ok": [
+            {
+                "Process function": "PTRCDM",
+                "Potential Failure mode": "Cleaning of component not ok",
+                "Potential Effect of failure": "Customer dissatisfaction due to appearance not ok",
+                "Potential Cause(s) of Failure": "1) Improper cleaning of material.\n2) Chemical concentration Not in Range",
+                "Current Controls Prevention": "Check all the parameters of bath once in a shift",
+                "Current Controls Detection": "Check all the parameters of bath once in a shift"
+            }
+        ]
+    },
+    "CED Coating": {
+        "Dust, rupture, craters, lumps,glassbid uncover,scratches etc.": [
+            {
+                "Process function": "CED Coating",
+                "Potential Failure mode": "Dust, rupture, craters, lumps,glassbid uncover,scratches etc.",
+                "Potential Effect of failure": "Customer dissatisfaction due to appearance not ok",
+                "Potential Cause(s) of Failure": "Improper CED coating",
+                "Current Controls Prevention": "1. Manitain level of the pH & conductivity of bath sample, NVM, voltage, current of bath as per requirement.",
+                "Current Controls Detection": "Check all the parameters of bath once in a day"
+            }
+        ]
+    },
+    "Ultra Filtration": {
+        "Removal of Excess paint not done properly": [
+            {
+                "Process function": "Ultra Filtration",
+                "Potential Failure mode": "Removal of Excess paint not done properly",
+                "Potential Effect of failure": "Customer dissatisfaction due to appearance not ok",
+                "Potential Cause(s) of Failure": "Improper Removal of Excess paint",
+                "Current Controls Prevention": "1. Inspection and maintain pH of bath.",
+                "Current Controls Detection": "Check all the parameters of bath once in a day"
+            }
+        ]
+    },
+    "EDRCDM": {
+        "Removal of Excess paint not done": [
+            {
+                "Process function": "EDRCDM",
+                "Potential Failure mode": "Removal of Excess paint not done",
+                "Potential Effect of failure": "Customer dissatisfaction due to appearance not ok",
+                "Potential Cause(s) of Failure": "Removal of Excess paint",
+                "Current Controls Prevention": "1. Maintain conductivity and ph of Bath",
+                "Current Controls Detection": "Check all the parameters of bath once in a day"
+            }
+        ]
+    },
+    "Unloading": {
+        "Dust, rupture,craters, lumps,glassbid uncover,scratches etc.": [
+            {
+                "Process function": "Unloading",
+                "Potential Failure mode": "Dust, rupture,craters, lumps,glassbid uncover,scratches etc.",
+                "Potential Effect of failure": "Customer dissatisfaction due to appearance not ok",
+                "Potential Cause(s) of Failure": "Ununiform Coating of component",
+                "Current Controls Prevention": "Defect free component",
+                "Current Controls Detection": "100 % visual inspection"
+            }
+        ]
+    },
+    "Baking": {
+        "Temperature is less/more than required": [
+            {
+                "Process function": "Baking",
+                "Potential Failure mode": "Temperature is less/more than required",
+                "Potential Effect of failure": "1.Poor Adhesion of paint 2.bubbles formation corrosion may occur. 3.Aesthetical Issues part may reject 4.Aesthetical Issue Corrosion will occur",
+                "Potential Cause(s) of Failure": "1. Correct timing is not given for the process 2.Parameter of Certain proces is not correctly followed 3.unwanted chemical reactions may occur further",
+                "Current Controls Prevention": "Check control panel setting and conveyor speed",
+                "Current Controls Detection": "Auto cut off system and temp recording"
+            }
+        ]
+    },
+    "Putty Application & Finishing": {
+        "Surface not cleaned properly": [
+            {
+                "Process function": "Putty Application & Finishing",
+                "Potential Failure mode": "Surface not cleaned properly",
+                "Potential Effect of failure": "Ashthetic issue",
+                "Potential Cause(s) of Failure": "Unskilled operator",
+                "Current Controls Prevention": "Skill Matrix.",
+                "Current Controls Detection": "Inprocess Inspection"
+            }
+        ]
+    },
+    "Cleaning": {
+        "Air pressure low in air cleaning": [
+            {
+                "Process function": "Cleaning",
+                "Potential Failure mode": "Air pressure low in air cleaning",
+                "Potential Effect of failure": "Customer dissatisfaction due to appearance not ok",
+                "Potential Cause(s) of Failure": "1. Air leakage\n2. Wrong air pressure set by regulator\n3. Compressure not working",
+                "Current Controls Prevention": "100% Door Assembly visual inspection as per before top coat check sheet",
+                "Current Controls Detection": "100% Door Assembly visual inspection as per before top coat check sheet"
+            }
+        ],
+        "Tegorat cloth not cleaning the Door Assembly surface properly": [
+            {
+                "Process function": "Cleaning",
+                "Potential Failure mode": "Tegorat cloth not cleaning the Door Assembly surface properly",
+                "Potential Effect of failure": "Customer dissatisfaction due to appearance not ok",
+                "Potential Cause(s) of Failure": "1. Wrong grade material used\n2. Terogat cloth used in more than 2 Door Assembly s",
+                "Current Controls Prevention": "100% Door Assembly visual inspection as per before top coat check sheet",
+                "Current Controls Detection": "100% Door Assembly visual inspection as per before top coat check sheet"
+            }
+        ]
+    },
+    "Inspection (Quality Gate No.-2 & 3)": {
+        "Sealant missing": [
+            {
+                "Process function": "Inspection (Quality Gate No.-2 & 3)",
+                "Potential Failure mode": "Sealant missing",
+                "Potential Effect of failure": "Leakage will be apear in next process or at customer end",
+                "Potential Cause(s) of Failure": "1. New operator\n2. SOP not displayed at shop floor\n2. inspection not done after selant pasting",
+                "Current Controls Prevention": "1.Sealant SOP in shop floor\n2.Skill matrix",
+                "Current Controls Detection": "100% inspection of the all Door Assembly s as per selant check sheet"
+            }
+        ],
+        "Finishing not ok": [
+            {
+                "Process function": "Inspection (Quality Gate No.-2 & 3)",
+                "Potential Failure mode": "Finishing not ok",
+                "Potential Effect of failure": "Paint peel off",
+                "Potential Cause(s) of Failure": "Cleaning not done or unproper cleaning",
+                "Current Controls Prevention": "1. Air cleaning not done\n2. Terogat cleaning not done",
+                "Current Controls Detection": "100% inspection of the all Door Assembly s as per before top coat inspection check sheet"
+            }
+        ]
+    },
+    "Final Paint": {
+        "LOW/MORE DFT": [
+            {
+                "Process function": "Final Paint",
+                "Potential Failure mode": "LOW/MORE DFT",
+                "Potential Effect of failure": "M/C: NIL\nSO: NIL\nCU: Part may rejected\nEU: Durability effected",
+                "Potential Cause(s) of Failure": "*COATING NOT DONE AS PER STANDARD\n* UNTRAINED PAINTER",
+                "Current Controls Prevention": "*COATING TO BE DONE AS PER WI\n*ONLY TRAINED PAINTER WILL DO THE COATING",
+                "Current Controls Detection": "*PROCESS AUDIT AT SUPPLIER AT SUPPLIER END\n*DFT METER\n* SKILL MATRIX FOR PAINTER ADHERE AS PER PLAN"
+            }
+        ],
+        "GLOSS LOW/ HIGH": [
+            {
+                "Process function": "Final Paint",
+                "Potential Failure mode": "GLOSS LOW/ HIGH",
+                "Potential Effect of failure": "M/C: NIL\nSO: NIL\nCU: Part may rejected\nEU: Aesthetically rejected",
+                "Potential Cause(s) of Failure": "*COATING NOT DONE AS PER STANDARD\n* UNTRAINED PAINTER",
+                "Current Controls Prevention": "*COATING TO BE DONE AS PER WI\n*ONLY TRAINED PAINTER WILL DO THE COATING",
+                "Current Controls Detection": "*PROCESS AUDIT AT SUPPLIER AT SUPPLIER END\n*DFT METER\n* SKILL MATRIX FOR PAINTER ADHERE AS PER PLAN"
+            }
+        ],
+        "PAINT DEFECT (PIN HOLE, PAINT PEEL OFF, OVER FLOW, ORANGE PEEL, EXCESS PAINT DEPOSITION/SHADE VARIATION)": [
+            {
+                "Process function": "Final Paint",
+                "Potential Failure mode": "PAINT DEFECT (PIN HOLE, PAINT PEEL OFF, OVER FLOW, ORANGE PEEL, EXCESS PAINT DEPOSITION/SHADE VARIATION)",
+                "Potential Effect of failure": "M/C: NIL\nSO: NIL\nCU: Part may rejected\nEU: Aesthetically rejected",
+                "Potential Cause(s) of Failure": "*COATING NOT DONE AS PER STANDARD\n* UNTRAINED PAINTER",
+                "Current Controls Prevention": "*COATING TO BE DONE AS PER WI\n*ONLY TRAINED PAINTER WILL DO THE COATING",
+                "Current Controls Detection": "*PROCESS AUDIT AT SUPPLIER AT SUPPLIER END\n*DFT METER\n* SKILL MATRIX FOR PAINTER ADHERE AS PER PLAN"
+            }
+        ],
+        "DENT & SERATCH ON PART": [
+            {
+                "Process function": "Final Paint",
+                "Potential Failure mode": "DENT & SERATCH ON PART",
+                "Potential Effect of failure": "M/C: NIL\nSO: NIL\nCU: Part may rejected\nEU: Aesthetically rejected",
+                "Potential Cause(s) of Failure": "*PACKAGING STANDARAD NOT ADHERE \n*POOR HANDLING OF PARTS\n*UNSKILLED MATERIAL HANDLING PERSON",
+                "Current Controls Prevention": "*PACKAGING STANDARAD SHOULD BE ADHERED",
+                "Current Controls Detection": "*PART MOVEMENT IN PROPER TROLLYS\n*ONLY TRAINED PERSON HAS LOADING AND UNLOADING THE MATERIAL\n*MATERIAL HANDLING DONE AS PER WI\n* SKILL MATRIX OF MATERIAL LOADING AND UNLOADING PERSON ADHERED AS PER PLAN\n*PROCESS AUDIT AT SUPPLIER AT SUPPLIER END"
+            }
+        ]
+    },
+    "Backing": {
+        "Temperature is less/more than required": [
+            {
+                "Process function": "Backing",
+                "Potential Failure mode": "Temperature is less/more than required",
+                "Potential Effect of failure": "No Effect",
+                "Potential Cause(s) of Failure": "correct timing is not given for the process",
+                "Current Controls Prevention": "Controlled as per SOP,\nCorrect time to time maintainence Audits",
+                "Current Controls Detection": "None"
+            },
+            {
+                "Process function": "Backing",
+                "Potential Failure mode": "Temperature is less/more than required",
+                "Potential Effect of failure": "application of paint will not be correct\nPoor Adhesion of paint",
+                "Potential Cause(s) of Failure": "Parameter of Certain proces is not correctly followed\nunwanted chemical reactions may occur further",
+                "Current Controls Prevention": "Controlled as per SOP,\nPoka Yoke correctly installed",
+                "Current Controls Detection": "None"
+            },
+            {
+                "Process function": "Backing",
+                "Potential Failure mode": "Temperature is less/more than required",
+                "Potential Effect of failure": "bubbles formation\ncorrosion may occur",
+                "Potential Cause(s) of Failure": "Un Skilled Transport operator\noperator neglegence",
+                "Current Controls Prevention": "100% visual insp. by operator\nPeriodic insp. by inspector,\nMSA Plan Training plan, Skill matrix",
+                "Current Controls Detection": "None"
+            },
+            {
+                "Process function": "Backing",
+                "Potential Failure mode": "Temperature is less/more than required",
+                "Potential Effect of failure": "Aesthetical Issues\nDoor Assembly may reject",
+                "Potential Cause(s) of Failure": "Wrong lot transportation\nDoor Assembly must correctly aligned for correct accumulation of Hot water spray over the Door Assembly surface",
+                "Current Controls Prevention": "Controlled as per SOP,\nCorrect time to time maintainence Audits",
+                "Current Controls Detection": "None"
+            },
+            {
+                "Process function": "Backing",
+                "Potential Failure mode": "Temperature is less/more than required",
+                "Potential Effect of failure": "Aesthetical Issue\nCorrosion will occur",
+                "Potential Cause(s) of Failure": "Un Skilled Transport operator\noperator neglegence",
+                "Current Controls Prevention": "100% visual insp. by operator\nPeriodic insp. by inspector,\nMSA Plan Training plan, Skill matrix",
+                "Current Controls Detection": "None"
+            }
+        ]
+    },
+    "Inspection (Quality Gate No.-4)": {
+        "DFT Found less": [
+            {
+                "Process function": "Inspection (Quality Gate No.-4)",
+                "Potential Failure mode": "DFT Found less",
+                "Potential Effect of failure": "Part will be rusty",
+                "Potential Cause(s) of Failure": "unskilled operator",
+                "Current Controls Prevention": "Skill Matrix",
+                "Current Controls Detection": "None"
+            }
+        ],
+        "DFT Found more": [
+            {
+                "Process function": "Inspection (Quality Gate No.-4)",
+                "Potential Failure mode": "DFT Found more",
+                "Potential Effect of failure": "Paint peel off will be came",
+                "Potential Cause(s) of Failure": "Unskilled operator",
+                "Current Controls Prevention": "Skill Matrix",
+                "Current Controls Detection": "None"
+            }
+        ],
+        "Painting defects": [
+            {
+                "Process function": "Inspection (Quality Gate No.-4)",
+                "Potential Failure mode": "Painting defects",
+                "Potential Effect of failure": "Asthetic problems",
+                "Potential Cause(s) of Failure": "1.Surface preparation not done properly,\n2.Paint not done as per SOP",
+                "Current Controls Prevention": "Ispection by operator before final paint",
+                "Current Controls Detection": "None"
+            }
+        ]
+    },
+    "Storage": {
+        "* STORAGE ON WRONG LOCATION / MIX-UP": [
+            {
+                "Process function": "Storage",
+                "Potential Failure mode": "* STORAGE ON WRONG LOCATION / MIX-UP",
+                "Potential Effect of failure": "M/C; NIL\nSO; Part may reject\nCU: Part Failure\nEU: Field Faliure",
+                "Potential Cause(s) of Failure": "1.No proper place for storage of material by grade and thick",
+                "Current Controls Prevention": "*Storage area is Identified as per grade and thickness wise.",
+                "Current Controls Detection": "1. WI Displayed near Raw material Storage area and Incoming Inspector Gives colour code after Inspection"
+            },
+            {
+                "Process function": "Storage",
+                "Potential Failure mode": "* STORAGE ON WRONG LOCATION / MIX-UP",
+                "Potential Effect of failure": "M/C; NIL\nSO; Part may reject\nCU: Part Failure\nEU: Field Faliure",
+                "Potential Cause(s) of Failure": "2.No identification on sheets",
+                "Current Controls Prevention": "2.Operator will use the material as per the color coding / FIFO system.",
+                "Current Controls Detection": "None"
+            }
+        ]
+    },
+    "RUBBER_TRACK_BEADING_ASSEMBLY": {
+        "Parts found loose": [
+            {
+                "Process function": "RUBBER TRACK, BEADING-ASSEMBLY",
+                "Potential Failure mode": "Parts found loose",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "NIL",
+                    "CU:-": "Customer Complaint",
+                    "EU-": "Failure"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "Beading not proper fit",
+                "Current Controls Prevention": "Air hammer available for beading fit",
+                "Current Controls Detection": "Inspection after semi dress"
+            }
+        ],
+        "Part over tight": [
+            {
+                "Process function": "RUBBER TRACK, BEADING-ASSEMBLY",
+                "Potential Failure mode": "Part over tight",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "NIL",
+                    "CU:-": "Customer Complaint",
+                    "EU-": "Failure"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "Beading location shift",
+                "Current Controls Prevention": "Beading Start point define in the part",
+                "Current Controls Detection": "1. SET UP INSPECTION OF PART 2. INPROCESS INSPECTION WITH BEND GAUGE"
+            }
+        ]
+    },
+    "INSPECTION_QUALITY_GATE_5": {
+        "Part missing": [
+            {
+                "Process function": "Inspection (Quality Gate no.-5)",
+                "Potential Failure mode": "Part missing",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "NIL",
+                    "CU:-": "Customer complaint",
+                    "EU-": "NIL"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "1. Part missed by operator 2. Part fitment not checking after assembly",
+                "Current Controls Prevention": "1. SOP in shop floor 2. Skill matrix",
+                "Current Controls Detection": "100% inspection of the all Door Assemblies as per part fitment check sheet"
+            }
+        ],
+        "Part found loose": [
+            {
+                "Process function": "Inspection (Quality Gate no.-5)",
+                "Potential Failure mode": "Part found loose",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "NIL",
+                    "CU:-": "Torquing not done",
+                    "EU-": "NIL"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "Torque not checked",
+                "Current Controls Prevention": "1. SOP in shop floor 2. Skill matrix 3. Torques check sheet",
+                "Current Controls Detection": "Torques check sheet"
+            }
+        ]
+    },
+    "FINISHING_CLEANING": {
+        "Door Assembly not cleaned": [
+            {
+                "Process function": "Finishing/Cleaning",
+                "Potential Failure mode": "Door Assembly not cleaned",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "NIL",
+                    "CU:-": "Customer complaints",
+                    "EU-": "NIL"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "Cleaning not done or improper cleaning by operator",
+                "Current Controls Prevention": "100% inspection of the Door Assembly at PDI stage by QC operator as per PDI check sheet",
+                "Current Controls Detection": "100% inspection of the Door Assembly at PDI stage by QC operator as per PDI check sheet"
+            }
+        ]
+    },
+    "PRE_DISPATCH_INSPECTION": {
+        "WRONG INSTRUMENT USED": [
+            {
+                "Process function": "Pre-Dispatch Inspection",
+                "Potential Failure mode": "WRONG INSTRUMENT USED",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "NIL",
+                    "CU:-": "Fitment Issue",
+                    "EU-": "Durability Effected"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "LACK OF KNOWLEDGE",
+                "Current Controls Prevention": "PROVIDE PDI TRAINING TO Q.C. ENGINEER",
+                "Current Controls Detection": "FINAL INSPECTION & FIREWALL INSPECTION"
+            }
+        ],
+        "NG PART PASSED": [
+            {
+                "Process function": "Pre-Dispatch Inspection",
+                "Potential Failure mode": "NG PART PASSED",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Dim. Effected",
+                    "CU:-": "Fitment Issue",
+                    "EU-": "NIL"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "LACK OF KNOWLEDGE",
+                "Current Controls Prevention": "1. ADD FITMENT DIM IN PQS BEFORE SIGN OFF 2. CALIBRATE & REVALIDATE GAUGE & INSTRUMENT AS PER PLAN",
+                "Current Controls Detection": "FINAL INSPECTION / FIREWALL INSPECTION BEFORE LOT DISPATCH"
+            }
+        ]
+    },
+    "MOVE_TO_DISPATCH": {
+        "PART DAMAGED": [
+            {
+                "Process function": "Move to Dispatch",
+                "Potential Failure mode": "PART DAMAGED",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "Dim. Effected",
+                    "CU:-": "Fitment Issue",
+                    "EU-": "NIL"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "1. IMPROPER LOADING / UNLOADING 2. NOT PROPER STACKING OF PARTS",
+                "Current Controls Prevention": "1. FOLLOW PACKING STD 2. LOADING/UNLOADING IS DONE BY SKILLED PERSON",
+                "Current Controls Detection": "IT SHOULD BE ENSURE THAT PROPER STACKING OF PART IS DONE BEFORE DISPATCH"
+            }
+        ],
+        "QTY VARIATION": [
+            {
+                "Process function": "Move to Dispatch",
+                "Potential Failure mode": "QTY VARIATION",
+                "Potential Effect of failure": {
+                    "M/C:-:": "NIL",
+                    "SO -:": "NIL",
+                    "CU:-": "CUSTOMER DISSATISFACTION",
+                    "EU-": "NIL"
+                },
+                "Class": "",
+                "Potential Cause(s) of Failure": "COUNTING OF PART IS NOT DONE WITH CARE",
+                "Current Controls Prevention": "FOLLOW SCHEDULE / SUPPLY",
+                "Current Controls Detection": "VERIFY QTY OF PART AS PER SCHEDULE"
+            }
+        ]
+    }
+}

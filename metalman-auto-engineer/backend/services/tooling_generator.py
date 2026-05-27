@@ -10,7 +10,7 @@ import shutil
 # ==========================================
 
 def extract_images_from_feasibility(filepath, image_dir):
-    print(f"📸 Scanning {filepath} for embedded fixture photos...", flush=True)
+    print(f" Scanning {filepath} for embedded fixture photos...", flush=True)
     wb = openpyxl.load_workbook(filepath, data_only=True)
     sheet = wb.active
     
@@ -23,7 +23,7 @@ def extract_images_from_feasibility(filepath, image_dir):
             break
             
     if not fix_no_col_idx:
-        print("   ⚠️ Could not locate Fixture No column for image mapping.", flush=True)
+        print("    Could not locate Fixture No column for image mapping.", flush=True)
         return {}
 
     fixture_image_map = {}
@@ -32,7 +32,7 @@ def extract_images_from_feasibility(filepath, image_dir):
         try:
             base_row_idx = image.anchor._from.row + 1 
             
-            # 🛡️ THE FIX: Fuzzy Search for Floating Images
+            #  THE FIX: Fuzzy Search for Floating Images
             # We scan the current row, then +/- 1 row, then +/- 2 rows to find the Fixture No.
             fix_no = None
             search_row_used = base_row_idx
@@ -58,17 +58,17 @@ def extract_images_from_feasibility(filepath, image_dir):
                     with open(img_path, "wb") as f:
                         f.write(img_data)
                     fixture_image_map[fix_no] = img_path
-                    print(f"   ✅ Extracted image for Fixture: {fix_no} (Found near row {search_row_used})", flush=True)
+                    print(f"    Extracted image for Fixture: {fix_no} (Found near row {search_row_used})", flush=True)
             else:
-                print(f"   ⚠️ Found an image near row {base_row_idx}, but couldn't find a matching Fixture Number near it.", flush=True)
+                print(f"    Found an image near row {base_row_idx}, but couldn't find a matching Fixture Number near it.", flush=True)
                 
         except Exception as e:
-            print(f"   ⚠️ Failed to extract an image: {e}", flush=True)
+            print(f"    Failed to extract an image: {e}", flush=True)
             
     return fixture_image_map
 
 def generate_tooling_list(feasibility_file, template_path, output_path, image_dir):
-    print(f"\n🔍 Extracting Tabular Data from: {feasibility_file} ...", flush=True)
+    print(f"\n Extracting Tabular Data from: {feasibility_file} ...", flush=True)
     os.makedirs(image_dir, exist_ok=True)
     
     # --- 1. Extract Images First ---
@@ -90,7 +90,7 @@ def generate_tooling_list(feasibility_file, template_path, output_path, image_di
         weld_src_col = [c for c in df.columns if 'WELDING SOURCE' in str(c).upper()][0]
         make_col = [c for c in df.columns if 'MAKE' in str(c).upper()][0]
     except IndexError as e:
-        print("❌ CRITICAL: Could not find required headers in Feasibility doc!", flush=True)
+        print(" CRITICAL: Could not find required headers in Feasibility doc!", flush=True)
         return False
     
     df[op_col] = df[op_col].ffill()
@@ -103,7 +103,7 @@ def generate_tooling_list(feasibility_file, template_path, output_path, image_di
     if not df_fixtures.empty:
         main_part_name = str(df_fixtures.iloc[-1].get(part_name_col, '')).strip()
     
-    print(f"✅ Extracted Header Data - Model No: {model_no} | Line: {main_part_name}", flush=True)
+    print(f" Extracted Header Data - Model No: {model_no} | Line: {main_part_name}", flush=True)
     
     tooling_data = []
     for idx, row in df_fixtures.iterrows():
@@ -128,13 +128,13 @@ def generate_tooling_list(feasibility_file, template_path, output_path, image_di
             "qty": "1" 
         })
         
-    print(f"✅ Found {len(tooling_data)} fixtures to inject.", flush=True)
+    print(f" Found {len(tooling_data)} fixtures to inject.", flush=True)
     
     # ==========================================
     # 4. EXCEL INJECTION 
     # ==========================================
-    print("\n⚙️ Booting Excel Injector for Tooling List...", flush=True)
-    # ✅ PRESERVE TEMPLATE: Copy template to output path first, then modify the copy.
+    print("\n Booting Excel Injector for Tooling List...", flush=True)
+    #  PRESERVE TEMPLATE: Copy template to output path first, then modify the copy.
     # This ensures all original formatting, merged cells, and print settings are kept.
     shutil.copy(template_path, output_path)
     wb = openpyxl.load_workbook(output_path)
@@ -182,11 +182,11 @@ def generate_tooling_list(feasibility_file, template_path, output_path, image_di
                 sheet.column_dimensions['G'].width = 110.55
                 
                 sheet.add_image(img, f'G{curr_row}')
-                print(f"   📸 Injected HUGE Original-sized Photo into row {curr_row} for {fix_key}", flush=True)
+                print(f"    Injected HUGE Original-sized Photo into row {curr_row} for {fix_key}", flush=True)
         else:
             sheet.row_dimensions[curr_row].height = 25 
         
     wb.save(output_path)
-    print(f"\n🎉 SUCCESS: Tooling list with ORIGINAL METALMAN image sizing saved to -> {output_path}", flush=True)
+    print(f"\n SUCCESS: Tooling list with ORIGINAL METALMAN image sizing saved to -> {output_path}", flush=True)
     return True
 

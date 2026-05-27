@@ -1,0 +1,572 @@
+{
+    "Raw Material Procurement": {
+        "Product": "Source",
+        "Process": "Receiving",
+        "Special Characteristic Class": "",
+        "Product/Process Specification/Tolerance": "Approved Source",
+        "Evaluation/Measurement Technique": "Verified by Approved Supplier List",
+        "Size": "100`",
+        "Freq": "Each lot",
+        "Control Method": "Record of Incoming Inspection report",
+        "Responsibility": "RQC Person",
+        "Reaction Plan": "Put rejection tag, store in identified rejection area and inform to supplier."
+    },
+    "Incoming Inspection": {
+        "Thickness": {
+            "Product": "Thickness",
+            "Process": "Inspection",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "",
+            "Evaluation/Measurement Technique": "Micrometer",
+            "Size": "As per sampling plan",
+            "Freq": "Each lot",
+            "Control Method": "1) Record of Incoming Inspection report.\n2) Material Test Certificate\n3)Third party Material test (annually)",
+            "Responsibility": "RQC Person",
+            "Reaction Plan": "Put rejection tag, store in identified rejection area and inform to supplier."
+        },
+        "Material": {
+            "Product": "Material",
+            "Process": "Inspection",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "",
+            "Evaluation/Measurement Technique": "Supplier TC",
+            "Size": "As per sampling plan",
+            "Freq": "Each lot",
+            "Control Method": "1) Record of Incoming Inspection report.\n2) Material Test Certificate\n3)Third party Material test (annually)",
+            "Responsibility": "RQC Person",
+            "Reaction Plan": "Put rejection tag, store in identified rejection area and inform to supplier."
+        },
+        "Appearance": {
+            "Product": "Appearance",
+            "Process": "Inspection",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "Free from dent, rust, scratches, waviness, damages, scale, oil & all other contaminants",
+            "Evaluation/Measurement Technique": "Visual",
+            "Size": "100%",
+            "Freq": "Each lot",
+            "Control Method": "Physical Verification",
+            "Responsibility": "RQC Person",
+            "Reaction Plan": "Put rejection tag, store in identified rejection area and inform to supplier."
+        }
+    },
+    "Storage": {
+        "Product": "Storage",
+        "Process": "Store",
+        "Special Characteristic Class": "",
+        "Product/Process Specification/Tolerance": "RM will be placed to Specified Location with identification for RM",
+        "Evaluation/Measurement Technique": "Visual",
+        "Size": "100%",
+        "Freq": "Each lot",
+        "Control Method": "Record in BOP register",
+        "Responsibility": "Store Person",
+        "Reaction Plan": "Identify and inform to Production incharge"
+    },
+    "Laser Cutting": {
+        "CUTTING PARAMETER": {
+            "Product": "CUTTING PARAMETER",
+            "Process": "Cutting",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per Laser Cutting Work Instruction Manual :",
+            "Evaluation/Measurement Technique": "Visual from Parameter Setting Panel Screen",
+            "Size": "100%",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Laser Callibration - Do callibration before start cutting on daily basis.\n3.Laser cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Profile As per DXF": {
+            "Product": "Profile As per DXF",
+            "Process": "INSPECTION",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per DXF",
+            "Evaluation/Measurement Technique": "DXF Verification",
+            "Size": "1 Nos",
+            "Freq": "Half yearly",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Laser Callibration - Do callibration before start cutting on daily basis.\n3.Laser cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "DIMENSIONS": {
+            "Product": "DIMENSIONS",
+            "Process": "INSPECTION",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per drawing",
+            "Evaluation/Measurement Technique": "Checking Template",
+            "Size": "1 Nos",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Laser Callibration - Do callibration before start cutting on daily basis.\n3.Laser cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Appearance": {
+            "Product": "Appearance",
+            "Process": "INSPECTION",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "Free from laser cut notches, burrs and other laser cutting defects as per :",
+            "Evaluation/Measurement Technique": "Visual",
+            "Size": "100%",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Laser Callibration - Do callibration before start cutting on daily basis.\n3.Laser cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Laser Callibration": {
+            "Product": "Laser Callibration",
+            "Process": "INSPECTION",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "Do callibration before start cutting on daily basis",
+            "Evaluation/Measurement Technique": "Visual",
+            "Size": "1 Nos",
+            "Freq": "Daily before start cutting",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Laser Callibration - Do callibration before start cutting on daily basis.\n3.Laser cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        }
+    },
+    "Oxy Cutting": {
+        "Cut Speed": {
+            "Product": " ",
+            "Process": "Cut Speed",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per Gas Cutting Work Instruction Manual :",
+            "Evaluation/Measurement Technique": "Visual from Parameter Setting Panel Screen",
+            "Size": "100%",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Lift Height": {
+            "Product": " ",
+            "Process": "Lift Height",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per Gas Cutting Work Instruction Manual :",
+            "Evaluation/Measurement Technique": "Visual from Parameter Setting Panel Screen",
+            "Size": "100%",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Cut Height": {
+            "Product": " ",
+            "Process": "Cut Height",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per Gas Cutting Work Instruction Manual :",
+            "Evaluation/Measurement Technique": "Visual from Parameter Setting Panel Screen",
+            "Size": "100%",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Cut Gas": {
+            "Product": " ",
+            "Process": "Cut Gas",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per Gas Cutting Work Instruction Manual :",
+            "Evaluation/Measurement Technique": "Visual from Parameter Setting Panel Screen",
+            "Size": "100%",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Cut Pressure": {
+            "Product": " ",
+            "Process": "Cut Pressure",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per Gas Cutting Work Instruction Manual :",
+            "Evaluation/Measurement Technique": "Visual from Parameter Setting Panel Screen",
+            "Size": "100%",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Cut Cur.": {
+            "Product": " ",
+            "Process": "Cut Cur.",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per Gas Cutting Work Instruction Manual :",
+            "Evaluation/Measurement Technique": "Visual from Parameter Setting Panel Screen",
+            "Size": "100%",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Cut Pwr.": {
+            "Product": " ",
+            "Process": "Cut Pwr.",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per Gas Cutting Work Instruction Manual :",
+            "Evaluation/Measurement Technique": "Visual from Parameter Setting Panel Screen",
+            "Size": "100%",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Cut Freq.": {
+            "Product": " ",
+            "Process": "Cut Freq.",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per Gas Cutting Work Instruction Manual :",
+            "Evaluation/Measurement Technique": "Visual from Parameter Setting Panel Screen",
+            "Size": "100%",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Cut Focus": {
+            "Product": " ",
+            "Process": "Cut Focus",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per Gas Cutting Work Instruction Manual :",
+            "Evaluation/Measurement Technique": "Visual from Parameter Setting Panel Screen",
+            "Size": "100%",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Delay Time": {
+            "Product": " ",
+            "Process": "Delay Time",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per Gas Cutting Work Instruction Manual :",
+            "Evaluation/Measurement Technique": "Visual from Parameter Setting Panel Screen",
+            "Size": "100%",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Laser off Delay": {
+            "Product": " ",
+            "Process": "Laser off Delay",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per Gas Cutting Work Instruction Manual :",
+            "Evaluation/Measurement Technique": "Visual from Parameter Setting Panel Screen",
+            "Size": "100%",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Nesting": {
+            "Product": " ",
+            "Process": "Nesting",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per Gas Cutting Work Instruction Manual :",
+            "Evaluation/Measurement Technique": "Visual from Parameter Setting Panel Screen",
+            "Size": "100%",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Compensate": {
+            "Product": " ",
+            "Process": "Compensate",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per Gas Cutting Work Instruction Manual :",
+            "Evaluation/Measurement Technique": "Visual from Parameter Setting Panel Screen",
+            "Size": "100`",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Dim/Profile": {
+            "Product": "Dim/Profile",
+            "Process": "Inspection",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per DXF",
+            "Evaluation/Measurement Technique": "DXF Verification",
+            "Size": "1Nos",
+            "Freq": "Half Yearly",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "DIMENSIONS": {
+            "Product": "DIMENSIONS",
+            "Process": "Inspection",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "As per drawing",
+            "Evaluation/Measurement Technique": "Checking Template",
+            "Size": "1 Nos",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Appearance": {
+            "Product": "Appearance",
+            "Process": "Inspection",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "Free from gas cut notches, burrs and other gas cutting defects as per :",
+            "Evaluation/Measurement Technique": "Visual",
+            "Size": "1",
+            "Freq": "Each lot",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Gas Cutting M/C Callibration": {
+            "Product": "Gas Cutting M/C Callibration",
+            "Process": "Inspection",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "Do callibration before start cutting on daily basis",
+            "Evaluation/Measurement Technique": "Visual",
+            "Size": "1 Nos",
+            "Freq": "Daily before start cutting",
+            "Control Method": "1.Record in in-process register/ in-process inspection report/Process SOP\n2.Gas Cutting Machine Callibration - Do callibration before start cutting on daily basis.\n3.Gas cutting machine preventive maintenance as per PM plan.\n4.Use of approved DXF program as per current revision level.",
+            "Responsibility": "Operator / QC Person",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        }
+    },
+    "Drilling": {
+        "Drill Dia": {
+            "Product": "Drill Dia",
+            "Process": "Drilling",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "2X ø8.5±0.2",
+            "Evaluation/Measurement Technique": "VC",
+            "Size": "As per sampling plan",
+            "Freq": "Each lot",
+            "Control Method": "1) Record in inprocess register/ Inprocess inspection report",
+            "Responsibility": "Operator",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "DIMENSIONS_1": {
+            "Product": "DIMENSIONS",
+            "Process": "Drilling",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "2X 12.5±0.5",
+            "Evaluation/Measurement Technique": "VC",
+            "Size": "As per sampling plan",
+            "Freq": "Each lot",
+            "Control Method": "1) Record in inprocess register/ Inprocess inspection report",
+            "Responsibility": "Operator",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "DIMENSIONS_2": {
+            "Product": "DIMENSIONS",
+            "Process": "Drilling",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "45±0.5",
+            "Evaluation/Measurement Technique": "VC",
+            "Size": "As per sampling plan",
+            "Freq": "Each lot",
+            "Control Method": "1) Record in inprocess register/ Inprocess inspection report",
+            "Responsibility": "Operator",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Appearance": {
+            "Product": "Appearance",
+            "Process": "Drilling",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "Free from crack, no sharp edges,No dent marks",
+            "Evaluation/Measurement Technique": "Visual",
+            "Size": "As per sampling plan",
+            "Freq": "Each lot",
+            "Control Method": "Physical Verification",
+            "Responsibility": "Operator",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        }
+    },
+    "Tapping": {
+        "Thread": {
+            "Product": "Thread",
+            "Process": "Tapping",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "M10x1.5",
+            "Evaluation/Measurement Technique": "TPG",
+            "Size": "As per sampling plan",
+            "Freq": "Each lot",
+            "Control Method": "1) Record in inprocess register/ Inprocess inspection report",
+            "Responsibility": "Operator",
+            "Reaction Plan": ""
+        },
+        "Appearance": {
+            "Product": "Appearance",
+            "Process": "Tapping",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "Free from crack, no sharp edges,No dent marks",
+            "Evaluation/Measurement Technique": "Visual",
+            "Size": "As per sampling plan",
+            "Freq": "Each lot",
+            "Control Method": "Physical Verification",
+            "Responsibility": "Operator",
+            "Reaction Plan": ""
+        }
+    },
+    "Chamferring": {
+        "DIMENSIONS_1": {
+            "Product": "DIMENSIONS",
+            "Process": "INSPECTION",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "7 ± 0.5",
+            "Evaluation/Measurement Technique": "VC",
+            "Size": "5 Nos",
+            "Freq": "Each lot",
+            "Control Method": "*Record in in-process register/ in-process inspection report/Process SOP.\n*Pug machine prevantive maintenance as per PM plan.",
+            "Responsibility": "Operator",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "DIMENSIONS_2": {
+            "Product": "DIMENSIONS",
+            "Process": "INSPECTION",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "7 ± 0.5",
+            "Evaluation/Measurement Technique": "VC",
+            "Size": "5 Nos",
+            "Freq": "Each lot",
+            "Control Method": "*Record in in-process register/ in-process inspection report/Process SOP.\n*Pug machine prevantive maintenance as per PM plan.",
+            "Responsibility": "Operator",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Appearance": {
+            "Product": "Appearance",
+            "Process": "INSPECTION",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "Free from Crack and damages",
+            "Evaluation/Measurement Technique": "Visual",
+            "Size": "5 Nos",
+            "Freq": "Each lot",
+            "Control Method": "*Record in in-process register/ in-process inspection report/Process SOP.\n*Pug machine prevantive maintenance as per PM plan.",
+            "Responsibility": "Operator",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        }
+    },
+    "Rolling / Strightening": {
+        "Straightness": {
+            "Product": "Straightness",
+            "Process": "Straightening",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "1.2mm max",
+            "Evaluation/Measurement Technique": "Long scale/ Straight Edge/Surface table",
+            "Size": "1st and Last Piece",
+            "Freq": "Each lot",
+            "Control Method": "1) Record in inprocess register",
+            "Responsibility": "Operator",
+            "Reaction Plan": "Put rejection / rework tag & inform to shop superior / production incharge"
+        },
+        "Appearance": {
+            "Product": "Appearance",
+            "Process": "Straightening",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "Free from bend & damages",
+            "Evaluation/Measurement Technique": "Long scale/ Straight Edge/Surface table",
+            "Size": "1st and Last Piece",
+            "Freq": "Each lot",
+            "Control Method": "1) Record in inprocess register",
+            "Responsibility": "Operator",
+            "Reaction Plan": "Put rejection / rework tag & inform to shop superior / production incharge"
+        }
+    },
+    "Strightening": {
+        "Straightness": {
+            "Product": "Straightness",
+            "Process": "Straightening",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "1.2mm max",
+            "Evaluation/Measurement Technique": "Long scale/ Straight Edge/Surface table",
+            "Size": "1st and Last Piece",
+            "Freq": "Each lot",
+            "Control Method": "1) Record in inprocess register",
+            "Responsibility": "Operator",
+            "Reaction Plan": "Put rejection / rework tag & inform to shop superior / production incharge"
+        },
+        "Appearance": {
+            "Product": "Appearance",
+            "Process": "Straightening",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "Free from bend & damages",
+            "Evaluation/Measurement Technique": "Long scale/ Straight Edge/Surface table",
+            "Size": "1st and Last Piece",
+            "Freq": "Each lot",
+            "Control Method": "1) Record in inprocess register",
+            "Responsibility": "Operator",
+            "Reaction Plan": "Put rejection / rework tag & inform to shop superior / production incharge"
+        }
+    },
+    "Bending/ Forming": {
+        "Bending Radius": {
+            "Product": "Bending Radius",
+            "Process": "INSPECTION",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "2X R8±1.5",
+            "Evaluation/Measurement Technique": "RG/Template",
+            "Size": "5 Nos",
+            "Freq": "Each lot",
+            "Control Method": "*Record in in-process register/ in-process inspection report/Process SOP.\n*CNC Prace brake prevantive maintenance as per PM plan.",
+            "Responsibility": "Operator",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "DIMENSIONS_1": {
+            "Product": "DIMENSIONS",
+            "Process": "INSPECTION",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "2X 150 ±1.5",
+            "Evaluation/Measurement Technique": "VC",
+            "Size": "5 Nos",
+            "Freq": "Each lot",
+            "Control Method": "*Record in in-process register/ in-process inspection report/Process SOP.\n*CNC Prace brake prevantive maintenance as per PM plan.",
+            "Responsibility": "Operator",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "DIMENSIONS_2": {
+            "Product": "DIMENSIONS",
+            "Process": "INSPECTION",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "429 +0.0 / -1.5",
+            "Evaluation/Measurement Technique": "MT",
+            "Size": "5 Nos",
+            "Freq": "Each lot",
+            "Control Method": "*Record in in-process register/ in-process inspection report/Process SOP.\n*CNC Prace brake prevantive maintenance as per PM plan.",
+            "Responsibility": "Operator",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        },
+        "Appearance": {
+            "Product": "Appearance",
+            "Process": "INSPECTION",
+            "Special Characteristic Class": "",
+            "Product/Process Specification/Tolerance": "Free from Crack and damages",
+            "Evaluation/Measurement Technique": "Visual",
+            "Size": "5 Nos",
+            "Freq": "Each lot",
+            "Control Method": "*Record in in-process register/ in-process inspection report/Process SOP.\n*CNC Prace brake prevantive maintenance as per PM plan.",
+            "Responsibility": "Operator",
+            "Reaction Plan": "Put rework/rejection tag, store in identified rework/rejection area and inform to production supervisor"
+        }
+    },
+    "Storage2": {
+        "Product": "Storage",
+        "Process": "Store",
+        "Special Characteristic Class": "",
+        "Product/Process Specification/Tolerance": "Duly completed assembly will be mounted on the dedicated trolly/Place for Storage",
+        "Evaluation/Measurement Technique": "Visual",
+        "Size": "100%",
+        "Freq": "Each Assembly",
+        "Control Method": "Record in FG register",
+        "Responsibility": "Operator",
+        "Reaction Plan": "Identify and inform to Production incharge"
+    },
+    "Move to the next process": {
+        "Product": "",
+        "Process": "",
+        "Special Characteristic Class": "",
+        "Product/Process Specification/Tolerance": "",
+        "Evaluation/Measurement Technique": "",
+        "Size": "",
+        "Freq": "",
+        "Control Method": "",
+        "Responsibility": "",
+        "Reaction Plan": ""
+    }
+}

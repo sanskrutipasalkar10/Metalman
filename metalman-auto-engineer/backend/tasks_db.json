@@ -185,5 +185,982 @@
       }
     ],
     "error": null
+  },
+  "08ba72f8": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "f35e9719": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "ec431613": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "8abe8672": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "ea9c92f6": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "e5a09c76": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [],
+    "error": null
+  },
+  "b55f9564": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "1da32b7b": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "10f406da": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "82e7d6af": {
+    "status": "processing",
+    "progress": 92,
+    "message": "Generating Tooling Master List...",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [],
+    "error": null
+  },
+  "c8fc18a6": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "3f86ff0f": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [],
+    "error": null
+  },
+  "447b6a18": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "10d52da2": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "37133a03": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "324ed1b3": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "355eadc1": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "b3919077": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "2f5ed10d": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "ffc890b9": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "76b61ca9": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "d9464cea": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "3d01310b": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "1c910318": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "03bad69e": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "308f9941": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "d7e929ac": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "8e7aae68": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "c72a9732": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "9902f6a3": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "dc488fb2": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "3f6dca65": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "87204a93": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "620d327e": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "7098ebb0": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "8f39b9ae": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "7a6e1161": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [],
+    "error": null
+  },
+  "cd187141": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "89fe1abc": {
+    "status": "processing",
+    "progress": 98,
+    "message": "Generating PFMEA Document...",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [],
+    "error": null
+  },
+  "53b9e8da": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "6cb8c499": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "e1a7626f": {
+    "status": "processing",
+    "progress": 98,
+    "message": "Generating PFMEA Document...",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [],
+    "error": null
+  },
+  "88a403d3": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "c955ee09": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "802c3976": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "b4ab7e09": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "309e6504": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "99004207": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_99004207.stl",
+    "files": [
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_99004207.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "09c22c7c": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "122c0782": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "a89b117e": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "729e5623": {
+    "status": "processing",
+    "progress": 99,
+    "message": "Generating Control Plan...",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [],
+    "error": null
+  },
+  "81b1cb50": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Control Plan",
+        "url": "/outputs/Control_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "3d3d90cb": {
+    "status": "processing",
+    "progress": 99,
+    "message": "Generating Control Plan...",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [],
+    "error": null
+  },
+  "4d9bbde4": {
+    "status": "processing",
+    "progress": 99,
+    "message": "Generating Control Plan...",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [],
+    "error": null
+  },
+  "e3131a6a": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Control Plan",
+        "url": "/outputs/Control_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "f9b48388": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Control Plan",
+        "url": "/outputs/Control_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "fa01e07a": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "5d6aea16": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "5902feed": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Control Plan",
+        "url": "/outputs/Control_Plan_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "f331c47e": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Control Plan",
+        "url": "/outputs/Control_Plan_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "8a8e1b3a": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Control Plan",
+        "url": "/outputs/Control_Plan_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "5ec7fdf8": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "26c540b0": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Control Plan",
+        "url": "/outputs/Control_Plan_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
   }
 }

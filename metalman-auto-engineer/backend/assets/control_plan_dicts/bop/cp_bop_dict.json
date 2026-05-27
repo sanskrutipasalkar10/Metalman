@@ -1,0 +1,85 @@
+{
+  "title": "BOP Parts Control Plan",
+  "type": "T",
+  "processes": [
+    {
+      "part_process_number": 10,
+      "process_name_operation_description": "Brought-out Material Procurement\nList of items\n90451393-3Nos\n92244737-1Nos",
+      "machine_device_jig_tools_for_mfg": "NA",
+      "characteristics": [
+        {
+          "no": 1,
+          "product": "Source",
+          "process": "Receiving",
+          "special_characteristic_class": null,
+          "product_process_specification_tolerance": "Approved Source",
+          "evaluation_measurement_technique": "Verified by Approved Supplier List",
+          "sample_size": "100%",
+          "sample_freq": "Each lot",
+          "control_method": "Record of Incoming Inspection report",
+          "responsibility": "Purchase Person",
+          "reaction_plan": "Put rejection tag, store in identified rejection area and inform to supplier."
+        }
+      ]
+    },
+    {
+      "part_process_number": 20,
+      "process_name_operation_description": "Incoming Inspection\nList of items\n90451393-3Nos\n92244737-1Nos",
+      "machine_device_jig_tools_for_mfg": "NA",
+      "characteristics": [
+        {
+          "no": 1,
+          "product": "Free from dent, die mark, sharp edges, bulging.",
+          "process": "Inspection",
+          "special_characteristic_class": null,
+          "product_process_specification_tolerance": "Free from dent, die mark, sharp edges, bulging.",
+          "evaluation_measurement_technique": "Visual",
+          "sample_size": null,
+          "sample_freq": null,
+          "control_method": "1) Record of Incoming Inspection report.\n2) Material Test Certificate\n3) 3rd party tests",
+          "responsibility": "RQC Person",
+          "reaction_plan": "Put rejection tag, store in identified rejection area and inform to supplier."
+        },
+        {
+          "no": 2,
+          "product": "Dim",
+          "process": "Inspection",
+          "special_characteristic_class": null,
+          "product_process_specification_tolerance": "As per Quality Plan and Drawing",
+          "evaluation_measurement_technique": "As per sampling plan",
+          "sample_size": null,
+          "sample_freq": "Each lot",
+          "control_method": "1) Record of Incoming Inspection report.\n2) Material Test Certificate\n3) 3rd party tests",
+          "responsibility": "RQC Person",
+          "reaction_plan": "Put rejection tag, store in identified rejection area and inform to supplier."
+        }
+      ]
+    },
+    {
+      "part_process_number": 30,
+      "process_name_operation_description": "Storage",
+      "machine_device_jig_tools_for_mfg": "NA",
+      "characteristics": [
+        {
+          "no": 1,
+          "product": "Storage",
+          "process": "Store",
+          "special_characteristic_class": null,
+          "product_process_specification_tolerance": "RM will be placed to Specified Location with identification for RM",
+          "evaluation_measurement_technique": "Visual",
+          "sample_size": "100%",
+          "sample_freq": "Each lot",
+          "control_method": "Record in BOP register",
+          "responsibility": "Store Person",
+          "reaction_plan": "Identify and inform to Production incharge"
+        }
+      ]
+    },
+    {
+      "part_process_number": 40,
+      "process_name_operation_description": "Move to the next process",
+      "machine_device_jig_tools_for_mfg": null,
+      "characteristics": []
+    }
+  ]
+}
