@@ -1162,5 +1162,393 @@
       }
     ],
     "error": null
+  },
+  "fbd729ee": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Control Plan",
+        "url": "/outputs/Control_Plan_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "df1fa7fa": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Control Plan",
+        "url": "/outputs/Control_Plan_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "becd8c28": {
+    "status": "error",
+    "progress": 99,
+    "message": "Error: process_q_sheetmetal_sheet() got multiple values for argument 'img_dir'",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": "process_q_sheetmetal_sheet() got multiple values for argument 'img_dir'"
+  },
+  "9e88bfbd": {
+    "status": "error",
+    "progress": 99,
+    "message": "Error: process_q_sheetmetal_sheet() got multiple values for argument 'img_dir'",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": "process_q_sheetmetal_sheet() got multiple values for argument 'img_dir'"
+  },
+  "68135f55": {
+    "status": "processing",
+    "progress": 99,
+    "message": "Generating Control Plan...",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "f1e131ad": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Control Plan",
+        "url": "/outputs/Control_Plan_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "2c5fc9f5": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Control Plan",
+        "url": "/outputs/Control_Plan_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "6e9d1ca8": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Control Plan",
+        "url": "/outputs/Control_Plan_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "7c3e201f": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Control Plan",
+        "url": "/outputs/Control_Plan_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "cce13b4d": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Control Plan",
+        "url": "/outputs/Control_Plan_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "037c3af1": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "abaaaf4d": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
   }
 }

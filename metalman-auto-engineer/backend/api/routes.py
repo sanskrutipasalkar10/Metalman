@@ -388,23 +388,36 @@ async def preview_excel(filename: str):
                 # Ensure all sheets are processed for full visibility
                 for sheet in wb.Sheets:
                     try:
-                        # Clear any existing print areas that might clip the document
-                        sheet.PageSetup.PrintArea = ""
-                        # Enable Row and Column headings (A,B,C... 1,2,3...)
-                        sheet.PageSetup.PrintHeadings = True
-                        
+                        # COMPUTE TRUE DATA RANGE (Ignoring rows with only formatting/borders)
+                        # xlByRows=1, xlPrevious=2, xlValues=18 (optional to be strict)
+                        try:
+                            res_row = sheet.Cells.Find(What="*", SearchOrder=1, SearchDirection=2)
+                            res_col = sheet.Cells.Find(What="*", SearchOrder=2, SearchDirection=2) # xlByColumns=2
+                            
+                            if res_row and res_col:
+                                last_row = res_row.Row
+                                last_col = res_col.Column
+                                
+                                # Safety: don't clip headers if data is small, usually starts at 1,1
+                                start_cell = sheet.Cells(1, 1).Address
+                                end_cell   = sheet.Cells(last_row, last_col).Address
+                                sheet.PageSetup.PrintArea = f"{start_cell}:{end_cell}"
+                            else:
+                                sheet.PageSetup.PrintArea = "$A$1:$F$20" # Fallback to a small header area
+                        except Exception as find_err:
+                            print(f"[PREVIEW] Find error: {find_err}")
+                            sheet.PageSetup.PrintArea = ""
+
                         # Ensure everything fits on one page width but can span multiple pages down
                         sheet.PageSetup.Zoom = False
                         sheet.PageSetup.FitToPagesWide = 1
                         sheet.PageSetup.FitToPagesTall = False
-                        
-                        # Force black and white or other settings if needed? No, keep color.
                     except Exception as sheet_err:
                         print(f"[PREVIEW] Sheet setup error: {sheet_err}")
                 
-                # Export the entire workbook to PDF, ignoring any internal print areas that might clip data
-                # 0 = xlTypePDF, 1 = xlQualityStandard, IncludeDocProperties=True, IgnorePrintAreas=True
-                wb.ExportAsFixedFormat(0, pdf_path, Quality=0, IncludeDocProperties=True, IgnorePrintAreas=True) 
+                # Export the entire workbook to PDF
+                # 0 = xlTypePDF, 1 = xlQualityStandard, IncludeDocProperties=True, IgnorePrintAreas=False (Crucial to respect the PrintArea we set)
+                wb.ExportAsFixedFormat(0, pdf_path, Quality=0, IncludeDocProperties=True, IgnorePrintAreas=False) 
                 wb.Close(False)
             finally:
                 excel.Quit()

@@ -92,13 +92,31 @@ def process_sub_assy_index_sheet(ws, assy_data, img_dir=""):
     if not assy_data:
         return
     start_row = 3
+    
+    # Colors for alternating patches
+    light_blue = PatternFill("solid", fgColor="DCE6F1")
+    dark_blue  = PatternFill("solid", fgColor="B8CCE4")
+    font_fixed = Font(name="Arial", size=11)
+    align_center = Alignment(horizontal="center", vertical="center", wrap_text=True)
+
     for idx, item in enumerate(assy_data):
         r = start_row + idx
+        fill = light_blue if idx % 2 == 0 else dark_blue
+        
+        # Apply formatting to columns 1-6
+        for c in range(1, 7):
+            cell = ws.cell(r, c)
+            cell.fill = fill
+            cell.font = font_fixed
+            cell.alignment = align_center
+            cell.border = _std_border()
+
         ws.cell(r, 1).value = idx + 1
         ws.cell(r, 2).value = item.get("operation", "")
         ws.cell(r, 3).value = item.get("part_name", "")
         ws.cell(r, 4).value = item.get("part_no", "")
         ws.cell(r, 5).value = item.get("rev", "")
+        
         # Image
         if img_dir:
             op_safe = str(item.get("operation", "")).replace(" ", "_").replace("/", "_")
@@ -109,12 +127,15 @@ def process_sub_assy_index_sheet(ws, assy_data, img_dir=""):
                         img = XLImage(img_path)
                         ws.row_dimensions[r].height = 140
                         img.width, img.height = 180, 130
+                        # Center image in Col F (Col 6)
                         ws.add_image(img, ws.cell(r, 6).coordinate)
                     except Exception:
                         pass
                     break
             else:
                 ws.row_dimensions[r].height = 25
+        else:
+            ws.row_dimensions[r].height = 25
 
 # ─── SHEET 2: ASSY_SUB_ASSY ───────────────────────────────────────────────────
 def _normalize(s):
@@ -346,7 +367,7 @@ def _copy_header(tmpl_ws, out_ws, header_end):
             except Exception:
                 pass
 
-def process_q_sheetmetal_sheet(ws_out, tmpl_ws, feasibility_path, pfd_output_path, cp_dict, img_dir=""):
+def process_q_sheetmetal_sheet(ws_out, tmpl_ws, feasibility_path, pfd_output_path, cp_dict, img_dir):
     """
     Build Q-Sheetmetal Parts sheet dynamically.
     """
@@ -374,6 +395,16 @@ def process_q_sheetmetal_sheet(ws_out, tmpl_ws, feasibility_path, pfd_output_pat
         df_feas[op_col_name] = df_feas[op_col_name].ffill()
     df_feas = df_feas.dropna(subset=['Part No.', 'Part Description'], how='all')
 
+    # Filter out BOP parts and Assemblies (Fix 3)
+    # The user specifies this sheet should only contain child sheetmetal parts.
+    bop_keywords = ['HARDWARE', 'BOP', 'FASTENER', 'BOUGHT OUT', 'STANDARD', 'BOUGHT-OUT']
+    assy_keywords = ['ASSY', 'WA', 'W/A', 'WELDED', 'ASSEMBLY', 'PROJECT', 'PWRTAN', 'PAINTED', 'PNTD']
+    
+    # Filter descriptions
+    df_feas = df_feas[~df_feas['Part Description'].astype(str).str.upper().apply(lambda x: any(kw in x for kw in assy_keywords))]
+    # Filter commodity
+    df_feas = df_feas[~df_feas['Commodity'].astype(str).str.upper().apply(lambda x: any(kw in x for kw in bop_keywords + assy_keywords))]
+
     # Load PFD sheetmetal operations
     df_pfd = None
     if pfd_output_path and os.path.exists(pfd_output_path):
@@ -382,7 +413,7 @@ def process_q_sheetmetal_sheet(ws_out, tmpl_ws, feasibility_path, pfd_output_pat
         except Exception as e:
             print(f"[CP] Warning reading PFD sheetmetal sheet: {e}")
 
-    df_sm = df_feas.head(13)
+    df_sm = df_feas # Process all filtered parts
     for part_idx, (_, frow) in enumerate(df_sm.iterrows()):
         pno  = str(frow.get('Part No.', '')).split('.')[0].strip()
         if not pno or pno.lower() == 'nan':
@@ -396,21 +427,24 @@ def process_q_sheetmetal_sheet(ws_out, tmpl_ws, feasibility_path, pfd_output_pat
         ws_out.row_dimensions[cur_row].height = 152.25
         sc(ws_out.cell(cur_row, 1), str(part_idx + 1), bold=True, size=14, rgb=GREEN_PART, h="center", left="medium")
         sc(ws_out.cell(cur_row, 2), f"PART NUMBER - {pno} ,DESCRIPTION-{desc}", bold=True, size=14, rgb=GREEN_PART, h="center", v="center", wrap=True)
+        # Images moved from B to I (Col 9)
         for c in range(3, 9):
             sc(ws_out.cell(cur_row, c), rgb=GREEN_PART)
         _safe_merge(ws_out, cur_row, 2, cur_row, 8)
+        
         for c in range(9, 13):
             sc(ws_out.cell(cur_row, c), rgb=GREEN_PART)
         _safe_merge(ws_out, cur_row, 9, cur_row, 12)
-        # Image
+        
+        # Image in Column I
         if img_dir:
             img_path = os.path.join(img_dir, f"{pno}_clean.png")
             if os.path.exists(img_path):
                 try:
                     img = XLImage(img_path)
                     img.height, img.width = 135, 190
-                    img.anchor = ws_out.cell(cur_row, 2).coordinate
-                    ws_out.add_image(img)
+                    # Anchor to I (Col 9)
+                    ws_out.add_image(img, ws_out.cell(cur_row, 9).coordinate)
                 except Exception as e:
                     print(f"[CP] Image error {pno}: {e}")
         sc(ws_out.cell(cur_row, 13), rgb=GREEN_PART)
@@ -619,6 +653,46 @@ def process_bop_sheet(ws, bop_data):
 
     _redraw_bop_footer(ws, cur_row, footer_data, footer_merges)
 
+def transfuse_sheet_structure(tmpl_ws, target_ws, header_rows=0):
+    """
+    Clones column widths and header rows from template to a new worksheet.
+    """
+    # Clone column dimensions
+    for c_idx in range(1, 40): # Buffer range
+        col_letter = openpyxl.utils.get_column_letter(c_idx)
+        width = tmpl_ws.column_dimensions[col_letter].width
+        if width:
+            target_ws.column_dimensions[col_letter].width = width
+        else:
+            # Default fallback for structure columns if not set
+            if c_idx < 15: target_ws.column_dimensions[col_letter].width = 12
+
+    # Clone header rows exactly
+    if header_rows > 0:
+        for r in range(1, header_rows + 1):
+            target_ws.row_dimensions[r].height = tmpl_ws.row_dimensions[r].height
+            for c in range(1, 37):
+                _copy_cell(tmpl_ws.cell(r, c), target_ws.cell(r, c))
+        
+        # Re-apply merges strictly for the header block
+        for mr in tmpl_ws.merged_cells.ranges:
+            if mr.max_row <= header_rows:
+                try:
+                    target_ws.merge_cells(str(mr))
+                except: pass
+    
+    # Clone images that are anchored within the header area
+    if hasattr(tmpl_ws, "_images"):
+        for img in tmpl_ws._images:
+            try:
+                # Basic anchor detection
+                row_idx = img.anchor._from.row if hasattr(img.anchor, '_from') else 0
+                if row_idx < header_rows:
+                    from copy import copy
+                    new_img = copy(img)
+                    target_ws.add_image(new_img)
+            except: pass
+
 # ─── MAIN ORCHESTRATOR ────────────────────────────────────────────────────────
 def generate_control_plan_excel(
     feasibility_path: str,
@@ -631,68 +705,56 @@ def generate_control_plan_excel(
     pfd_img_dir: str = "",
 ):
     """
-    Generate full Control Plan Excel workbook with all 4 sheets.
-
-    Args:
-        feasibility_path: Path to Door Feasibility xlsx.
-        template_path:    Path to CONTROL_PLAN_TEMPLATE.xlsx.
-        output_path:      Destination path for generated Control Plan xlsx.
-        dict_dir:         Root directory of control plan dicts (assets/control_plan_dicts/).
-        pfd_output_path:  Path to the already-generated PFD xlsx (for Q-Sheetmetal ops).
-        img_dir:          Directory with extracted part images.
-        assy_data:        Sub-assembly index rows [{operation, part_name, part_no, rev}].
+    Generate full Control Plan Excel workbook with all 4 sheets using the Fresh Workbook approach.
     """
-    import shutil
-    shutil.copy(template_path, output_path)
-    wb = openpyxl.load_workbook(output_path)
     tmpl_wb = openpyxl.load_workbook(template_path)
+    new_wb = openpyxl.Workbook()
+    for sheet in new_wb.sheetnames:
+        del new_wb[sheet] # Clear default sheets
 
     # ── Sheet 1: Sub Assmbly Index ─────────────────────────────────────────────
-    if SUB_ASSY_SHEET in wb.sheetnames and assy_data:
-        print("[CP] Processing Sub Assmbly Index sheet...")
-        idx_img_dir = pfd_img_dir if pfd_img_dir else img_dir
-        process_sub_assy_index_sheet(wb[SUB_ASSY_SHEET], assy_data, img_dir=idx_img_dir)
+    if SUB_ASSY_SHEET in tmpl_wb.sheetnames:
+        ws_out = new_wb.create_sheet(SUB_ASSY_SHEET)
+        transfuse_sheet_structure(tmpl_wb[SUB_ASSY_SHEET], ws_out, header_rows=2)
+        if assy_data:
+            print("[CP] Processing Sub Assmbly Index sheet...")
+            idx_img_dir = pfd_img_dir if pfd_img_dir else img_dir
+            process_sub_assy_index_sheet(ws_out, assy_data, img_dir=idx_img_dir)
 
     # ── Sheet 2: ASSY_SUB_ASSY ────────────────────────────────────────────────
-    if ASSY_ASSY_SHEET in wb.sheetnames and pfd_output_path and os.path.exists(pfd_output_path):
-        assy_dict_path = os.path.join(dict_dir, "assy", "cp_assy_dict.json")
-        if os.path.exists(assy_dict_path):
-            with open(assy_dict_path, encoding="utf-8") as f:
-                assy_dict = json.load(f)
-            print("[CP] Processing ASSY_SUB_ASSY sheet...")
-            process_assy_sub_assy_sheet(wb[ASSY_ASSY_SHEET], tmpl_wb[ASSY_ASSY_SHEET], pfd_output_path, assy_dict)
-        else:
-            print(f"[CP] ASSY dict not found at {assy_dict_path}, skipping ASSY_SUB_ASSY sheet.")
+    if ASSY_ASSY_SHEET in tmpl_wb.sheetnames:
+        ws_out = new_wb.create_sheet(ASSY_ASSY_SHEET)
+        transfuse_sheet_structure(tmpl_wb[ASSY_ASSY_SHEET], ws_out, header_rows=7)
+        if pfd_output_path and os.path.exists(pfd_output_path):
+            assy_dict_path = os.path.join(dict_dir, "assy", "cp_assy_dict.json")
+            if os.path.exists(assy_dict_path):
+                with open(assy_dict_path, encoding="utf-8") as f:
+                    assy_dict = json.load(f)
+                print("[CP] Processing ASSY_SUB_ASSY sheet...")
+                process_assy_sub_assy_sheet(ws_out, tmpl_wb[ASSY_ASSY_SHEET], pfd_output_path, assy_dict)
 
     # ── Sheet 3: Q-Sheetmetal Parts ───────────────────────────────────────────
-    if Q_SM_SHEET in wb.sheetnames:
+    if Q_SM_SHEET in tmpl_wb.sheetnames:
+        ws_out = new_wb.create_sheet(Q_SM_SHEET)
+        # Note: process_q_sheetmetal_sheet handles its own combined structural copy/injection
         sm_dict_path = os.path.join(dict_dir, "sheetmetal", "cp_sheetmetal_dict.json")
         if os.path.exists(sm_dict_path):
             with open(sm_dict_path, encoding="utf-8") as f:
                 sm_dict = json.load(f)
             print("[CP] Processing Q-Sheetmetal Parts sheet...")
-            process_q_sheetmetal_sheet(
-                wb[Q_SM_SHEET],
-                tmpl_wb[Q_SM_SHEET],
-                feasibility_path,
-                pfd_output_path,
-                sm_dict,
-                img_dir=img_dir,
-            )
-        else:
-            print(f"[CP] Sheetmetal dict not found at {sm_dict_path}, skipping Q-Sheetmetal sheet.")
+            process_q_sheetmetal_sheet(ws_out, tmpl_wb[Q_SM_SHEET], feasibility_path, pfd_output_path, sm_dict, img_dir)
 
     # ── Sheet 4: T-BOP & Hardwares ────────────────────────────────────────────
-    if BOP_SHEET in wb.sheetnames:
+    if BOP_SHEET in tmpl_wb.sheetnames:
+        ws_out = new_wb.create_sheet(BOP_SHEET)
+        transfuse_sheet_structure(tmpl_wb[BOP_SHEET], ws_out, header_rows=6)
         bop_dict_path = os.path.join(dict_dir, "bop", "cp_bop_dict.json")
         if os.path.exists(bop_dict_path):
             with open(bop_dict_path, encoding="utf-8") as f:
                 bop_data = json.load(f)
             print("[CP] Processing T-BOP & Hardwares sheet...")
-            process_bop_sheet(wb[BOP_SHEET], bop_data)
-        else:
-            print(f"[CP] BOP dict not found at {bop_dict_path}, skipping BOP sheet.")
+            process_bop_sheet(ws_out, bop_data)
 
-    wb.save(output_path)
-    print(f"[CP] Control Plan saved -> {output_path}")
+    new_wb.save(output_path)
+    print(f"[CP] Clean Control Plan saved -> {output_path}")
     return output_path

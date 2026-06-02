@@ -119,16 +119,28 @@ def _generate_transfused_fixture_pm_plan(feasibility_xlsx, template_xlsx, output
             target_cell.number_format = source_cell.number_format
 
     # TRANSFUSION STEP 1: Copy exact column configurations / widths
-    for col in template_ws.columns:
-        col_letter = openpyxl.utils.get_column_letter(col[0].column)
-        output_ws.column_dimensions[col_letter].width = template_ws.column_dimensions[col_letter].width
+    for col_idx in range(1, 40): # Scan broad range of columns
+        col_letter = openpyxl.utils.get_column_letter(col_idx)
+        width = template_ws.column_dimensions[col_letter].width
+        if width:
+            output_ws.column_dimensions[col_letter].width = width
+        else:
+            output_ws.column_dimensions[col_letter].width = 12 # Default visibility
 
     # ==========================================
     # 3. TRANSFUSE HEADER MATRIX (ROWS 1 TO 8)
     # ==========================================
     print("[FP] Header Block Transfusion active...", flush=True)
     for r in range(1, 9):
-        output_ws.row_dimensions[r].height = template_ws.row_dimensions[r].height
+        # FIX: Significantly increase header row heights (especially for logos and title)
+        h = template_ws.row_dimensions[r].height
+        if r == 1:
+            output_ws.row_dimensions[r].height = 100 # Maximum space for Logo
+        elif r <= 5:
+            output_ws.row_dimensions[r].height = 45 # Space for Model/Line info
+        else:
+            output_ws.row_dimensions[r].height = max(30, h if h else 30)
+            
         for c in range(1, 37):
             clone_cell_profile(template_ws.cell(row=r, column=c), output_ws.cell(row=r, column=c))
 
@@ -217,9 +229,20 @@ def _generate_transfused_fixture_pm_plan(feasibility_xlsx, template_xlsx, output
     if not template_footer_start:
         template_footer_start = template_ws.max_row - 5
 
+    # Identify TRUE template data end (to avoid ghost rows in footer)
+    template_footer_end = template_ws.max_row
+    try:
+        # Find the last row in the footer block that has any value
+        res = template_ws.cell(row=template_ws.max_row, column=1).row
+        for r in range(template_ws.max_row, template_footer_start, -1):
+            if any(template_ws.cell(r, c).value for c in range(1, 10)): # Check first few columns
+                template_footer_end = r
+                break
+    except: pass
+
     row_offset = current_row - template_footer_start
 
-    for r in range(template_footer_start, template_ws.max_row + 1):
+    for r in range(template_footer_start, template_footer_end + 1):
         target_r = r + row_offset
         output_ws.row_dimensions[target_r].height = template_ws.row_dimensions[r].height
         for c in range(1, 37):

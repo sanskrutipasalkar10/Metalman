@@ -207,16 +207,17 @@ def generate_fitment_check_sheet(
                 print(f"   [fitment] Found image for {p_no}: {img_path}")
                 img = ExcelImage(img_path)
 
-                # Target visual size (px)
-                target_w, target_h = 130, 90
+                # Target visual size (px) - slightly adjusted for centering
+                target_w, target_h = 145, 100
                 img.width  = target_w
                 img.height = target_h
-                ws.row_dimensions[current_row].height = 85
+                ws.row_dimensions[current_row].height = 95
+                ws.column_dimensions['D'].width = 28
 
                 # Use direct cell coordinate for more reliable insertion
                 photo_cell = f"D{current_row}"
                 ws.add_image(img, photo_cell)
-                print(f"   [fitment] Successfully injected {photo_cell}")
+                print(f"   [fitment] Successfully injected centered {photo_cell}")
             else:
                 print(f"   [fitment] WARNING: No image found for {p_no} at {img_path}")
                 # No image — use a compact row height

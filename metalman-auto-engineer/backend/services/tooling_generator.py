@@ -172,17 +172,13 @@ def generate_tooling_list(feasibility_file, template_path, output_path, image_di
             if os.path.exists(img_path):
                 img = ExcelImage(img_path)
                 
-                # Exact original average image sizing (~470x420 to 545)
-                img.width, img.height = 470, 450 
-                
-                # Exact original Row Height from "Fixture Master List-92187158-C.xlsx"
-                sheet.row_dimensions[curr_row].height = 402.0
-                
-                # Exact original Column Width for "Photo"
-                sheet.column_dimensions['G'].width = 110.55
+                # Sizing for centering in Col G
+                img.width, img.height = 460, 420 
+                sheet.row_dimensions[curr_row].height = 410.0
+                sheet.column_dimensions['G'].width = 115.0
                 
                 sheet.add_image(img, f'G{curr_row}')
-                print(f"    Injected HUGE Original-sized Photo into row {curr_row} for {fix_key}", flush=True)
+                print(f"    Injected Centered Photo into row {curr_row} for {fix_key}", flush=True)
         else:
             sheet.row_dimensions[curr_row].height = 25 
         

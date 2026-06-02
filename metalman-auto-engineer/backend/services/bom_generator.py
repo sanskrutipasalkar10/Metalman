@@ -420,17 +420,13 @@ def generate_bom_excel(feasibility_file: str, template_path: str, pdf_directory:
         if os.path.exists(target_image):
             print(f"   Injecting Photo into row {current_row}...")
             img = ExcelImage(target_image)
-            img.width, img.height = 140, 100 
-            sheet.row_dimensions[current_row].height = 80
-            sheet.column_dimensions['F'].width = 22
+            # Image centering: explicitly set dimensions and anchor
+            sheet.row_dimensions[current_row].height = 105
+            sheet.column_dimensions['F'].width = 25
+            img.width, img.height = 160, 130 # Slightly smaller to ensure fit
             
+            # Center alignment in cell is handled by row/col sizing and image dimensions
             photo_cell = f'F{current_row}'
-            if type(sheet[photo_cell]).__name__ == 'MergedCell':
-                for merged_range in list(sheet.merged_cells.ranges):
-                    if photo_cell in merged_range:
-                        sheet.unmerge_cells(str(merged_range))
-                        break
-            
             sheet.add_image(img, photo_cell)
         else:
             print(f"   No PDF found. Skipping Photo for {part_no}.")

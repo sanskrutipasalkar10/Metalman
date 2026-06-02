@@ -414,9 +414,9 @@ def write_sub_assy_index(assy_data, pfd_template, pfd_output, output_dir):
         
         if os.path.exists(image_path):
             img = ExcelImage(image_path)
-            sheet.row_dimensions[current_row].height = 140
-            img.width, img.height = 180, 140 
-            sheet.column_dimensions['F'].width = 32
+            sheet.row_dimensions[current_row].height = 142
+            sheet.column_dimensions['F'].width = 35
+            img.width, img.height = 190, 140 
             sheet.add_image(img, f'F{current_row}')
         else:
             sheet.row_dimensions[current_row].height = 25 
@@ -450,45 +450,76 @@ def extract_fixture_mapping_from_feasibility(feasibility_xlsx):
             return {}
 
         df[op_col] = df[op_col].ffill()
-        
-        operation_map = {}
         grouped = df.groupby(op_col)
+        
+        # 🚀 CHRONOLOGICAL STATE MACHINE: Tracks the timeline based on position in file
+        all_ops_ordered = []
+        for op in df[op_col].dropna():
+            clean = str(op).strip().upper().replace(" ", "")
+            if clean and clean != 'NAN' and clean not in all_ops_ordered:
+                all_ops_ordered.append(clean)
+                
+        grouped = df.groupby(op_col)
+        operation_map = {}
         
         for raw_op, group in grouped:
             clean_op = str(raw_op).strip().upper().replace(" ", "")
             if clean_op == 'NAN' or not clean_op: continue
             
+            # Identify immediate true processing predecessor
+            try:
+                op_idx = all_ops_ordered.index(clean_op)
+                predecessor = all_ops_ordered[op_idx - 1] if op_idx > 0 else None
+            except ValueError:
+                predecessor = None
+
             parts_list = []
-            sub_list = []
-            
             for _, row in group.iterrows():
                 p = str(row.get(part_col, '')).strip().replace('.0', '')
-                s = str(row.get(sub_assy_col, '')).strip()
                 if p and p.lower() != 'nan': parts_list.append(p)
-                if s and s.lower() != 'nan': sub_list.append(s)
             
-            # Format payloads with clear label prefixes
+            # 🚀 SEQUENTIAL INHERITANCE: Automatically binds predecessor output 
+            if predecessor and not clean_op.startswith("OP-10"):
+                display_pred = predecessor
+                # Formatting: adds uniform spaces for downstream readability (e.g. OP-10 B)
+                if display_pred.startswith("OP-") and len(display_pred) > 5 and display_pred[5].isalpha():
+                    display_pred = display_pred[:5] + " " + display_pred[5:]
+                
+                sub_list = [f"{display_pred}-1Nos"]
+            else:
+                # Fallback path for initial operations (OP-10 level setup layers)
+                sub_list = []
+                for _, row in group.iterrows():
+                    s = str(row.get(sub_assy_col, '')).strip()
+                    if s and s.lower() != 'nan':
+                        for split_s in s.split(','):
+                            if split_s.strip(): sub_list.append(split_s.strip())
+
+            # Format outputs
+            parts_block = "Part No. :\n" + "\n".join(set(parts_list)) if parts_list else ""
+            
+            if sub_list:
+                formatted_subs = []
+                for s in set(sub_list):
+                    if "-1NOS" not in s.upper() and any(kw in s.upper() for kw in ["OP-", "ASSY"]):
+                        formatted_subs.append(f"{s}-1Nos")
+                    else:
+                        formatted_subs.append(s)
+                sub_block = "Sub Assemblies :\n" + "\n".join(formatted_subs)
+            else:
+                sub_block = ""
+
+            # Standardized layout routing conditions
             if clean_op == "OP-10A":
-                payload = "Part No. :\n" + "\n".join(parts_list) if parts_list else ""
-            elif clean_op == "OP-10B":
-                sub_block = "Sub Assemblies :\n" + "\n".join(set(sub_list)) if sub_list else ""
-                parts_block = "Part No. :\n" + "\n".join(parts_list) if parts_list else ""
+                payload = parts_block
+            elif clean_op == "OP-10B" or clean_op == "OP-20":
                 payload = (sub_block + "\n\n" + parts_block).strip()
-            elif clean_op == "OP-20":
-                payload = "Sub Assemblies :\n" + "\n".join(set(sub_list)) if sub_list else ""
             elif clean_op == "OP-30":
-                # OP-30 only references the sub-assembly from OP-20; build dynamically
-                if sub_list:
-                    formatted = [f"{s.strip()}-1Nos" for s in set(sub_list) if s.strip()]
-                    operation_map[clean_op] = "Sub Assemblies :\n" + "\n".join(formatted)
-                else:
-                    operation_map[clean_op] = ""
-                continue
+                # Forced layout for OP-30
+                payload = sub_block if sub_block else parts_block
             elif clean_op == "OP-50":
                 payload = ""
             else:
-                sub_block = "Sub Assemblies :\n" + "\n".join(set(sub_list)) if sub_list else ""
-                parts_block = "Part No. :\n" + "\n".join(parts_list) if parts_list else ""
                 payload = (sub_block + "\n\n" + parts_block).strip()
                 
             operation_map[clean_op] = payload
