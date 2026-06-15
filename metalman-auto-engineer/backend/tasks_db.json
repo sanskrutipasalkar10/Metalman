@@ -1550,5 +1550,77 @@
       }
     ],
     "error": null
+  },
+  "ef0c686d": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "491f0d07": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
+  },
+  "208cf014": {
+    "status": "completed",
+    "progress": 100,
+    "message": "Generation complete",
+    "stl_url": "/outputs/model_92187158.stl",
+    "files": [
+      {
+        "name": "Bill of Materials",
+        "url": "/outputs/BOM_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Engineering PFD (Excel)",
+        "url": "/outputs/PFD_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Tooling Master List",
+        "url": "/outputs/Tooling_List_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fitment Checksheet",
+        "url": "/outputs/Fitment_Checksheet_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Process FMEA",
+        "url": "/outputs/PFMEA_Result_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Control Plan",
+        "url": "/outputs/Control_Plan_92187158.xlsx",
+        "type": "xlsx"
+      },
+      {
+        "name": "Fixture PM Master Plan",
+        "url": "/outputs/Fixture_Plan_92187158.xlsx",
+        "type": "xlsx"
+      }
+    ],
+    "error": null
   }
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, Save, LayoutDashboard, History, Settings, Bell, Download, Edit, Trash2 } from "lucide-react";
+import { ArrowLeft, Save, LayoutDashboard, History, Settings, Bell, Download, Edit, Trash2, Crop } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -468,6 +468,10 @@ const Correction = () => {
               <a href="/dashboard" className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
                 <LayoutDashboard className="h-4 w-4" /> Dashboard
               </a>
+              <a href="/cropper" className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+                <Crop className="h-4 w-4" /> Cropper
+              </a>
+
               <a href="#" className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
                 <History className="h-4 w-4" /> History
               </a>

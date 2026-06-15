@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Bell, ChevronDown, FileSpreadsheet, FileText, LogOut, Sparkles, LayoutDashboard, Settings, History } from "lucide-react";
+import { Bell, ChevronDown, FileSpreadsheet, FileText, LogOut, Sparkles, LayoutDashboard, Settings, History, Crop } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Logo } from "@/components/Logo";
@@ -79,9 +79,13 @@ const Dashboard = () => {
             <Logo className="h-8" />
             <div className="hidden h-8 w-px bg-border md:block" />
             <nav className="hidden items-center gap-6 md:flex">
-              <a href="#" className="flex items-center gap-2 text-sm font-medium text-primary">
+              <a href="/dashboard" className="flex items-center gap-2 text-sm font-medium text-primary">
                 <LayoutDashboard className="h-4 w-4" /> Dashboard
               </a>
+              <a href="/cropper" className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+                <Crop className="h-4 w-4" /> Cropper
+              </a>
+
               <a href="#" className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
                 <History className="h-4 w-4" /> History
               </a>
