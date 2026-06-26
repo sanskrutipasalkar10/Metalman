@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BI Analytics — Metalman</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f0f4ff;color:#0b1c30;min-height:100vh}
+.ms{font-family:'Material Symbols Outlined';vertical-align:middle;user-select:none}
+.page-hdr{background:#fff;border-bottom:1px solid #e2bfb4;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.page-title{font-size:22px;font-weight:800}
+.page-sub{font-size:13px;color:#5a4139;margin-top:2px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:'Inter',sans-serif}
+.btn-outline{background:#fff;border:1px solid #8e7067;color:#4c6078}.btn-outline:hover{background:#eff4ff}
+.btn-primary{background:#d04408;color:#fff}.btn-primary:hover{background:#a83300}
+.btn-sm{padding:5px 12px;font-size:12px}
+/* Stats row */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;padding:16px 24px}
+.kpi{background:#fff;border:1px solid #e2bfb4;border-radius:10px;padding:14px 16px;position:relative;overflow:hidden}
+.kpi-num{font-size:26px;font-weight:800;line-height:1}
+.kpi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#5a4139;margin-top:4px}
+.kpi-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700;margin-top:6px}
+.badge-up{background:#dcfce7;color:#006a35}
+.badge-down{background:#ffdad6;color:#ba1a1a}
+.kpi-glow{position:absolute;top:-20px;right:-20px;width:70px;height:70px;border-radius:50%;filter:blur(20px);pointer-events:none}
+/* Charts grid */
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0 24px 16px}
+.chart-card{background:#fff;border:1px solid #e2bfb4;border-radius:12px;padding:18px;position:relative}
+.chart-card.full{grid-column:1/-1}
+.chart-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.chart-sub{font-size:12px;color:#5a4139;margin-bottom:14px}
+.chart-controls{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.ctrl-btn{padding:4px 12px;border:1px solid #e2bfb4;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;background:#fff;color:#4c6078;transition:all .15s}
+.ctrl-btn.active{background:#d04408;color:#fff;border-color:#d04408}
+/* Progress bars */
+.prog-item{margin-bottom:12px}
+.prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:13px;font-weight:500}
+.prog-val{font-size:12px;color:#5a4139;font-family:'JetBrains Mono',monospace;font-weight:600}
+.prog-track{height:8px;background:#e5eeff;border-radius:4px;overflow:hidden}
+.prog-fill{height:8px;border-radius:4px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+/* Plant table */
+.plant-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.plant-card{border:1px solid #e2bfb4;border-radius:8px;padding:12px 14px}
+.plant-name{font-size:12px;font-weight:700;color:#0b1c30;margin-bottom:8px}
+.mini-bar-wrap{margin-bottom:6px}
+.mini-bar-label{display:flex;justify-content:space-between;font-size:10px;color:#5a4139;margin-bottom:3px}
+.mini-bar-track{height:5px;background:#e5eeff;border-radius:3px;overflow:hidden}
+.mini-bar-fill{height:5px;border-radius:3px}
+/* Notif */
+.notif{position:fixed;bottom:20px;right:20px;background:#0b1c30;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;transform:translateY(80px);opacity:0;transition:all .3s;z-index:999;display:flex;align-items:center;gap:8px}
+.notif.show{transform:translateY(0);opacity:1}
+/* Donut center text */
+.donut-wrap{position:relative;width:120px;height:120px;margin:0 auto}
+.donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.donut-center .val{font-size:22px;font-weight:800;color:#0b1c30}
+.donut-center .lbl{font-size:9px;font-weight:700;text-transform:uppercase;color:#5a4139;letter-spacing:.06em}
+</style>
+</head>
+<body>
+
+<div class="page-hdr">
+  <div>
+    <div class="page-title">Plant Operations Analytics</div>
+    <div class="page-sub">Real-time telemetry & AI assessment for engineering workflows</div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <select onchange="updateDateRange(this.value)" style="padding:7px 12px;border:1px solid #e2bfb4;border-radius:8px;font-size:13px;background:#fff;cursor:pointer;outline:none">
+      <option value="30">Last 30 Days</option>
+      <option value="7">Last 7 Days</option>
+      <option value="90">Last Quarter</option>
+      <option value="365">Full Year</option>
+    </select>
+    <button class="btn btn-outline btn-sm" onclick="refreshCharts()"><span class="ms" style="font-size:16px">refresh</span> Refresh</button>
+    <button class="btn btn-primary btn-sm" onclick="showNotif('Report exported as PDF.')"><span class="ms" style="font-size:16px">download</span> Export Report</button>
+  </div>
+</div>
+
+<!-- KPIs -->
+<div class="kpi-row">
+  <div class="kpi">
+    <div class="kpi-glow" style="background:#d04408"></div>
+    <div class="kpi-num" style="color:#d04408" id="kpi-throughput">1,492</div>
+    <div class="kpi-label">Doc Throughput</div>
+    <div class="kpi-badge badge-up"><span class="ms" style="font-size:12px">trending_up</span> +12.4%</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-glow" style="background:#006a35"></div>
+    <div class="kpi-num" style="color:#006a35">94.2%</div>
+    <div class="kpi-label">First-Pass Yield</div>
+    <div class="kpi-badge badge-up"><span class="ms" style="font-size:12px">check_circle</span> Target Met</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-glow" style="background:#d04408"></div>
+    <div class="kpi-num" style="color:#d04408">98.7%</div>
+    <div class="kpi-label">AI Review Accuracy</div>
+    <div class="kpi-badge badge-up"><span class="ms" style="font-size:12px">auto_awesome</span> Continuous</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-glow" style="background:#ba1a1a"></div>
+    <div class="kpi-num" style="color:#ba1a1a" id="kpi-anomalies">3</div>
+    <div class="kpi-label">Critical Anomalies</div>
+    <div class="kpi-badge badge-down"><span class="ms" style="font-size:12px">priority_high</span> Action Req.</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-glow" style="background:#4c6078"></div>
+    <div class="kpi-num" style="color:#4c6078">245</div>
+    <div class="kpi-label">Active Documents</div>
+    <div class="kpi-badge badge-up"><span class="ms" style="font-size:12px">add</span> +18 this week</div>
+  </div>
+</div>
+
+<!-- Charts Row 1 -->
+<div class="charts">
+  <!-- Throughput Bar Chart -->
+  <div class="chart-card full">
+    <div class="chart-title">Document Throughput Volume</div>
+    <div class="chart-sub">Daily volume of engineering documents processed and verified by AI — hover bars for detail</div>
+    <div class="chart-controls">
+      <button class="ctrl-btn active" onclick="setChartMode('daily',this)">Daily</button>
+      <button class="ctrl-btn" onclick="setChartMode('weekly',this)">Weekly</button>
+      <button class="ctrl-btn" onclick="setChartMode('monthly',this)">Monthly</button>
+    </div>
+    <canvas id="throughput-chart" height="80"></canvas>
+  </div>
+
+  <!-- FPY by Product -->
+  <div class="chart-card">
+    <div class="chart-title">First-Pass Yield by Product Line</div>
+    <div class="chart-sub">Success rate prior to manual rework</div>
+    <div class="prog-item">
+      <div class="prog-row"><span>2 Wheeler Chassis</span><span class="prog-val" style="color:#006a35">98.2%</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:98.2%;background:#00c04b"></div></div>
+    </div>
+    <div class="prog-item">
+      <div class="prog-row"><span>Motorcycle Handle Steering</span><span class="prog-val" style="color:#006a35">94.5%</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:94.5%;background:#4ae183"></div></div>
+    </div>
+    <div class="prog-item">
+      <div class="prog-row"><span>Muffler Assembly (Silencer)</span><span class="prog-val" style="color:#006a35">92.8%</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:92.8%;background:#4ae183"></div></div>
+    </div>
+    <div class="prog-item">
+      <div class="prog-row"><span>Seating Systems (Head Rest)</span><span class="prog-val" style="color:#ba1a1a">82.1% ⚠</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:82.1%;background:#ba1a1a"></div></div>
+    </div>
+    <div class="prog-item">
+      <div class="prog-row"><span>3-Wheeler Driver Cabin</span><span class="prog-val" style="color:#006a35">96.8%</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:96.8%;background:#4ae183"></div></div>
+    </div>
+    <button onclick="showNotif('Detailed FPY report generated.')" style="margin-top:12px;width:100%;padding:8px;border:1px solid #e2bfb4;border-radius:8px;background:#fff;color:#4c6078;font-size:13px;font-weight:600;cursor:pointer">View All Products →</button>
+  </div>
+
+  <!-- AI Accuracy Donut -->
+  <div class="chart-card">
+    <div class="chart-title">AI Health Assessment</div>
+    <div class="chart-sub">Model confidence & verification drift analysis</div>
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+      <div class="donut-wrap">
+        <canvas id="donut-chart" width="120" height="120"></canvas>
+        <div class="donut-center">
+          <div class="val">98%</div>
+          <div class="lbl">Confidence</div>
+        </div>
+      </div>
+      <div style="flex:1">
+        <div class="prog-item">
+          <div class="prog-row" style="font-size:12px"><span>Dimensional Tolerance</span><span class="prog-val">99.1%</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:99.1%;background:#d04408"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-row" style="font-size:12px"><span>Material Spec Alignment</span><span class="prog-val">98.4%</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:98.4%;background:#4c6078"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-row" style="font-size:12px"><span>GD&T Callout Accuracy</span><span class="prog-val">97.8%</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:97.8%;background:#006a35"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-row" style="font-size:12px"><span>BOM Cross-Validation</span><span class="prog-val">96.3%</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:96.3%;background:#4ae183"></div></div>
+        </div>
+      </div>
+    </div>
+    <button onclick="showNotif('AI model report opened.')" style="margin-top:14px;width:100%;padding:8px;border:1px solid #e2bfb4;background:#d04408;color:#fff;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">View Full AI Report →</button>
+  </div>
+</div>
+
+<!-- Global Plant Performance -->
+<div style="padding:0 24px 24px">
+  <div class="chart-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+      <div>
+        <div class="chart-title">Global Plant Performance</div>
+        <div class="chart-sub">Overall efficiency across regional manufacturing units</div>
+      </div>
+      <button onclick="showNotif('Plant performance report exported.')" class="btn btn-outline btn-sm"><span class="ms" style="font-size:15px">download</span> Export</button>
+    </div>
+    <div class="plant-grid">
+      <div class="plant-card">
+        <div class="plant-name">Aurangabad Waluj (Units I-IV)</div>
+        <div class="mini-bar-wrap"><div class="mini-bar-label"><span>Plant Efficiency</span><span style="font-weight:700;color:#006a35">94%</span></div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:94%;background:#00c04b"></div></div></div>
+        <div class="mini-bar-wrap"><div class="mini-bar-label"><span>Output Target</span><span style="font-weight:700;color:#d04408">97%</span></div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:97%;background:#d04408"></div></div></div>
+      </div>
+      <div class="plant-card">
+        <div class="plant-name">Pithampur (Units I-II)</div>
+        <div class="mini-bar-wrap"><div class="mini-bar-label"><span>Efficiency</span><span style="font-weight:700;color:#006a35">91%</span></div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:91%;background:#4ae183"></div></div></div>
+        <div class="mini-bar-wrap"><div class="mini-bar-label"><span>Target</span><span style="font-weight:700;color:#d04408">94%</span></div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:94%;background:#d04408"></div></div></div>
+      </div>
+      <div class="plant-card">
+        <div class="plant-name">Hosur Unit</div>
+        <div class="mini-bar-wrap"><div class="mini-bar-label"><span>Efficiency</span><span style="font-weight:700;color:#ba1a1a">⚠ 84%</span></div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:84%;background:#ba1a1a"></div></div></div>
+        <div class="mini-bar-wrap"><div class="mini-bar-label"><span>Target</span><span style="font-weight:700;color:#d04408">89%</span></div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:89%;background:#d04408"></div></div></div>
+      </div>
+      <div class="plant-card">
+        <div class="plant-name">Pantnagar Unit</div>
+        <div class="mini-bar-wrap"><div class="mini-bar-label"><span>Efficiency</span><span style="font-weight:700;color:#006a35">96%</span></div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:96%;background:#4ae183"></div></div></div>
+        <div class="mini-bar-wrap"><div class="mini-bar-label"><span>Target</span><span style="font-weight:700;color:#d04408">99%</span></div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:99%;background:#d04408"></div></div></div>
+      </div>
+      <div class="plant-card">
+        <div class="plant-name">Solapur Facility</div>
+        <div class="mini-bar-wrap"><div class="mini-bar-label"><span>Efficiency</span><span style="font-weight:700;color:#006a35">98%</span></div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:98%;background:#00c04b"></div></div></div>
+        <div class="mini-bar-wrap"><div class="mini-bar-label"><span>Target</span><span style="font-weight:700;color:#d04408">100%</span></div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:100%;background:#d04408"></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif"><span class="ms" style="font-size:16px">check_circle</span> <span id="notif-msg"></span></div>
+
+<script>
+function showNotif(msg){
+  const el=document.getElementById('notif');
+  document.getElementById('notif-msg').textContent=msg;
+  el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);
+}
+
+const dailyData = [42,68,55,85,90,72,100,58,80,63,78,95,88,40,65,74,88,92,70,83,91,45,60,77,84,96,50,68,75,89];
+const weeklyData = [320,415,480,398,530,487,612];
+const monthlyData = [1250,1480,1620,1390,1720];
+
+let throughputChart, donutChart;
+
+function initCharts(){
+  // Throughput
+  const ctx1 = document.getElementById('throughput-chart').getContext('2d');
+  throughputChart = new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels: dailyData.map((_,i) => `Oct ${i+1}`),
+      datasets: [{
+        label: 'Documents Processed',
+        data: dailyData,
+        backgroundColor: dailyData.map(v => v === Math.max(...dailyData) ? '#d04408' : 'rgba(205,225,254,0.8)'),
+        borderColor: dailyData.map(v => v === Math.max(...dailyData) ? '#a83300' : '#b4c8e4'),
+        borderWidth: 1, borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true, interaction: { mode: 'index' },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw} documents processed` }}},
+      scales: { y: { beginAtZero: true, grid: { color: '#eff4ff' }}, x: { grid: { display: false }}}
+    }
+  });
+
+  // Donut
+  const ctx2 = document.getElementById('donut-chart').getContext('2d');
+  donutChart = new Chart(ctx2, {
+    type: 'doughnut',
+    data: {
+      labels: ['Accurate','Drift'],
+      datasets: [{ data: [98.7, 1.3], backgroundColor: ['#d04408', '#e5eeff'], borderWidth: 0, hoverOffset: 4 }]
+    },
+    options: {
+      cutout: '72%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw}%` }}},
+      animation: { animateRotate: true, duration: 1200 }
+    }
+  });
+}
+
+function setChartMode(mode, btn) {
+  document.querySelectorAll('.ctrl-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  let data, labels;
+  if (mode === 'daily') { data = dailyData; labels = data.map((_,i)=>`Oct ${i+1}`); }
+  else if (mode === 'weekly') { data = weeklyData; labels = ['Wk 40','Wk 41','Wk 42','Wk 43','Wk 44','Wk 45','Wk 46']; }
+  else { data = monthlyData; labels = ['Jun','Jul','Aug','Sep','Oct']; }
+  throughputChart.data.labels = labels;
+  throughputChart.data.datasets[0].data = data;
+  throughputChart.data.datasets[0].backgroundColor = data.map(v => v === Math.max(...data) ? '#d04408' : 'rgba(205,225,254,0.8)');
+  throughputChart.update();
+  showNotif(`Switched to ${mode} view.`);
+}
+
+function updateDateRange(days) {
+  showNotif(`Refreshed data for last ${days} days.`);
+  const base = parseInt(days);
+  document.getElementById('kpi-throughput').textContent = (base * 49 + Math.floor(Math.random()*200)).toLocaleString();
+}
+
+function refreshCharts() {
+  throughputChart.data.datasets[0].data = dailyData.map(v => v + Math.floor(Math.random()*10 - 5));
+  throughputChart.update();
+  showNotif('Charts refreshed with latest data.');
+}
+
+window.onload = initCharts;
+</script>
+</body>
+</html>

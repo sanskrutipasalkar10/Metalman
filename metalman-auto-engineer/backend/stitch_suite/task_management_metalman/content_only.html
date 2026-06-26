@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task Management - Metalman Engineering</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #f0f4ff; color: #0b1c30; min-height: 100vh; }
+  .ms { font-family: 'Material Symbols Outlined'; font-size: 20px; line-height: 1; user-select: none; vertical-align: middle; }
+  .ms.fill { font-variation-settings: 'FILL' 1; }
+  /* Header */
+  .page-header { background: #fff; border-bottom: 1px solid #e2bfb4; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .page-title { font-size: 22px; font-weight: 800; color: #0b1c30; }
+  .page-sub { font-size: 13px; color: #5a4139; margin-top: 2px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: all .15s; }
+  .btn-primary { background: #d04408; color: #fff; }
+  .btn-primary:hover { background: #a83300; }
+  .btn-outline { background: #fff; border: 1px solid #8e7067; color: #4c6078; }
+  .btn-outline:hover { background: #eff4ff; }
+  .btn-sm { padding: 5px 10px; font-size: 12px; }
+  /* Stats row */
+  .stats-row { display: flex; gap: 12px; padding: 16px 24px 0; flex-wrap: wrap; }
+  .stat-card { background: #fff; border: 1px solid #e2bfb4; border-radius: 10px; padding: 14px 18px; min-width: 120px; flex: 1; }
+  .stat-num { font-size: 26px; font-weight: 800; }
+  .stat-label { font-size: 11px; color: #5a4139; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; margin-top: 2px; }
+  .stat-card.primary .stat-num { color: #d04408; }
+  .stat-card.warn .stat-num { color: #e8a700; }
+  .stat-card.ok .stat-num { color: #006a35; }
+  /* Toolbar */
+  .toolbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; gap: 12px; flex-wrap: wrap; }
+  .view-toggle { display: flex; background: #eff4ff; border: 1px solid #dce9ff; border-radius: 8px; padding: 3px; gap: 2px; }
+  .view-btn { padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: #4c6078; display: flex; align-items: center; gap: 5px; transition: all .15s; }
+  .view-btn.active { background: #fff; color: #d04408; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+  .search-wrap { position: relative; }
+  .search-wrap input { padding: 7px 12px 7px 36px; border: 1px solid #e2bfb4; border-radius: 8px; font-size: 13px; width: 220px; outline: none; background: #fff; }
+  .search-wrap input:focus { border-color: #d04408; }
+  .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #8e7067; font-size: 17px; }
+  .filter-select { padding: 7px 12px; border: 1px solid #e2bfb4; border-radius: 8px; font-size: 13px; color: #0b1c30; background: #fff; cursor: pointer; outline: none; }
+  /* Kanban */
+  .board { display: flex; gap: 16px; padding: 0 24px 24px; overflow-x: auto; align-items: flex-start; min-height: 400px; }
+  .column { width: 280px; flex-shrink: 0; background: #e5eeff; border: 1px solid #dce9ff; border-radius: 12px; padding: 12px; }
+  .col-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #dce9ff; }
+  .col-title { display: flex; align-items: center; gap: 8px; }
+  .col-dot { width: 9px; height: 9px; border-radius: 50%; }
+  .col-dot.gray { background: #8e7067; }
+  .col-dot.orange { background: #d04408; animation: pulse 1.5s infinite; }
+  .col-dot.green-d { background: #006a35; }
+  .col-dot.green { background: #4ae183; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .col-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #0b1c30; }
+  .col-count { background: #fff; border: 1px solid #dce9ff; color: #5a4139; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 20px; font-family: 'JetBrains Mono', monospace; }
+  /* Task Card */
+  .task-card { background: #fff; border: 1px solid #e2bfb4; border-radius: 10px; padding: 14px; margin-bottom: 8px; cursor: pointer; transition: all .2s; position: relative; overflow: hidden; }
+  .task-card:hover { border-color: #d04408; box-shadow: 0 4px 16px rgba(168,51,0,.1); transform: translateY(-1px); }
+  .task-card.ai-active { border-color: #d04408; box-shadow: 0 4px 16px rgba(208,68,8,.15); }
+  .task-card.ai-active::before { content:''; position:absolute; top:0; right:0; width:60px; height:60px; background:radial-gradient(circle, rgba(208,68,8,.12), transparent 70%); pointer-events:none; }
+  .tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 5px; font-size: 10px; font-weight: 700; font-family: 'JetBrains Mono', monospace; letter-spacing: .04em; }
+  .tag.pn { background: #eff4ff; color: #4c6078; }
+  .tag.high { background: #ffdad6; color: #ba1a1a; }
+  .tag.med { background: #ffdbd0; color: #a83300; }
+  .tag.low { background: #eff4ff; color: #4c6078; border: 1px solid #dce9ff; }
+  .tag.ai { background: rgba(208,68,8,.1); color: #d04408; border: 1px solid rgba(208,68,8,.2); }
+  .tag.done { background: #dcfce7; color: #006a35; }
+  .task-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .task-text { font-size: 13px; font-weight: 500; line-height: 1.5; color: #0b1c30; }
+  .task-text.done-text { text-decoration: line-through; color: #8e7067; }
+  .progress-bar-wrap { background: #e5eeff; border-radius: 4px; height: 5px; margin: 8px 0; overflow: hidden; }
+  .progress-bar { height: 5px; border-radius: 4px; background: #d04408; transition: width 1s; }
+  .task-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid #f0f4ff; }
+  .task-date { font-size: 11px; color: #5a4139; display: flex; align-items: center; gap: 4px; }
+  .task-date.overdue { color: #ba1a1a; font-weight: 600; }
+  .avatar { width: 24px; height: 24px; border-radius: 50%; background: #d04408; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; border: 2px solid #fff; }
+  .add-task-btn { width: 100%; padding: 8px; border: 1.5px dashed #8e7067; border-radius: 8px; background: transparent; color: #5a4139; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all .15s; margin-top: 8px; }
+  .add-task-btn:hover { background: #fff; border-color: #d04408; color: #d04408; }
+  /* Modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); backdrop-filter: blur(3px); z-index: 100; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: #fff; border-radius: 16px; width: 480px; max-width: 95vw; box-shadow: 0 20px 60px rgba(0,0,0,.2); overflow: hidden; }
+  .modal-header { background: #d04408; color: #fff; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .modal-header h3 { font-size: 16px; font-weight: 700; }
+  .modal-body { padding: 24px; }
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: #5a4139; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+  .field input, .field select, .field textarea { width: 100%; padding: 8px 12px; border: 1px solid #e2bfb4; border-radius: 8px; font-size: 13px; font-family: 'Inter', sans-serif; outline: none; }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: #d04408; }
+  .modal-footer { padding: 0 24px 20px; display: flex; justify-content: flex-end; gap: 10px; }
+  /* Notification */
+  .notif { position: fixed; bottom: 20px; right: 20px; background: #0b1c30; color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; transform: translateY(80px); opacity: 0; transition: all .3s; z-index: 999; display: flex; align-items: center; gap: 8px; }
+  .notif.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- Page Header -->
+<div class="page-header">
+  <div>
+    <div class="page-title">Task Management</div>
+    <div class="page-sub">Engineering Workflows & PM Board — Sprint Q4-2024</div>
+  </div>
+  <div style="display:flex;gap:10px;">
+    <button class="btn btn-outline btn-sm" onclick="showNotif('Export complete! tasks_Q4.xlsx downloaded.')"><span class="ms">download</span> Export</button>
+    <button class="btn btn-outline btn-sm" onclick="showNotif('Import template opened.')"><span class="ms">upload</span> Import</button>
+    <button class="btn btn-primary" onclick="openModal()"><span class="ms">add</span> New Task</button>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-row">
+  <div class="stat-card primary"><div class="stat-num" id="stat-inprogress">5</div><div class="stat-label">In Progress</div></div>
+  <div class="stat-card warn" style="--border:#e8a700"><div class="stat-num" style="color:#e8a700" id="stat-todo">8</div><div class="stat-label">To Do</div></div>
+  <div class="stat-card ok"><div class="stat-num" id="stat-done">24</div><div class="stat-label">Completed</div></div>
+  <div class="stat-card" style=""><div class="stat-num" style="color:#ba1a1a" id="stat-overdue">2</div><div class="stat-label">Overdue</div></div>
+  <div class="stat-card"><div class="stat-num" style="color:#4c6078">87%</div><div class="stat-label">Sprint Health</div></div>
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="view-toggle">
+      <button class="view-btn active" id="vb-board" onclick="setView('board')"><span class="ms" style="font-size:16px">view_kanban</span> Board</button>
+      <button class="view-btn" id="vb-list" onclick="setView('list')"><span class="ms" style="font-size:16px">list</span> List</button>
+    </div>
+    <select class="filter-select" onchange="filterByAssignee(this.value)">
+      <option value="">All Members</option>
+      <option value="Sarah">Sarah K.</option>
+      <option value="Mike">Mike T.</option>
+      <option value="Priya">Priya R.</option>
+      <option value="Alex">Alex D.</option>
+    </select>
+    <select class="filter-select" onchange="filterByPriority(this.value)">
+      <option value="">All Priorities</option>
+      <option value="High">🔴 High</option>
+      <option value="Med">🟠 Medium</option>
+      <option value="Low">🔵 Low</option>
+    </select>
+  </div>
+  <div class="search-wrap">
+    <span class="ms search-icon">search</span>
+    <input type="text" placeholder="Search tasks, P/N..." oninput="searchTasks(this.value)">
+  </div>
+</div>
+
+<!-- Kanban Board -->
+<div class="board" id="kanban-board">
+  <!-- To Do -->
+  <div class="column" id="col-todo">
+    <div class="col-header">
+      <div class="col-title">
+        <div class="col-dot gray"></div>
+        <span class="col-name">To Do</span>
+        <span class="col-count" id="cnt-todo">3</span>
+      </div>
+      <button onclick="showNotif('Column sorted by priority.')" style="border:none;background:transparent;cursor:pointer;color:#5a4139;"><span class="ms" style="font-size:18px">more_horiz</span></button>
+    </div>
+    <div id="tasks-todo">
+      <div class="task-card" onclick="showTaskDetail('Tolerance Review — Fuselage Strut Assembly','Draft and validate GD&T tolerance stack-up for the main fuselage strut assembly per AS9100 Rev D requirements. Coordinate with QA team for sign-off.','Sarah K.','2024-10-27','High','P/N: 44-X-902')">
+        <div class="task-header">
+          <span class="tag pn">P/N: 44-X-902</span>
+          <span class="tag high">↑↑ High</span>
+        </div>
+        <p class="task-text">Draft tolerance review for main fuselage strut assembly</p>
+        <div class="task-footer">
+          <span class="task-date"><span class="ms" style="font-size:13px">calendar_today</span> Oct 27</span>
+          <div class="avatar">SK</div>
+        </div>
+      </div>
+      <div class="task-card" onclick="showTaskDetail('Material Spec Update — Backup Bearing','Update material specifications AISI 52100 → M50 for backup bearing housing (cryogenic application). Requires supplier qualification.','Unassigned','2024-11-02','Low','P/N: SYS-09-A')">
+        <div class="task-header">
+          <span class="tag pn">P/N: SYS-09-A</span>
+          <span class="tag low">− Low</span>
+        </div>
+        <p class="task-text">Update material specifications for backup bearing housing</p>
+        <div class="task-footer">
+          <span class="task-date"><span class="ms" style="font-size:13px">calendar_today</span> Nov 02</span>
+          <div class="avatar" style="background:#8e7067;">?</div>
+        </div>
+      </div>
+      <div class="task-card" onclick="showTaskDetail('PPAP Level 3 Submission Package','Compile and submit PPAP Level 3 documentation for the 2-Wheeler Chassis assembly including Control Plan, FMEA, and MSA reports.','Priya R.','2024-11-05','Med','P/N: TB-2024-X9')">
+        <div class="task-header">
+          <span class="tag pn">P/N: TB-2024-X9</span>
+          <span class="tag med">↑ Med</span>
+        </div>
+        <p class="task-text">Compile Level 3 PPAP submission package for 2-Wheeler Chassis</p>
+        <div class="task-footer">
+          <span class="task-date"><span class="ms" style="font-size:13px">calendar_today</span> Nov 05</span>
+          <div class="avatar" style="background:#006a35;">PR</div>
+        </div>
+      </div>
+    </div>
+    <button class="add-task-btn" onclick="openModal('todo')"><span class="ms" style="font-size:16px">add</span> Add Task</button>
+  </div>
+
+  <!-- In Progress -->
+  <div class="column" id="col-inprogress">
+    <div class="col-header">
+      <div class="col-title">
+        <div class="col-dot orange"></div>
+        <span class="col-name">In Progress</span>
+        <span class="col-count" id="cnt-inprogress">2</span>
+      </div>
+      <button onclick="showNotif('Column sorted by due date.')" style="border:none;background:transparent;cursor:pointer;color:#5a4139;"><span class="ms" style="font-size:18px">more_horiz</span></button>
+    </div>
+    <div id="tasks-inprogress">
+      <div class="task-card ai-active" onclick="showTaskDetail('FEA on Rotor Blade Mesh','Run automated finite element analysis on rotor blade mesh using ANSYS integration. AI reviewing stress concentration zones.','Mike T.','2024-10-28','Med','P/N: RB-22-V')">
+        <div class="task-header">
+          <span class="tag ai"><span class="ms" style="font-size:12px">smart_toy</span> AI Review</span>
+          <span class="tag med">↑ Med</span>
+        </div>
+        <p class="task-text">Run automated FEA on rotor blade mesh — AI processing</p>
+        <div class="progress-bar-wrap"><div class="progress-bar" id="ai-bar" style="width:65%"></div></div>
+        <div style="font-size:10px;color:#d04408;font-weight:600;display:flex;align-items:center;gap:4px;">
+          <span class="ms" style="font-size:13px;animation:spin 1s linear infinite">sync</span> AI Processing — 65% complete
+        </div>
+        <div class="task-footer">
+          <span class="task-date"><span class="ms" style="font-size:13px">calendar_today</span> Today</span>
+          <div class="avatar">MT</div>
+        </div>
+      </div>
+      <div class="task-card" onclick="showTaskDetail('CNC Calibration — Titanium Brackets','Calibrate automated CNC lathe sequence (G-code optimization) for titanium TC4 brackets. Verify against master routing sheet.','Alex D.','2024-10-26','Med','P/N: 22-V-110')">
+        <div class="task-header">
+          <span class="tag pn">P/N: 22-V-110</span>
+          <span class="tag med">↑ Med</span>
+        </div>
+        <p class="task-text">Calibrate CNC lathe sequence for titanium brackets</p>
+        <div class="progress-bar-wrap"><div class="progress-bar" style="width:40%"></div></div>
+        <div class="task-footer">
+          <span class="task-date"><span class="ms" style="font-size:13px">calendar_today</span> Today</span>
+          <div class="avatar" style="background:#4c6078;">AD</div>
+        </div>
+      </div>
+    </div>
+    <button class="add-task-btn" onclick="openModal('inprogress')"><span class="ms" style="font-size:16px">add</span> Add Task</button>
+  </div>
+
+  <!-- Review -->
+  <div class="column" id="col-review">
+    <div class="col-header">
+      <div class="col-title">
+        <div class="col-dot green-d"></div>
+        <span class="col-name">Review</span>
+        <span class="col-count" id="cnt-review">1</span>
+      </div>
+      <button onclick="showNotif('Review column expanded.')" style="border:none;background:transparent;cursor:pointer;color:#5a4139;"><span class="ms" style="font-size:18px">more_horiz</span></button>
+    </div>
+    <div id="tasks-review">
+      <div class="task-card" onclick="showTaskDetail('ISO Weld Inspection — Prototype Joints','Inspect prototype welded joints at Aurangabad Waluj Unit II against ISO 5817 Class B standards. QA sign-off mandatory before next phase.','Priya R.','2024-10-23','High','P/N: QA-99-Z')">
+        <div class="task-header">
+          <span class="tag pn">P/N: QA-99-Z</span>
+          <span class="tag high">↑↑ High</span>
+        </div>
+        <p class="task-text">Inspect prototype welded joints against ISO 5817 standards</p>
+        <div style="background:#eff4ff;border-radius:6px;padding:6px 10px;margin:8px 0;display:flex;align-items:center;gap:6px;font-size:11px;color:#0b1c30;font-weight:500;border:1px solid #dce9ff;">
+          <span class="ms" style="font-size:14px;color:#006a35">fact_check</span> QA Review Required — Awaiting sign-off
+        </div>
+        <div class="task-footer">
+          <span class="task-date overdue"><span class="ms" style="font-size:13px">warning</span> Overdue</span>
+          <div class="avatar" style="background:#006a35;">PR</div>
+        </div>
+      </div>
+    </div>
+    <button class="add-task-btn" onclick="openModal('review')"><span class="ms" style="font-size:16px">add</span> Add Task</button>
+  </div>
+
+  <!-- Done -->
+  <div class="column" id="col-done" style="opacity:.8;">
+    <div class="col-header">
+      <div class="col-title">
+        <div class="col-dot green"></div>
+        <span class="col-name">Done</span>
+        <span class="col-count" id="cnt-done">12</span>
+      </div>
+      <button onclick="showNotif('Done column archived to Q3 log.')" style="border:none;background:transparent;cursor:pointer;color:#5a4139;"><span class="ms" style="font-size:18px">more_horiz</span></button>
+    </div>
+    <div id="tasks-done">
+      <div class="task-card" style="opacity:.75">
+        <div class="task-header">
+          <span class="tag pn" style="text-decoration:line-through">P/N: DOC-11-B</span>
+          <span class="tag done"><span class="ms" style="font-size:13px">check_circle</span></span>
+        </div>
+        <p class="task-text done-text">Finalize Q3 aerospace compliance documentation package</p>
+        <div class="task-footer">
+          <span class="task-date">Oct 20</span>
+          <div class="avatar" style="background:#8e7067;filter:grayscale(1)">LW</div>
+        </div>
+      </div>
+      <div class="task-card" style="opacity:.75">
+        <div class="task-header">
+          <span class="tag pn" style="text-decoration:line-through">P/N: BOM-34-A</span>
+          <span class="tag done"><span class="ms" style="font-size:13px">check_circle</span></span>
+        </div>
+        <p class="task-text done-text">Generate and validate BOM for Motorcycle Handle Steering assembly</p>
+        <div class="task-footer">
+          <span class="task-date">Oct 18</span>
+          <div class="avatar" style="background:#8e7067;filter:grayscale(1)">MT</div>
+        </div>
+      </div>
+      <div class="task-card" style="opacity:.75">
+        <div class="task-header">
+          <span class="tag pn" style="text-decoration:line-through">P/N: PFMEA-07</span>
+          <span class="tag done"><span class="ms" style="font-size:13px">check_circle</span></span>
+        </div>
+        <p class="task-text done-text">Complete PFMEA for Muffler Assembly Exhaust Silencer</p>
+        <div class="task-footer">
+          <span class="task-date">Oct 15</span>
+          <div class="avatar" style="background:#8e7067;filter:grayscale(1)">SK</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Task Modal -->
+<div class="modal-overlay" id="task-modal" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><span class="ms" style="font-size:18px">add_task</span> &nbsp;Create New Task</h3>
+      <button onclick="closeModalDirect()" style="background:transparent;border:none;color:#fff;cursor:pointer;"><span class="ms">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Task Title *</label>
+        <input id="f-title" type="text" placeholder="e.g. Review GD&T tolerance for assembly X">
+      </div>
+      <div class="field">
+        <label>Part Number</label>
+        <input id="f-pn" type="text" placeholder="P/N: XX-XXXX">
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea id="f-desc" rows="3" placeholder="Task details, acceptance criteria..."></textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="field">
+          <label>Priority</label>
+          <select id="f-priority">
+            <option value="High">🔴 High</option>
+            <option value="Med" selected>🟠 Medium</option>
+            <option value="Low">🔵 Low</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Assignee</label>
+          <select id="f-assignee">
+            <option>Sarah K.</option>
+            <option>Mike T.</option>
+            <option>Priya R.</option>
+            <option>Alex D.</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Due Date</label>
+          <input id="f-date" type="date">
+        </div>
+        <div class="field">
+          <label>Column</label>
+          <select id="f-col">
+            <option value="todo">To Do</option>
+            <option value="inprogress">In Progress</option>
+            <option value="review">Review</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModalDirect()">Cancel</button>
+      <button class="btn btn-primary" onclick="createTask()"><span class="ms" style="font-size:16px">add</span> Create Task</button>
+    </div>
+  </div>
+</div>
+
+<!-- Task Detail Modal -->
+<div class="modal-overlay" id="detail-modal" onclick="closeDetail(event)">
+  <div class="modal" style="width:520px;" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="d-title">Task Detail</h3>
+      <button onclick="document.getElementById('detail-modal').classList.remove('open')" style="background:transparent;border:none;color:#fff;cursor:pointer;"><span class="ms">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;" id="d-tags"></div>
+      <p style="font-size:13px;color:#0b1c30;line-height:1.7;" id="d-desc"></p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;">
+        <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#5a4139;letter-spacing:.05em;margin-bottom:4px;">Assignee</div><div style="font-size:13px;font-weight:600;" id="d-assignee"></div></div>
+        <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#5a4139;letter-spacing:.05em;margin-bottom:4px;">Due Date</div><div style="font-size:13px;font-weight:600;" id="d-date"></div></div>
+      </div>
+      <div style="margin-top:16px;padding-top:14px;border-top:1px solid #eff4ff;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#5a4139;letter-spacing:.05em;margin-bottom:8px;">Activity</div>
+        <div style="font-size:12px;color:#5a4139;"> <span style="color:#d04408;font-weight:600;">Sarah K.</span> added a note: "Awaiting CAD file from design team." — 2h ago</div>
+        <input type="text" placeholder="Add a comment..." style="width:100%;margin-top:10px;padding:8px 12px;border:1px solid #e2bfb4;border-radius:8px;font-size:13px;font-family:Inter,sans-serif;outline:none;" onkeydown="if(event.key==='Enter'&&this.value.trim()){showNotif('Comment added!');this.value=''}">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" onclick="showNotif('Task marked complete!');document.getElementById('detail-modal').classList.remove('open');document.getElementById('stat-done').textContent=parseInt(document.getElementById('stat-done').textContent)+1">Mark Done</button>
+      <button class="btn btn-primary btn-sm" onclick="showNotif('Task updated successfully!')"><span class="ms" style="font-size:14px">edit</span> Edit</button>
+    </div>
+  </div>
+</div>
+
+<!-- Notification -->
+<div class="notif" id="notif"><span class="ms" style="font-size:16px">check_circle</span> <span id="notif-msg"></span></div>
+
+<style>
+@keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+</style>
+
+<script>
+// Animate AI progress bar
+let aiPct = 65;
+setInterval(() => {
+  if (aiPct < 95) { aiPct += 0.3; document.getElementById('ai-bar').style.width = aiPct.toFixed(1) + '%'; }
+}, 500);
+
+function showNotif(msg) {
+  const el = document.getElementById('notif');
+  document.getElementById('notif-msg').textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+let targetCol = 'todo';
+function openModal(col) {
+  targetCol = col || 'todo';
+  document.getElementById('f-col').value = targetCol;
+  document.getElementById('task-modal').classList.add('open');
+}
+function closeModal(e) { if(e.target===document.getElementById('task-modal')) closeModalDirect(); }
+function closeModalDirect() { document.getElementById('task-modal').classList.remove('open'); }
+
+function createTask() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { showNotif('Please enter a task title.'); return; }
+  const pn = document.getElementById('f-pn').value.trim();
+  const priority = document.getElementById('f-priority').value;
+  const assignee = document.getElementById('f-assignee').value;
+  const date = document.getElementById('f-date').value;
+  const col = document.getElementById('f-col').value;
+  const tagClass = priority === 'High' ? 'high' : priority === 'Med' ? 'med' : 'low';
+  const tagArrow = priority === 'High' ? '↑↑' : priority === 'Med' ? '↑' : '−';
+  const initials = assignee.split(' ').map(x=>x[0]).join('');
+  const html = `<div class="task-card" onclick="showTaskDetail('${title}','New engineering task.','${assignee}','${date||'TBD'}','${priority}','${pn||'—'}')">
+    <div class="task-header">
+      <span class="tag pn">${pn || 'New Task'}</span>
+      <span class="tag ${tagClass}">${tagArrow} ${priority}</span>
+    </div>
+    <p class="task-text">${title}</p>
+    <div class="task-footer">
+      <span class="task-date">${date || 'TBD'}</span>
+      <div class="avatar">${initials}</div>
+    </div>
+  </div>`;
+  document.getElementById('tasks-' + col).insertAdjacentHTML('beforeend', html);
+  const cnt = document.getElementById('cnt-' + col);
+  cnt.textContent = parseInt(cnt.textContent) + 1;
+  closeModalDirect();
+  showNotif('Task "' + title.substring(0,30) + '..." created!');
+  document.getElementById('f-title').value = '';
+  document.getElementById('f-pn').value = '';
+  document.getElementById('f-desc').value = '';
+}
+
+function showTaskDetail(title, desc, assignee, date, priority, pn) {
+  document.getElementById('d-title').textContent = title;
+  document.getElementById('d-desc').textContent = desc;
+  document.getElementById('d-assignee').textContent = assignee;
+  document.getElementById('d-date').textContent = date;
+  const tagClass = priority === 'High' ? 'high' : priority === 'Med' ? 'med' : 'low';
+  document.getElementById('d-tags').innerHTML = `<span class="tag pn">${pn}</span><span class="tag ${tagClass}">${priority} Priority</span>`;
+  document.getElementById('detail-modal').classList.add('open');
+}
+
+function closeDetail(e) { if(e.target===document.getElementById('detail-modal')) document.getElementById('detail-modal').classList.remove('open'); }
+
+function setView(v) {
+  document.getElementById('vb-board').classList.toggle('active', v==='board');
+  document.getElementById('vb-list').classList.toggle('active', v==='list');
+  document.getElementById('kanban-board').style.flexDirection = v === 'list' ? 'column' : 'row';
+  if (v === 'list') {
+    document.querySelectorAll('.column').forEach(c => { c.style.width = '100%'; });
+  } else {
+    document.querySelectorAll('.column').forEach(c => { c.style.width = '280px'; });
+  }
+}
+
+function filterByAssignee(val) { showNotif(val ? 'Filtering by ' + val : 'Showing all members.'); }
+function filterByPriority(val) { showNotif(val ? 'Filtering by ' + val + ' priority.' : 'Showing all priorities.'); }
+function searchTasks(val) { if (val.length > 2) showNotif('Searching for "' + val + '"...'); }
+</script>
+</body>
+</html>

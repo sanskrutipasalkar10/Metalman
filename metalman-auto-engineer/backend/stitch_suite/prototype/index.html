@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetalMan Portal - Unified Engineering Suite</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "background": "#f8f9ff",
+                        "surface-variant": "#d3e4fe",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary-container": "#f6fff4",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#51647d",
+                        "surface": "#f8f9ff",
+                        "secondary": "#4c6078",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005228",
+                        "on-secondary-fixed-variant": "#35485f",
+                        "surface-tint": "#ac3400",
+                        "outline": "#8e7067",
+                        "surface-container-high": "#dce9ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "primary-fixed-dim": "#ffb59d",
+                        "primary-fixed": "#ffdbd0",
+                        "on-secondary-fixed": "#061d32",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#ffb59d",
+                        "on-primary-container": "#fffbff",
+                        "outline-variant": "#e2bfb4",
+                        "on-primary-fixed": "#390b00",
+                        "on-error-container": "#93000a",
+                        "on-background": "#0b1c30",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#832600",
+                        "secondary-fixed-dim": "#b4c8e4",
+                        "surface-container": "#e5eeff",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-surface": "#213145",
+                        "secondary-fixed": "#d1e4ff",
+                        "primary": "#a83300",
+                        "surface-dim": "#cbdbf5",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-surface-variant": "#5a4139",
+                        "tertiary-container": "#008645",
+                        "on-tertiary-fixed": "#00210c",
+                        "primary-container": "#d04408",
+                        "tertiary": "#006a35",
+                        "secondary-container": "#cde1fe",
+                        "tertiary-fixed": "#6bfe9c",
+                        "tertiary-fixed-dim": "#4ae183"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "unit": "4px",
+                        "stack-lg": "32px",
+                        "container-padding": "24px",
+                        "gutter": "16px",
+                        "stack-md": "16px",
+                        "max-width-desktop": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["JetBrains Mono"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ── Sidebar nav links ── */
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 10px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #4c6078;
+            text-decoration: none;
+            transition: background 0.15s, color 0.15s;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .nav-link:hover { background: #dce9ff; color: #0b1c30; }
+        .nav-link .material-symbols-outlined { font-size: 18px; flex-shrink: 0; }
+        .nav-link.active { background: #cde1fe; color: #0b1c30; font-weight: 700; }
+        /* ── Sidebar layout ── */
+        #sidebar-container {
+            padding: 16px 12px;
+            width: 224px; /* w-56 */
+            transition: width 0.25s ease;
+        }
+        #sidebar-container.collapsed { width: 56px; padding: 16px 8px; }
+        #sidebar-container.collapsed .nav-label,
+        #sidebar-container.collapsed .sidebar-brand-text,
+        #sidebar-container.collapsed #new-analysis-cta span:last-child,
+        #sidebar-container.collapsed .sidebar-footer-label { display: none; }
+        #sidebar-container.collapsed .nav-link { justify-content: center; gap: 0; padding: 8px; }
+        #sidebar-container.collapsed #new-analysis-cta { padding: 8px; min-width: 0; }
+        #sidebar-container.collapsed #new-analysis-cta .btn-icon { margin: 0; }
+        #collapse-btn { transition: transform 0.25s ease; }
+        #sidebar-container.collapsed #collapse-btn { transform: rotate(180deg); }
+        /* ── Material icons ── */
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 20; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20; }
+        /* ── Iframe ── */
+        iframe { opacity: 0; transition: opacity 0.25s ease-in-out; display: block; }
+        iframe.loaded { opacity: 1; }
+        /* ── Main content transition ── */
+        #main-content { transition: margin-left 0.25s ease; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen overflow-hidden">
+
+    <!-- Mobile Header (Visible only on mobile/tablet) -->
+    <header id="mobile-header" class="lg:hidden fixed top-0 w-full bg-surface-container-low border-b border-outline-variant h-16 flex items-center justify-between px-gutter z-50 transition-all">
+        <div class="flex items-center gap-stack-sm">
+            <button id="mobile-menu-toggle" class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <span class="font-headline-md text-headline-md font-black text-primary">MetalMan</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <div id="corrections-badge-mobile" class="hidden relative cursor-pointer p-1">
+                <span class="material-symbols-outlined text-secondary">edit_note</span>
+                <span class="absolute -top-1 -right-1 bg-primary text-on-primary text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">0</span>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAe-8dq-VqvdSIWk_bb8nNy27FteJnVk3gXQ3ujf0iRLkQZ8Hf2LwtZu_H0MvOsl9404oOSOBl2tNchV1xasmIsSC2Mlr6Ucx9KWmqNvnujFv2yJvY83rT3z4xNcJWxDkBmmU_aC_ra-oL3DpU5rEZcDL7U4MfV2aQiQEonndgBP-dgu8sFEgZxuxZAHkLSFW4x72KnMiBLyWNMsp7-HTQQWH5Tl_bRl0yDztaWK0ImTyltXaQHpjYXMmGXr89xZ6jOFYJUliEjQDii" alt="User" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Sidebar Drawer (Mobile modal backdrop) -->
+    <div id="sidebar-backdrop" class="fixed inset-0 bg-inverse-surface/40 z-40 hidden lg:hidden transition-opacity duration-300"></div>
+
+    <!-- Navigation Sidebar (Shared Shell Component) -->
+    <aside id="sidebar-container" class="bg-surface-container-low flex flex-col fixed left-0 top-0 h-full z-40 w-56 border-r border-outline-variant transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out overflow-y-auto">
+        <!-- Sidebar Header -->
+        <div class="flex items-center gap-2 mb-4 pb-3 border-b border-outline-variant">
+            <div class="w-8 h-8 rounded-lg overflow-hidden bg-primary flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-white" style="font-size:16px">precision_manufacturing</span>
+            </div>
+            <div class="overflow-hidden sidebar-brand-text">
+                <p class="font-black text-primary text-sm leading-none truncate">MetalMan</p>
+                <p class="text-secondary" style="font-size:10px">PPAP Portal</p>
+            </div>
+            <button id="collapse-btn" class="ml-auto text-secondary hover:text-on-surface p-1 rounded hover:bg-surface-container-high" title="Toggle sidebar">
+                <span class="material-symbols-outlined" style="font-size:18px">chevron_left</span>
+            </button>
+        </div>
+        
+        <!-- CTA: New Analysis -->
+        <button id="new-analysis-cta" class="mb-3 w-full bg-primary text-on-primary rounded-lg font-medium flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-all overflow-hidden" style="padding:8px 10px;font-size:0.78rem">
+            <span class="material-symbols-outlined btn-icon" style="font-size:16px">add</span>
+            <span class="nav-label">New Analysis</span>
+        </button>
+
+        <!-- Navigation Links -->
+        <nav class="flex-grow overflow-y-auto">
+            <ul class="flex flex-col" style="gap:2px">
+                <li><a data-page="landing.html" class="nav-link" href="#"><span class="material-symbols-outlined">home</span><span class="nav-label">Home Portal</span></a></li>
+                <li><a data-page="dashboard.html" class="nav-link" href="#"><span class="material-symbols-outlined">dashboard</span><span class="nav-label">Dashboard</span></a></li>
+                <li><a data-page="library.html" class="nav-link" href="#"><span class="material-symbols-outlined">folder_open</span><span class="nav-label">Document Library</span></a></li>
+                <li><a data-page="process.html" class="nav-link" href="#"><span class="material-symbols-outlined">factory</span><span class="nav-label">Process Registry</span></a></li>
+                <li><a data-page="analytics.html" class="nav-link" href="#"><span class="material-symbols-outlined">analytics</span><span class="nav-label">BI Analytics</span></a></li>
+                <li><a data-page="health_review.html" class="nav-link" href="#"><span class="material-symbols-outlined">neurology</span><span class="nav-label">AI Health Review</span></a></li>
+                <li><a data-page="fmea.html" class="nav-link" href="#"><span class="material-symbols-outlined">precision_manufacturing</span><span class="nav-label">FMEA Tools</span></a></li>
+                <li><a data-page="tasks.html" class="nav-link" href="#"><span class="material-symbols-outlined">assignment</span><span class="nav-label">Task Management</span></a></li>
+                <li><a data-page="assistant.html" class="nav-link" href="#"><span class="material-symbols-outlined">smart_toy</span><span class="nav-label">AI Assistant</span></a></li>
+                <li>
+                    <a data-page="correction.html" class="nav-link" href="#" style="justify-content:space-between">
+                        <span style="display:flex;align-items:center;gap:8px"><span class="material-symbols-outlined">edit_note</span><span class="nav-label">Doc Correction</span></span>
+                        <span id="corrections-badge-sidebar" class="hidden bg-primary text-on-primary font-bold px-2 py-0.5 rounded-full" style="font-size:10px">0</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Footer Links -->
+        <div class="mt-auto pt-3 border-t border-outline-variant flex flex-col" style="gap:2px">
+            <a id="logout-button" class="nav-link" style="color:#ba1a1a" href="#">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="nav-label sidebar-footer-label">Logout</span>
+            </a>
+            <a class="nav-link" href="#">
+                <span class="material-symbols-outlined">settings</span>
+                <span class="nav-label sidebar-footer-label">Settings</span>
+            </a>
+            <a class="nav-link" href="#">
+                <span class="material-symbols-outlined">help</span>
+                <span class="nav-label sidebar-footer-label">Support</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Container Frame -->
+    <main id="main-content" class="flex-1 min-h-screen flex flex-col w-full pt-16 lg:pt-0 lg:ml-56 overflow-hidden relative bg-background">
+        <!-- Viewport Loader -->
+        <div id="loader-bar" class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-primary-container z-50 transform scale-x-0 origin-left transition-transform duration-300"></div>
+        
+        <!-- Iframe Canvas View -->
+        <iframe id="viewport-frame" src="pages/landing.html" class="w-full flex-1 border-none" style="height:100vh;" allow="clipboard-write"></iframe>
+    </main>
+
+    <!-- Modal: New Analysis -->
+    <div id="analysis-modal" class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-sm z-50 flex items-center justify-center hidden transition-opacity duration-300">
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-container-padding max-w-lg w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300">
+            <div class="flex justify-between items-center mb-stack-md border-b border-outline-variant/30 pb-3">
+                <h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">add_chart</span>
+                    Launch New PPAP Analysis
+                </h3>
+                <button id="close-analysis-modal" class="text-secondary hover:text-on-surface p-1 rounded-full hover:bg-surface-container transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <form id="new-analysis-form" class="space-y-4">
+                <div class="flex flex-col gap-unit">
+                    <label class="font-body-sm text-body-sm font-bold text-on-surface" for="part-number">Part Number / Reference</label>
+                    <input class="w-full bg-surface-bright border border-outline-variant rounded-lg p-3 font-body-sm text-body-sm text-on-surface placeholder:text-secondary-fixed-dim focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" id="part-number" placeholder="e.g. PN-44-X-902, 3W-HS-03" required type="text">
+                </div>
+                
+                <div class="flex flex-col gap-unit">
+                    <label class="font-body-sm text-body-sm font-bold text-on-surface" for="part-name">Component Name</label>
+                    <input class="w-full bg-surface-bright border border-outline-variant rounded-lg p-3 font-body-sm text-body-sm text-on-surface placeholder:text-secondary-fixed-dim focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" id="part-name" placeholder="e.g. Fuselage Strut, Windshield Frame" required type="text">
+                </div>
+
+                <div class="flex flex-col gap-unit">
+                    <label class="font-body-sm text-body-sm font-bold text-on-surface" for="facility-select">Manufacturing Location</label>
+                    <select class="w-full bg-surface-bright border border-outline-variant rounded-lg p-3 font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" id="facility-select">
+                        <option>Aurangabad MIDC Complex</option>
+                        <option>Pithampur Sector 3</option>
+                        <option>Hosur Poonapalli Facility</option>
+                        <option>Pantnagar SIDCUL Complex</option>
+                    </select>
+                </div>
+                
+                <!-- Master File Upload -->
+                <div class="flex flex-col gap-unit">
+                    <label class="font-body-sm text-body-sm font-bold text-on-surface" for="master-file-upload">
+                        <span style="display:flex;align-items:center;gap:6px;">
+                            <span class="material-symbols-outlined" style="font-size:16px;color:#a83300">description</span>
+                            Master File
+                            <span style="font-size:10px;font-weight:400;color:#4c6078;font-family:'JetBrains Mono'">(Drawing / Spec Sheet)</span>
+                        </span>
+                    </label>
+                    <div id="master-drop-zone" class="border-2 border-dashed border-outline-variant/60 rounded-lg px-4 py-4 flex items-center gap-3 bg-surface-container-low hover:bg-surface-container-high transition-colors cursor-pointer relative group">
+                        <span class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors" style="font-size:26px">upload_file</span>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-label-md text-label-md text-on-surface text-sm" id="master-file-name">Click to browse or drag &amp; drop</p>
+                            <p class="font-body-sm text-body-sm text-secondary" style="font-size:11px">PDF, DOCX, XLSX — up to 50MB</p>
+                        </div>
+                        <input id="master-file-upload" type="file" accept=".pdf,.docx,.xlsx,.xls,.doc" class="absolute inset-0 opacity-0 cursor-pointer">
+                    </div>
+                </div>
+
+                <!-- 2D CAD Files Upload -->
+                <div class="flex flex-col gap-unit">
+                    <label class="font-body-sm text-body-sm font-bold text-on-surface" for="cad-2d-upload">
+                        <span style="display:flex;align-items:center;gap:6px;">
+                            <span class="material-symbols-outlined" style="font-size:16px;color:#a83300">polyline</span>
+                            2D CAD Files
+                            <span style="font-size:10px;font-weight:400;color:#4c6078;font-family:'JetBrains Mono'">(DXF / DWG / PDF)</span>
+                        </span>
+                    </label>
+                    <div id="cad-2d-drop-zone" class="border-2 border-dashed border-outline-variant/60 rounded-lg px-4 py-4 flex items-center gap-3 bg-surface-container-low hover:bg-surface-container-high transition-colors cursor-pointer relative group">
+                        <span class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors" style="font-size:26px">space_dashboard</span>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-label-md text-label-md text-on-surface text-sm" id="cad-2d-file-name">Click to browse or drag &amp; drop</p>
+                            <p class="font-body-sm text-body-sm text-secondary" style="font-size:11px">DXF, DWG, PDF — up to 100MB</p>
+                        </div>
+                        <input id="cad-2d-upload" type="file" accept=".dxf,.dwg,.pdf" multiple class="absolute inset-0 opacity-0 cursor-pointer">
+                    </div>
+                </div>
+
+                <!-- STP Files Upload -->
+                <div class="flex flex-col gap-unit">
+                    <label class="font-body-sm text-body-sm font-bold text-on-surface" for="stp-upload">
+                        <span style="display:flex;align-items:center;gap:6px;">
+                            <span class="material-symbols-outlined" style="font-size:16px;color:#a83300">view_in_ar</span>
+                            STP / STEP Files
+                            <span style="font-size:10px;font-weight:400;color:#4c6078;font-family:'JetBrains Mono'">(3D Geometry)</span>
+                        </span>
+                    </label>
+                    <div id="stp-drop-zone" class="border-2 border-dashed border-outline-variant/60 rounded-lg px-4 py-4 flex items-center gap-3 bg-surface-container-low hover:bg-surface-container-high transition-colors cursor-pointer relative group">
+                        <span class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors" style="font-size:26px">3d_rotation</span>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-label-md text-label-md text-on-surface text-sm" id="stp-file-name">Click to browse or drag &amp; drop</p>
+                            <p class="font-body-sm text-body-sm text-secondary" style="font-size:11px">STP, STEP, IGES — up to 200MB</p>
+                        </div>
+                        <input id="stp-upload" type="file" accept=".stp,.step,.iges,.igs" multiple class="absolute inset-0 opacity-0 cursor-pointer">
+                    </div>
+                </div>
+
+                <div class="flex gap-stack-sm pt-4 border-t border-outline-variant/30">
+                    <button id="cancel-analysis" type="button" class="flex-1 bg-white border border-secondary text-secondary py-3 rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+                        Cancel
+                    </button>
+                    <button type="submit" class="flex-[2] bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md shadow-sm hover:bg-primary-container transition-colors flex items-center justify-center gap-2">
+                        Initialize Pipeline
+                        <span class="material-symbols-outlined" style="font-size: 18px;">play_arrow</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script Block -->
+    <script>
+        // Centralized State Management Store
+        const appState = {
+            isLoggedIn: false,
+            currentTab: 'landing.html',
+            libraryState: {
+                searchQuery: '',
+                selectedFiles: []
+            },
+            tasksState: {
+                searchQuery: '',
+                filterActive: 'board'
+            },
+            assistantState: {
+                chatLog: []
+            },
+            correctionsState: {
+                pendingQueue: [
+                    { doc: 'Spec-Alpha-v2.pdf', ref: 'Table 4, Row 2', oldVal: '0.05mm', newVal: '0.02mm' },
+                    { doc: 'Tolerance-Report-Q3.docx', ref: 'Section 3.1', oldVal: 'Alloy 6061', newVal: 'Alloy 7075-T6' },
+                    { doc: 'Tolerance-Report-Q3.docx', ref: 'Header', oldVal: 'Draft', newVal: 'Final Approved' }
+                ]
+            },
+            newAnalysisList: []
+        };
+
+        // Navigation elements mapping
+        const sidebar = document.getElementById('sidebar-container');
+        const mainContent = document.getElementById('main-content');
+        const mobileHeader = document.getElementById('mobile-header');
+        const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+        const viewport = document.getElementById('viewport-frame');
+        const loader = document.getElementById('loader-bar');
+        const links = document.querySelectorAll('.nav-link');
+        const logoutBtn = document.getElementById('logout-button');
+        const collapseBtn = document.getElementById('collapse-btn');
+
+        // Sidebar collapse toggle
+        collapseBtn.addEventListener('click', () => {
+            const collapsed = sidebar.classList.toggle('collapsed');
+            if (collapsed) {
+                mainContent.style.marginLeft = '56px';
+            } else {
+                mainContent.style.marginLeft = '224px';
+            }
+        });
+
+        // Update view rendering based on login status
+        function updateLayoutView() {
+            if (!appState.isLoggedIn) {
+                // Hide sidebar and mobile header, let landing/login fill screen
+                sidebar.style.transform = 'translateX(-100%)';
+                mainContent.style.marginLeft = '0px';
+                mainContent.style.paddingTop = '0px';
+                mobileHeader.classList.add('hidden');
+                logoutBtn.parentElement.classList.add('hidden');
+            } else {
+                // Show sidebar and mobile header on desktop
+                if (window.innerWidth >= 1024) {
+                    sidebar.style.transform = 'translateX(0)';
+                    const isCollapsed = sidebar.classList.contains('collapsed');
+                    mainContent.style.marginLeft = isCollapsed ? '56px' : '224px';
+                } else {
+                    sidebar.style.transform = 'translateX(-100%)';
+                    mainContent.style.marginLeft = '0px';
+                    mobileHeader.classList.remove('hidden');
+                }
+                mainContent.style.paddingTop = window.innerWidth >= 1024 ? '0px' : '64px';
+                logoutBtn.parentElement.classList.remove('hidden');
+            }
+            updateBadges();
+        }
+
+        // Navigate Viewport function
+        function navigate(page) {
+            appState.currentTab = page;
+            
+            // Handle visual loader bar
+            loader.style.transform = 'scale-x(0.3)';
+            viewport.classList.remove('loaded');
+            
+            // Set frame src
+            viewport.src = `pages/${page}`;
+            
+            // Set navigation link active states
+            links.forEach(link => {
+                const target = link.getAttribute('data-page');
+                if (target === page) {
+                    link.classList.add('active');
+                    const icon = link.querySelector('.material-symbols-outlined');
+                    if (icon) icon.classList.add('fill');
+                } else {
+                    link.classList.remove('active');
+                    const icon = link.querySelector('.material-symbols-outlined');
+                    if (icon) icon.classList.remove('fill');
+                }
+            });
+            
+            // Close mobile menu if open
+            closeMobileMenu();
+        }
+
+        // Handle page load completion animation
+        viewport.addEventListener('load', () => {
+            loader.style.transform = 'scale-x(1)';
+            setTimeout(() => {
+                loader.style.transform = 'scale-x(0)';
+            }, 200);
+            viewport.classList.add('loaded');
+            
+            // Synchronize state with child viewport immediately after load
+            syncStateToChild();
+        });
+
+        // Sync local states to active child page
+        function syncStateToChild() {
+            viewport.contentWindow.postMessage({
+                type: 'STATE_SYNC',
+                state: appState
+            }, '*');
+        }
+
+        // Toggle badge counters
+        function updateBadges() {
+            const count = appState.correctionsState.pendingQueue.length;
+            const sidebarBadge = document.getElementById('corrections-badge-sidebar');
+            const mobileBadge = document.getElementById('corrections-badge-mobile');
+            
+            if (count > 0) {
+                sidebarBadge.textContent = count;
+                sidebarBadge.classList.remove('hidden');
+                mobileBadge.querySelector('span:last-child').textContent = count;
+                mobileBadge.classList.remove('hidden');
+            } else {
+                sidebarBadge.classList.add('hidden');
+                mobileBadge.classList.add('hidden');
+            }
+        }
+
+        // Mobile responsive drawers triggers
+        const menuToggle = document.getElementById('mobile-menu-toggle');
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.remove('-translate-x-full');
+            sidebarBackdrop.classList.remove('hidden');
+        });
+
+        sidebarBackdrop.addEventListener('click', closeMobileMenu);
+
+        function closeMobileMenu() {
+            if (window.innerWidth < 1024) {
+                sidebar.classList.add('-translate-x-full');
+                sidebarBackdrop.classList.add('hidden');
+            }
+        }
+
+        // Handle window resizing
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.remove('-translate-x-full');
+                sidebarBackdrop.classList.add('hidden');
+                if (appState.isLoggedIn) {
+                    mainContent.classList.add('lg:ml-56');
+                }
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                mainContent.classList.remove('lg:ml-56');
+            }
+            updateLayoutView();
+        });
+
+        // Bind Link Click Handlers
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = link.getAttribute('data-page');
+                if (targetPage) {
+                    navigate(targetPage);
+                }
+            });
+        });
+
+        // Close/Open New Analysis Modals
+        const newAnalysisCta = document.getElementById('new-analysis-cta');
+        const analysisModal = document.getElementById('analysis-modal');
+        const closeAnalysisModal = document.getElementById('close-analysis-modal');
+        const cancelAnalysis = document.getElementById('cancel-analysis');
+        const newAnalysisForm = document.getElementById('new-analysis-form');
+
+        function openModal() {
+            analysisModal.classList.remove('hidden');
+            analysisModal.querySelector('div').classList.remove('scale-95');
+            analysisModal.querySelector('div').classList.add('scale-100');
+        }
+
+        function closeModal() {
+            analysisModal.classList.add('hidden');
+            analysisModal.querySelector('div').classList.remove('scale-100');
+            analysisModal.querySelector('div').classList.add('scale-95');
+        }
+
+        newAnalysisCta.addEventListener('click', openModal);
+        closeAnalysisModal.addEventListener('click', closeModal);
+        cancelAnalysis.addEventListener('click', closeModal);
+
+        // Submit New Analysis form handler
+        newAnalysisForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const partNum = document.getElementById('part-number').value;
+            const partName = document.getElementById('part-name').value;
+            const facility = document.getElementById('facility-select').value;
+            
+            const newItem = {
+                partNum,
+                partName,
+                facility,
+                timestamp: new Date().toISOString()
+            };
+            
+            appState.newAnalysisList.unshift(newItem);
+            closeModal();
+            newAnalysisForm.reset();
+            
+            // Notify child frame (if dashboard is active, it can append this new card!)
+            viewport.contentWindow.postMessage({
+                type: 'NEW_ANALYSIS_CREATED',
+                analysis: newItem
+            }, '*');
+            
+            // Go to dashboard to show it
+            navigate('dashboard.html');
+        });
+
+        // Handle Logout
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            appState.isLoggedIn = false;
+            // Show Home link again when logged out
+            const homeLink = document.querySelector('.nav-link[data-page="landing.html"]');
+            if (homeLink) homeLink.parentElement.style.display = '';
+            sidebar.classList.remove('collapsed');
+            updateLayoutView();
+            navigate('landing.html');
+        });
+
+        // Setup mobile correction badge click redirect
+        document.getElementById('corrections-badge-mobile').addEventListener('click', () => {
+            navigate('correction.html');
+        });
+
+        // Core Window Message Listener (CORS-friendly for local files)
+        window.addEventListener('message', (event) => {
+            const data = event.data;
+            if (!data || typeof data !== 'object') return;
+
+            switch (data.type) {
+                case 'LOGIN_SUCCESS':
+                    appState.isLoggedIn = true;
+                    updateLayoutView();
+                    // After successful login, navigate to dashboard (main app area)
+                    // After successful login, navigate to dashboard (main app area)
+                    navigate('dashboard.html');
+                    // Hide Home link in sidebar after login
+                    const homeLink = document.querySelector('.nav-link[data-page="landing.html"]');
+                    if (homeLink) homeLink.parentElement.style.display = 'none';
+                    break;
+                case 'NAVIGATE':
+                    if (data.page) {
+                        navigate(data.page);
+                    }
+                    break;
+                case 'UPDATE_STATE':
+                    if (data.state) {
+                        // Merge child state updates
+                        Object.keys(data.state).forEach(key => {
+                            if (typeof data.state[key] === 'object' && !Array.isArray(data.state[key])) {
+                                appState[key] = { ...appState[key], ...data.state[key] };
+                            } else {
+                                appState[key] = data.state[key];
+                            }
+                        });
+                        updateBadges();
+                        // Relay update back to sync other sub-iframes if needed
+                        syncStateToChild();
+                    }
+                    break;
+                case 'GET_STATE':
+                    syncStateToChild();
+                    break;
+                case 'TRIGGER_NEW_ANALYSIS':
+                    openModal();
+                    break;
+            }
+        });
+
+        // Initial setup
+        updateLayoutView();
+    </script>
+</body>
+</html>

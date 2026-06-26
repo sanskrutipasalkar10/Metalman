@@ -1,0 +1,256 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Engineering Chatbot Interface</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;900&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ba1a1a",
+                      "background": "#f8f9ff",
+                      "surface-variant": "#d3e4fe",
+                      "on-surface": "#0b1c30",
+                      "on-tertiary-container": "#f6fff4",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-container": "#51647d",
+                      "surface": "#f8f9ff",
+                      "secondary": "#4c6078",
+                      "surface-bright": "#f8f9ff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-fixed-variant": "#005228",
+                      "on-secondary-fixed-variant": "#35485f",
+                      "surface-tint": "#ac3400",
+                      "outline": "#8e7067",
+                      "surface-container-high": "#dce9ff",
+                      "surface-container-highest": "#d3e4fe",
+                      "primary-fixed-dim": "#ffb59d",
+                      "primary-fixed": "#ffdbd0",
+                      "on-secondary-fixed": "#061d32",
+                      "on-secondary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#ffb59d",
+                      "on-primary-container": "#fffbff",
+                      "outline-variant": "#e2bfb4",
+                      "on-primary-fixed": "#390b00",
+                      "on-error-container": "#93000a",
+                      "on-background": "#0b1c30",
+                      "on-error": "#ffffff",
+                      "on-primary-fixed-variant": "#832600",
+                      "secondary-fixed-dim": "#b4c8e4",
+                      "surface-container": "#e5eeff",
+                      "surface-container-low": "#eff4ff",
+                      "inverse-surface": "#213145",
+                      "secondary-fixed": "#d1e4ff",
+                      "primary": "#a83300",
+                      "surface-dim": "#cbdbf5",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-surface-variant": "#5a4139",
+                      "tertiary-container": "#008645",
+                      "on-tertiary-fixed": "#00210c",
+                      "primary-container": "#d04408",
+                      "tertiary": "#006a35",
+                      "secondary-container": "#cde1fe",
+                      "tertiary-fixed": "#6bfe9c",
+                      "tertiary-fixed-dim": "#4ae183"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-sm": "8px",
+                      "unit": "4px",
+                      "stack-lg": "32px",
+                      "container-padding": "24px",
+                      "gutter": "16px",
+                      "stack-md": "16px",
+                      "max-width-desktop": "1440px"
+              },
+              "fontFamily": {
+                      "headline-xl": ["Hanken Grotesk"],
+                      "body-sm": ["Inter"],
+                      "headline-lg": ["Hanken Grotesk"],
+                      "body-lg": ["Inter"],
+                      "label-sm": ["JetBrains Mono"],
+                      "label-md": ["JetBrains Mono"],
+                      "headline-lg-mobile": ["Hanken Grotesk"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "label-md": ["13px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for chat area */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dce9ff; /* surface-container-high */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #cde1fe; /* secondary-container */
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md h-screen flex overflow-hidden selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Main Chat Canvas -->
+<main class="flex-1 flex flex-col h-full bg-surface relative">
+<!-- Top App Bar / Chat Header -->
+<header class="h-16 flex items-center justify-between px-container-padding bg-surface/80 backdrop-blur-md border-b border-outline-variant sticky top-0 z-30">
+<div class="flex items-center gap-stack-sm">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined">neurology</span>
+</div>
+<div>
+<h2 class="font-headline-md text-body-lg font-bold text-on-surface leading-tight">AI Documentation Assistant</h2>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-secondary">System Ready</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-stack-sm">
+<button class="p-2 rounded-lg text-secondary hover:bg-surface-container hover:text-on-surface transition-colors" title="Export Chat Log">
+<span class="material-symbols-outlined">download</span>
+</button>
+<button class="p-2 rounded-lg text-secondary hover:bg-surface-container hover:text-on-surface transition-colors" title="Clear Context">
+<span class="material-symbols-outlined">delete_sweep</span>
+</button>
+</div>
+</header>
+<!-- Chat History Area -->
+<div class="flex-1 overflow-y-auto p-container-padding flex flex-col gap-stack-lg scroll-smooth pb-32">
+<!-- Date Divider -->
+<div class="flex justify-center">
+<span class="px-3 py-1 bg-surface-container-low rounded-full font-label-sm text-label-sm text-secondary">Today, 08:42 AM</span>
+</div>
+<!-- Bot Message (Welcome) -->
+<div class="flex gap-stack-sm max-w-3xl">
+<div class="w-8 h-8 rounded-full bg-primary-container flex-shrink-0 flex items-center justify-center text-on-primary-container mt-1">
+<span class="material-symbols-outlined text-[18px]">smart_toy</span>
+</div>
+<div class="flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-secondary ml-1">MetalMan AI</span>
+<div class="bg-surface-container-high text-on-surface p-stack-md rounded-xl rounded-tl-none shadow-[0_2px_4px_rgba(11,28,48,0.02)]">
+<p class="font-body-md text-body-md leading-relaxed">
+                            System initialized. Engineering datasets synchronized.
+                        </p>
+<p class="font-body-md text-body-md leading-relaxed mt-2 font-medium">
+                            How can I help with your PPAP documentation today?
+                        </p>
+</div>
+<!-- Quick Actions Grid (Bento style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-sm mt-stack-sm">
+<!-- Action 1 -->
+<button class="flex items-start gap-stack-sm p-stack-sm bg-surface-container-lowest border border-outline-variant hover:border-primary hover:shadow-[0_4px_12px_rgba(168,51,0,0.08)] transition-all rounded-lg text-left group">
+<div class="p-2 rounded bg-surface-container text-primary group-hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-on-surface block mb-0.5">Check Part Status</span>
+<span class="font-body-sm text-body-sm text-secondary block line-clamp-1">"Check part #99004207 status"</span>
+</div>
+</button>
+<!-- Action 2 -->
+<button class="flex items-start gap-stack-sm p-stack-sm bg-surface-container-lowest border border-outline-variant hover:border-primary hover:shadow-[0_4px_12px_rgba(168,51,0,0.08)] transition-all rounded-lg text-left group">
+<div class="p-2 rounded bg-surface-container text-primary group-hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-[20px]">menu_book</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-on-surface block mb-0.5">Knowledge Base</span>
+<span class="font-body-sm text-body-sm text-secondary block line-clamp-1">"What is a PFMEA?"</span>
+</div>
+</button>
+<!-- Action 3 -->
+<button class="flex items-start gap-stack-sm p-stack-sm bg-surface-container-lowest border border-outline-variant hover:border-primary hover:shadow-[0_4px_12px_rgba(168,51,0,0.08)] transition-all rounded-lg text-left group md:col-span-2">
+<div class="p-2 rounded bg-surface-container text-primary group-hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-[20px]">magic_button</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-on-surface block mb-0.5">Draft Control Plan</span>
+<span class="font-body-sm text-body-sm text-secondary block">"Generate a baseline control plan for CNC milling operation OP-40"</span>
+</div>
+</button>
+</div>
+</div>
+</div>
+<!-- Example of a Data-Driven Bot Response (If user had clicked an action) - Hidden by default for initial state, but structured for context -->
+<!-- 
+            <div class="flex gap-stack-sm max-w-3xl self-end flex-row-reverse mt-stack-lg">
+                <div class="flex flex-col gap-2 items-end">
+                    <span class="font-label-sm text-label-sm text-secondary mr-1">You</span>
+                    <div class="bg-primary text-on-primary p-stack-md rounded-xl rounded-tr-none shadow-sm">
+                        <p class="font-body-md text-body-md">Check part #99004207 status</p>
+                    </div>
+                </div>
+            </div> 
+            -->
+</div>
+<!-- Input Footer Area -->
+<div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-surface via-surface to-transparent pt-stack-lg pb-container-padding px-container-padding z-20">
+<div class="max-w-4xl mx-auto">
+<div class="relative bg-surface-container-lowest rounded-xl border border-outline-variant shadow-[0_8px_24px_rgba(11,28,48,0.06)] focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all flex items-end p-2 gap-2">
+<button class="p-2 text-secondary hover:text-primary hover:bg-primary-fixed-dim/20 rounded-lg transition-colors flex-shrink-0 mb-1" title="Attach Engineering Drawing">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+<textarea class="w-full bg-transparent border-none focus:ring-0 resize-none font-body-md text-body-md text-on-surface placeholder:text-secondary py-3 px-1 max-h-32 min-h-[44px]" placeholder="Type a query, part number, or technical request..." rows="1"></textarea>
+<div class="flex flex-col gap-2 mb-1 flex-shrink-0">
+<button class="p-2 bg-primary text-on-primary hover:bg-primary-container hover:text-on-primary-container rounded-lg transition-colors shadow-sm flex items-center justify-center w-10 h-10" title="Send Query">
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+</div>
+<div class="text-center mt-2">
+<span class="font-label-sm text-label-sm text-secondary opacity-70">AI responses may require engineering validation. Verify critical tolerances against master CAD.</span>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple auto-resize for textarea
+        const textarea = document.querySelector('textarea');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+            if(this.value === '') {
+                this.style.height = 'auto';
+            }
+        });
+    </script>
+</body></html>

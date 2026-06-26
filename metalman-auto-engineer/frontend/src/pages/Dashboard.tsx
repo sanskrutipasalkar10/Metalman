@@ -86,6 +86,10 @@ const Dashboard = () => {
                 <Crop className="h-4 w-4" /> Cropper
               </a>
 
+              <a href="/stitch" className="flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 text-sm font-bold text-primary transition-all hover:bg-primary/20 hover:shadow-glow">
+                <Sparkles className="h-4 w-4" /> Application Demo
+              </a>
+
               <a href="#" className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
                 <History className="h-4 w-4" /> History
               </a>
@@ -99,6 +103,20 @@ const Dashboard = () => {
               <Bell className="h-5 w-5 text-muted-foreground" />
               <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-accent" />
             </Button>
+            
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => {
+                localStorage.removeItem("metalman_token");
+                localStorage.removeItem("metalman_user");
+                window.location.href = "/login";
+              }}
+              title="Logout"
+            >
+              <LogOut className="h-5 w-5 text-muted-foreground" />
+            </Button>
+
             <Avatar className="h-9 w-9 border border-border shadow-sm">
               <AvatarFallback className="bg-primary/5 text-xs font-bold">ME</AvatarFallback>
             </Avatar>

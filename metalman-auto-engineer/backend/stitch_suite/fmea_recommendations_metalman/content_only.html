@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FMEA Tools — Metalman</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f0f4ff;color:#0b1c30;min-height:100vh}
+.ms{font-family:'Material Symbols Outlined';vertical-align:middle;user-select:none}
+.ms.fill{font-variation-settings:'FILL' 1}
+.page-hdr{background:#fff;border-bottom:1px solid #e2bfb4;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.page-title{font-size:22px;font-weight:800}
+.page-sub{font-size:13px;color:#5a4139;margin-top:2px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:'Inter',sans-serif}
+.btn-outline{background:#fff;border:1px solid #8e7067;color:#4c6078}.btn-outline:hover{background:#eff4ff}
+.btn-primary{background:#d04408;color:#fff}.btn-primary:hover{background:#a83300}
+.btn-sm{padding:5px 12px;font-size:12px}
+/* Toolbar */
+.toolbar{display:flex;align-items:center;gap:10px;padding:14px 24px;flex-wrap:wrap}
+select.fil{padding:7px 12px;border:1px solid #e2bfb4;border-radius:8px;font-size:13px;background:#fff;outline:none;cursor:pointer;color:#0b1c30}
+.srch{position:relative}
+.srch input{padding:8px 12px 8px 34px;border:1px solid #e2bfb4;border-radius:8px;font-size:13px;outline:none;background:#fff;width:220px}
+.srch input:focus{border-color:#d04408}
+.srch .si{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:#8e7067;font-size:17px}
+/* Summary badges */
+.summary-row{display:flex;gap:12px;padding:0 24px 16px;flex-wrap:wrap}
+.sb{padding:8px 16px;border-radius:20px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px}
+.sb-red{background:#ffdad6;color:#ba1a1a}
+.sb-orange{background:#ffdbd0;color:#a83300}
+.sb-green{background:#dcfce7;color:#006a35}
+/* Table */
+.tbl-wrap{padding:0 24px}
+.tbl{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e2bfb4;font-size:13px;margin-bottom:16px}
+.tbl thead tr{background:#eff4ff}
+.tbl th{padding:11px 14px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#5a4139;border-bottom:1px solid #e2bfb4;cursor:pointer}
+.tbl td{padding:11px 14px;border-bottom:1px solid #f0f4ff;vertical-align:middle}
+.tbl tbody tr:hover{background:#eff4ff;cursor:pointer}
+.tbl tbody tr:last-child td{border-bottom:none}
+.rpn-pill{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:800;font-family:'JetBrains Mono',monospace}
+.rpn-high{background:#ffdad6;color:#ba1a1a}
+.rpn-med{background:#fff8e6;color:#7c5c00}
+.rpn-low{background:#dcfce7;color:#006a35}
+.sev-badge{display:inline-block;width:24px;height:24px;border-radius:4px;text-align:center;line-height:24px;font-size:12px;font-weight:800}
+/* Detail modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.42);backdrop-filter:blur(3px);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:14px;width:560px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow:hidden;max-height:90vh;overflow-y:auto}
+.modal-hdr{background:#d04408;color:#fff;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1}
+.modal-body{padding:22px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#5a4139;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:8px 12px;border:1px solid #e2bfb4;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#d04408}
+.grid2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.rpn-calc{background:#eff4ff;border:1px solid #dce9ff;border-radius:10px;padding:14px 18px;text-align:center;margin:16px 0}
+.rpn-val{font-size:36px;font-weight:900;font-family:'JetBrains Mono',monospace}
+.modal-ftr{padding:0 22px 20px;display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:0;background:#fff;border-top:1px solid #f0f4ff;padding-top:14px}
+/* AI Recommendations */
+.ai-recs{padding:0 24px 24px}
+.ai-rec-card{background:#fff;border:1px solid #e2bfb4;border-radius:10px;padding:16px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;margin-bottom:10px;cursor:default;transition:box-shadow .15s}
+.ai-rec-card:hover{box-shadow:0 4px 16px rgba(208,68,8,.1);border-color:#d04408}
+.rec-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.notif{position:fixed;bottom:20px;right:20px;background:#0b1c30;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;transform:translateY(80px);opacity:0;transition:all .3s;z-index:999;display:flex;align-items:center;gap:8px}
+.notif.show{transform:translateY(0);opacity:1}
+</style>
+</head>
+<body>
+
+<div class="page-hdr">
+  <div>
+    <div class="page-title">FMEA Tools</div>
+    <div class="page-sub">Failure Mode & Effects Analysis — Risk Assessment & Control Planning</div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn btn-outline btn-sm" onclick="showNotif('FMEA template exported as Excel.')"><span class="ms" style="font-size:16px">download</span> Export</button>
+    <button class="btn btn-primary" onclick="document.getElementById('new-fmea-modal').classList.add('open')"><span class="ms" style="font-size:16px">add</span> New FMEA Entry</button>
+  </div>
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <div class="srch"><span class="ms si">search</span><input type="text" placeholder="Search failure modes, P/N..." oninput="if(this.value.length>2)showNotif('Searching: '+this.value)"></div>
+  <select class="fil" onchange="if(this.value)showNotif('Filtered by part: '+this.value)">
+    <option value="">All Parts</option>
+    <option>2 Wheeler Chassis</option>
+    <option>Muffler Assembly</option>
+    <option>Motorcycle Handle</option>
+    <option>Seating System</option>
+  </select>
+  <select class="fil" onchange="if(this.value)showNotif('Showing RPN > '+this.value)">
+    <option value="">All RPN</option>
+    <option value="100">Critical (>100)</option>
+    <option value="50">High (>50)</option>
+    <option value="30">Medium (>30)</option>
+  </select>
+  <button class="btn btn-outline btn-sm" onclick="document.getElementById('rpn-calc-modal').classList.add('open')"><span class="ms" style="font-size:16px">calculate</span> RPN Calculator</button>
+</div>
+
+<!-- Summary -->
+<div class="summary-row">
+  <div class="sb sb-red"><span class="ms fill" style="font-size:16px">priority_high</span> 4 Critical (RPN > 100)</div>
+  <div class="sb sb-orange"><span class="ms fill" style="font-size:16px">warning</span> 9 High (RPN 50-100)</div>
+  <div class="sb sb-green"><span class="ms fill" style="font-size:16px">check_circle</span> 23 Low (RPN < 50)</div>
+</div>
+
+<!-- FMEA Table -->
+<div class="tbl-wrap">
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th onclick="showNotif('Sorted by Part Number')">Part / Process ↕</th>
+        <th>Failure Mode</th>
+        <th>Effect</th>
+        <th>SEV</th>
+        <th>OCC</th>
+        <th>DET</th>
+        <th>RPN</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr onclick="openDetail('Muffler Weld Porosity','MA-2024-M4')">
+        <td><div style="font-weight:600">Muffler Assembly</div><div style="font-size:11px;color:#5a4139;font-family:'JetBrains Mono',monospace">MA-2024-M4 · Welding</div></td>
+        <td>Weld porosity — exhaust gas leak</td>
+        <td>Safety risk, warranty failure</td>
+        <td><span class="sev-badge" style="background:#ffdad6;color:#ba1a1a">8</span></td>
+        <td><span class="sev-badge" style="background:#fff8e6;color:#7c5c00">3</span></td>
+        <td><span class="sev-badge" style="background:#fff8e6;color:#7c5c00">4</span></td>
+        <td><span class="rpn-pill rpn-high">96</span></td>
+        <td><button class="btn btn-primary btn-sm" onclick="event.stopPropagation();showNotif('Action plan assigned to QA team.')">Assign</button></td>
+      </tr>
+      <tr onclick="openDetail('Weld Undercut Crack','MA-2024-M4')">
+        <td><div style="font-weight:600">Muffler Assembly</div><div style="font-size:11px;color:#5a4139;font-family:'JetBrains Mono',monospace">MA-2024-M4 · Welding</div></td>
+        <td>Undercut at weld toe — crack initiation</td>
+        <td>Structural fatigue failure</td>
+        <td><span class="sev-badge" style="background:#ffdad6;color:#ba1a1a">7</span></td>
+        <td><span class="sev-badge" style="background:#eff4ff;color:#4c6078">2</span></td>
+        <td><span class="sev-badge" style="background:#fff8e6;color:#7c5c00">5</span></td>
+        <td><span class="rpn-pill rpn-med">70</span></td>
+        <td><button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNotif('Review scheduled.')">Review</button></td>
+      </tr>
+      <tr onclick="openDetail('Chassis Hole Misalignment','TB-2024-X9')">
+        <td><div style="font-weight:600">2-Wheeler Chassis</div><div style="font-size:11px;color:#5a4139;font-family:'JetBrains Mono',monospace">TB-2024-X9 · Milling</div></td>
+        <td>Mounting hole positional error ± 0.3mm</td>
+        <td>Assembly misalignment, customer RMA</td>
+        <td><span class="sev-badge" style="background:#ffdad6;color:#ba1a1a">8</span></td>
+        <td><span class="sev-badge" style="background:#eff4ff;color:#4c6078">2</span></td>
+        <td><span class="sev-badge" style="background:#eff4ff;color:#4c6078">2</span></td>
+        <td><span class="rpn-pill rpn-med">32</span></td>
+        <td><button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNotif('Control plan updated.')">Update CP</button></td>
+      </tr>
+      <tr onclick="openDetail('Forging Underfill','HA-2024-B1')">
+        <td><div style="font-weight:600">Motorcycle Handle</div><div style="font-size:11px;color:#5a4139;font-family:'JetBrains Mono',monospace">HA-2024-B1 · Forging</div></td>
+        <td>Material underfill in die cavity</td>
+        <td>Dimensional non-conformance, scrap</td>
+        <td><span class="sev-badge" style="background:#fff8e6;color:#7c5c00">6</span></td>
+        <td><span class="sev-badge" style="background:#fff8e6;color:#7c5c00">4</span></td>
+        <td><span class="sev-badge" style="background:#eff4ff;color:#4c6078">3</span></td>
+        <td><span class="rpn-pill rpn-med">72</span></td>
+        <td><button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNotif('Assigned to production team.')">Assign</button></td>
+      </tr>
+      <tr onclick="openDetail('Surface Decarburization','HA-2024-B1')">
+        <td><div style="font-weight:600">Motorcycle Handle</div><div style="font-size:11px;color:#5a4139;font-family:'JetBrains Mono',monospace">HA-2024-B1 · Heat Treat</div></td>
+        <td>Surface decarburization (>0.1mm)</td>
+        <td>Reduced fatigue strength</td>
+        <td><span class="sev-badge" style="background:#ffdad6;color:#ba1a1a">9</span></td>
+        <td><span class="sev-badge" style="background:#eff4ff;color:#4c6078">2</span></td>
+        <td><span class="sev-badge" style="background:#fff8e6;color:#7c5c00">4</span></td>
+        <td><span class="rpn-pill rpn-high">72</span></td>
+        <td><button class="btn btn-primary btn-sm" onclick="event.stopPropagation();showNotif('Critical escalation raised.')">Escalate</button></td>
+      </tr>
+      <tr onclick="openDetail('Seat Track Binding','FI-2023-Z1')">
+        <td><div style="font-weight:600">Seating System</div><div style="font-size:11px;color:#5a4139;font-family:'JetBrains Mono',monospace">FI-2023-Z1 · Assembly</div></td>
+        <td>Seat track binding due to over-tolerance rail</td>
+        <td>Customer dissatisfaction, warranty</td>
+        <td><span class="sev-badge" style="background:#fff8e6;color:#7c5c00">5</span></td>
+        <td><span class="sev-badge" style="background:#eff4ff;color:#4c6078">3</span></td>
+        <td><span class="sev-badge" style="background:#eff4ff;color:#4c6078">2</span></td>
+        <td><span class="rpn-pill rpn-low">30</span></td>
+        <td><button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNotif('Monitoring continued.')">Monitor</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- AI Recommendations -->
+<div class="ai-recs">
+  <div style="font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+    <span class="ms fill" style="font-size:20px;color:#d04408">auto_awesome</span> AI-Generated Corrective Actions
+  </div>
+  <div class="ai-rec-card">
+    <div class="rec-icon" style="background:#ffdad6"><span class="ms fill" style="font-size:22px;color:#ba1a1a">priority_high</span></div>
+    <div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px">Muffler Weld Porosity — RPN: 96</div>
+      <div style="font-size:12px;color:#5a4139;line-height:1.6">Implement 100% liquid penetrant inspection (LPI) post-weld. Replace flux-cored wire with ER70S-6 solid wire. Preheat to 100°C min. Add in-process weld monitoring (real-time arc voltage tracking).</div>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="showNotif('Action approved and assigned to Production QA.')">Apply</button>
+  </div>
+  <div class="ai-rec-card">
+    <div class="rec-icon" style="background:#ffdbd0"><span class="ms fill" style="font-size:22px;color:#a83300">warning</span></div>
+    <div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px">Surface Decarburization — RPN: 72</div>
+      <div style="font-size:12px;color:#5a4139;line-height:1.6">Reduce heat treatment soak time by 8%. Introduce protective atmosphere (endothermic gas) in furnace. Add hardness sampling (Rockwell HRC) — 5 pieces per batch quality gate.</div>
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="showNotif('Review flagged for senior metallurgist.')">Review</button>
+  </div>
+</div>
+
+<!-- New FMEA Modal -->
+<div class="modal-overlay" id="new-fmea-modal" onclick="if(event.target===this)classList.remove('open')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-hdr">
+      <h3><span class="ms" style="font-size:18px">add</span> &nbsp;New FMEA Entry</h3>
+      <button onclick="document.getElementById('new-fmea-modal').classList.remove('open')" style="background:transparent;border:none;color:#fff;cursor:pointer"><span class="ms">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="field"><label>Part Name</label><input type="text" placeholder="e.g. Muffler Assembly (Exhaust Silencer)"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="field"><label>Part Number</label><input type="text" placeholder="P/N: XX-XXXX"></div>
+        <div class="field"><label>Process Step</label><input type="text" placeholder="e.g. Welding, Forging..."></div>
+      </div>
+      <div class="field"><label>Failure Mode</label><input type="text" placeholder="Describe the potential failure..."></div>
+      <div class="field"><label>Failure Effect</label><input type="text" placeholder="Effect on end product / customer..."></div>
+      <div class="field"><label>Potential Cause</label><textarea rows="2" placeholder="Root cause of failure..."></textarea></div>
+      <div class="grid2">
+        <div class="field"><label>Severity (1-10)</label><input type="number" min="1" max="10" value="7" oninput="calcRPN()"></div>
+        <div class="field"><label>Occurrence (1-10)</label><input type="number" min="1" max="10" value="3" oninput="calcRPN()"></div>
+        <div class="field"><label>Detection (1-10)</label><input type="number" min="1" max="10" value="4" oninput="calcRPN()"></div>
+      </div>
+      <div class="rpn-calc">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#5a4139;margin-bottom:4px">Calculated RPN</div>
+        <div class="rpn-val" id="live-rpn" style="color:#e8a700">84</div>
+        <div style="font-size:11px;color:#5a4139;margin-top:4px">SEV × OCC × DET</div>
+      </div>
+      <div class="field"><label>Recommended Action</label><textarea rows="2" placeholder="Prevention or detection control..."></textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="field"><label>Assignee</label><select><option>Sarah K.</option><option>Mike T.</option><option>Priya R.</option><option>QA Team</option></select></div>
+        <div class="field"><label>Target Date</label><input type="date"></div>
+      </div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn btn-outline" onclick="document.getElementById('new-fmea-modal').classList.remove('open')">Cancel</button>
+      <button class="btn btn-primary" onclick="document.getElementById('new-fmea-modal').classList.remove('open');showNotif('FMEA entry created and added to register.')"><span class="ms" style="font-size:15px">add</span> Create Entry</button>
+    </div>
+  </div>
+</div>
+
+<!-- RPN Calculator -->
+<div class="modal-overlay" id="rpn-calc-modal" onclick="if(event.target===this)classList.remove('open')">
+  <div class="modal" style="width:380px" onclick="event.stopPropagation()">
+    <div class="modal-hdr">
+      <h3><span class="ms" style="font-size:18px">calculate</span> &nbsp;RPN Calculator</h3>
+      <button onclick="document.getElementById('rpn-calc-modal').classList.remove('open')" style="background:transparent;border:none;color:#fff;cursor:pointer"><span class="ms">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="field"><label>Severity (1-10)</label><input id="c-sev" type="range" min="1" max="10" value="7" oninput="document.getElementById('c-sev-v').textContent=this.value;calcRPNC()"><span id="c-sev-v" style="font-weight:800;font-size:16px;margin-left:8px">7</span></div>
+      <div class="field"><label>Occurrence (1-10)</label><input id="c-occ" type="range" min="1" max="10" value="3" oninput="document.getElementById('c-occ-v').textContent=this.value;calcRPNC()"><span id="c-occ-v" style="font-weight:800;font-size:16px;margin-left:8px">3</span></div>
+      <div class="field"><label>Detection (1-10)</label><input id="c-det" type="range" min="1" max="10" value="4" oninput="document.getElementById('c-det-v').textContent=this.value;calcRPNC()"><span id="c-det-v" style="font-weight:800;font-size:16px;margin-left:8px">4</span></div>
+      <div class="rpn-calc">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#5a4139;margin-bottom:4px">RPN</div>
+        <div class="rpn-val" id="calc-rpn" style="color:#e8a700">84</div>
+        <div id="calc-verdict" style="font-size:12px;color:#e8a700;margin-top:4px;font-weight:600">Medium Risk — Review Required</div>
+      </div>
+    </div>
+    <div class="modal-ftr"><button class="btn btn-primary" onclick="document.getElementById('rpn-calc-modal').classList.remove('open')">Done</button></div>
+  </div>
+</div>
+
+<div class="notif" id="notif"><span class="ms" style="font-size:16px">check_circle</span> <span id="notif-msg"></span></div>
+
+<script>
+function showNotif(msg){const el=document.getElementById('notif');document.getElementById('notif-msg').textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
+function calcRPN(){
+  const inputs=[...document.querySelectorAll('#new-fmea-modal input[type=number]')];
+  if(inputs.length>=3){
+    const rpn=inputs[0].value*inputs[1].value*inputs[2].value;
+    const el=document.getElementById('live-rpn');
+    el.textContent=rpn;
+    el.style.color=rpn>=100?'#ba1a1a':rpn>=50?'#e8a700':'#006a35';
+  }
+}
+function calcRPNC(){
+  const s=parseInt(document.getElementById('c-sev').value);
+  const o=parseInt(document.getElementById('c-occ').value);
+  const d=parseInt(document.getElementById('c-det').value);
+  const rpn=s*o*d;
+  const el=document.getElementById('calc-rpn');
+  el.textContent=rpn;
+  const verd=document.getElementById('calc-verdict');
+  if(rpn>=100){el.style.color='#ba1a1a';verd.style.color='#ba1a1a';verd.textContent='🔴 Critical — Mandatory Action Required';}
+  else if(rpn>=50){el.style.color='#e8a700';verd.style.color='#e8a700';verd.textContent='⚠ High — Review & Corrective Action';}
+  else{el.style.color='#006a35';verd.style.color='#006a35';verd.textContent='✓ Low Risk — Monitor & Document';}
+}
+function openDetail(name, pn){showNotif('Opening FMEA detail for '+name+' ('+pn+')');}
+</script>
+</body>
+</html>

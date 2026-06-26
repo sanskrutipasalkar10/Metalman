@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PPAP Document Library — Metalman</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f0f4ff;color:#0b1c30;min-height:100vh}
+.ms{font-family:'Material Symbols Outlined';vertical-align:middle;user-select:none}
+.ms.fill{font-variation-settings:'FILL' 1}
+/* Header */
+.page-hdr{background:#fff;border-bottom:1px solid #e2bfb4;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.page-title{font-size:22px;font-weight:800}
+.page-sub{font-size:13px;color:#5a4139;margin-top:2px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:'Inter',sans-serif}
+.btn-primary{background:#d04408;color:#fff}.btn-primary:hover{background:#a83300}
+.btn-outline{background:#fff;border:1px solid #8e7067;color:#4c6078}.btn-outline:hover{background:#eff4ff}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-green{background:#006a35;color:#fff}.btn-green:hover{background:#004d27}
+/* Stats */
+.stats{display:flex;gap:12px;padding:16px 24px;flex-wrap:wrap}
+.stat{background:#fff;border:1px solid #e2bfb4;border-radius:10px;padding:14px 20px;min-width:110px;flex:1}
+.snum{font-size:24px;font-weight:800}.slabel{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#5a4139;margin-top:2px}
+/* Toolbar */
+.toolbar{display:flex;align-items:center;gap:10px;padding:12px 24px;flex-wrap:wrap}
+.srch{position:relative;flex:1;min-width:200px;max-width:340px}
+.srch input{width:100%;padding:8px 12px 8px 36px;border:1px solid #e2bfb4;border-radius:8px;font-size:13px;outline:none;background:#fff}
+.srch input:focus{border-color:#d04408}
+.srch-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#8e7067;font-size:17px}
+select.fil{padding:7px 12px;border:1px solid #e2bfb4;border-radius:8px;font-size:13px;background:#fff;outline:none;cursor:pointer;color:#0b1c30}
+/* Table */
+.tbl-wrap{padding:0 24px 24px;overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e2bfb4;font-size:13px}
+.tbl thead tr{background:#eff4ff}
+.tbl th{padding:12px 16px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#5a4139;border-bottom:1px solid #e2bfb4}
+.tbl td{padding:12px 16px;border-bottom:1px solid #f0f4ff;vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tbody tr{cursor:pointer;transition:background .12s}.tbl tbody tr:hover{background:#eff4ff}
+.score-bar{display:flex;align-items:center;gap:8px}
+.bar-track{width:70px;height:7px;background:#e5eeff;border-radius:4px;overflow:hidden}
+.bar-fill{height:7px;border-radius:4px;transition:width .5s}
+.bar-fill.green{background:#00c04b}.bar-fill.orange{background:#e8a700}.bar-fill.red{background:#ba1a1a}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.badge.ready{background:#dcfce7;color:#006a35}
+.badge.review{background:#ffdbd0;color:#a83300;border:1px solid #ffb59d}
+.badge.gen{background:#ffdad6;color:#ba1a1a}
+.badge.analyzing{background:#eff4ff;color:#4c6078}
+.checkbox-col{width:36px}
+input[type=checkbox]{accent-color:#d04408;width:15px;height:15px;cursor:pointer}
+/* Pagination */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:#fff;border-top:1px solid #e2bfb4;font-size:13px}
+.pag-btns{display:flex;gap:4px}
+.pag-btn{padding:5px 10px;border:1px solid #e2bfb4;border-radius:6px;background:#fff;cursor:pointer;font-size:13px}
+.pag-btn.active{background:#d04408;color:#fff;border-color:#d04408}
+.pag-btn:hover:not(.active){background:#eff4ff}
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:14px;width:520px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow:hidden}
+.modal-hdr{background:#d04408;color:#fff;padding:18px 24px;display:flex;align-items:center;justify-content:space-between}
+.modal-hdr h3{font-size:16px;font-weight:700}
+.modal-body{padding:24px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#5a4139;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:8px 12px;border:1px solid #e2bfb4;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none}
+.field input:focus,.field select:focus{border-color:#d04408}
+.modal-ftr{padding:0 24px 20px;display:flex;justify-content:flex-end;gap:10px}
+/* Notif */
+.notif{position:fixed;bottom:20px;right:20px;background:#0b1c30;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;transform:translateY(80px);opacity:0;transition:all .3s;z-index:999;display:flex;align-items:center;gap:8px}
+.notif.show{transform:translateY(0);opacity:1}
+/* Detail panel */
+.detail-panel{display:none;position:fixed;right:0;top:0;height:100vh;width:380px;background:#fff;border-left:1px solid #e2bfb4;box-shadow:-4px 0 20px rgba(0,0,0,.1);z-index:90;overflow-y:auto;flex-direction:column}
+.detail-panel.open{display:flex;flex-direction:column}
+.detail-hdr{background:#eff4ff;padding:18px 20px;border-bottom:1px solid #e2bfb4}
+.detail-body{padding:20px;flex:1}
+.dl{display:flex;flex-direction:column;gap:12px}
+.dl-item{display:flex;flex-direction:column;gap:3px}
+.dl-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#8e7067}
+.dl-value{font-size:13px;color:#0b1c30;font-weight:500}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="page-hdr">
+  <div>
+    <div class="page-title">PPAP Document Registry</div>
+    <div class="page-sub">Manage, review and distribute Production Part Approval Process documentation</div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn btn-outline btn-sm" onclick="showNotif('Filter panel opened.')"><span class="ms" style="font-size:16px">filter_list</span> Filters</button>
+    <button class="btn btn-outline btn-sm" onclick="showNotif('Report exported as Excel.')"><span class="ms" style="font-size:16px">download</span> Export</button>
+    <button class="btn btn-primary" onclick="document.getElementById('ingest-modal').classList.add('open')"><span class="ms" style="font-size:16px">upload_file</span> Ingest Legacy Doc</button>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat"><div class="snum" style="color:#d04408">245</div><div class="slabel">Total Documents</div></div>
+  <div class="stat"><div class="snum" style="color:#006a35">187</div><div class="slabel">Ready to Distribute</div></div>
+  <div class="stat"><div class="snum" style="color:#a83300">34</div><div class="slabel">Engineer Review</div></div>
+  <div class="stat"><div class="snum" style="color:#ba1a1a">24</div><div class="slabel">Generating Output</div></div>
+  <div class="stat"><div class="snum" style="color:#4c6078">98.2%</div><div class="slabel">AI Accuracy</div></div>
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <div class="srch">
+    <span class="ms srch-icon">search</span>
+    <input type="text" placeholder="Search Part Name or Project ID..." oninput="filterTable(this.value)">
+  </div>
+  <select class="fil" onchange="filterByStatus(this.value)">
+    <option value="">Project Status ▾</option>
+    <option value="AeroPropulsion">AeroPropulsion NextGen</option>
+    <option value="Lunar">Lunar Lander Mech</option>
+    <option value="Apollo">Project Apollo Legacy</option>
+  </select>
+  <select class="fil" onchange="filterByHealth(this.value)">
+    <option value="">Health Score ▾</option>
+    <option value="high">> 90%</option>
+    <option value="med">60–90%</option>
+    <option value="low">< 60%</option>
+  </select>
+  <button class="btn btn-green btn-sm" onclick="distributeSelected()"><span class="ms" style="font-size:15px">send</span> Distribute Selected</button>
+</div>
+
+<!-- Table -->
+<div class="tbl-wrap">
+  <table class="tbl" id="doc-table">
+    <thead>
+      <tr>
+        <th class="checkbox-col"><input type="checkbox" id="select-all" onchange="toggleAll(this)"></th>
+        <th onclick="sortTable(0)" style="cursor:pointer">Document / Part Name ↕</th>
+        <th onclick="sortTable(1)" style="cursor:pointer">Project Allocation ↕</th>
+        <th onclick="sortTable(2)" style="cursor:pointer">Generation Date ↕</th>
+        <th>Health Score</th>
+        <th>Distribution Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="tbl-body">
+      <tr onclick="openDetail('2 Wheeler Chassis (Complete Frame)','AeroPropulsion NextGen','2024-10-24 08:14','TB-2024-X9',98,'Ready for Distribution','BOM, PFMEA, Control Plan, PFD, Tooling List')">
+        <td><input type="checkbox" class="row-cb"></td>
+        <td><div style="font-weight:600">2 Wheeler Chassis (Complete Frame)</div><div style="font-size:11px;color:#5a4139;font-family:'JetBrains Mono',monospace">ID: TB-2024-X9</div></td>
+        <td>AeroPropulsion NextGen</td>
+        <td style="font-family:'JetBrains Mono',monospace;font-size:12px">2024-10-24 08:14</td>
+        <td><div class="score-bar"><div class="bar-track"><div class="bar-fill green" style="width:98%"></div></div><span style="font-size:12px;font-weight:700;color:#006a35">98%</span></div></td>
+        <td><span class="badge ready"><span class="ms fill" style="font-size:13px">check_circle</span> Ready for Dist.</span></td>
+        <td><button class="btn btn-sm btn-outline" onclick="event.stopPropagation();showNotif('Document distributed to AeroPropulsion NextGen team.')"><span class="ms" style="font-size:14px">send</span></button></td>
+      </tr>
+      <tr onclick="openDetail('Motorcycle Handle Steering','Lunar Lander Mech','2024-10-25 14:32','HA-2024-B1',72,'Engineer Review','PFMEA, Control Plan (Material spec mismatch detected)')">
+        <td><input type="checkbox" class="row-cb"></td>
+        <td>
+          <div style="font-weight:600">Motorcycle Handle Steering</div>
+          <div style="font-size:11px;color:#5a4139;font-family:'JetBrains Mono',monospace">ID: HA-2024-B1</div>
+        </td>
+        <td>Lunar Lander Mech</td>
+        <td style="font-family:'JetBrains Mono',monospace;font-size:12px">2024-10-25 14:32</td>
+        <td>
+          <div class="score-bar"><div class="bar-track"><div class="bar-fill orange" style="width:72%"></div></div><span style="font-size:12px;font-weight:700;color:#e8a700">72%</span></div>
+          <div style="font-size:10px;color:#ba1a1a;margin-top:3px;display:flex;align-items:center;gap:3px"><span class="ms" style="font-size:13px">warning</span> Material spec mismatch</div>
+        </td>
+        <td><span class="badge review"><span class="ms" style="font-size:13px">engineering</span> Engineer Review</span></td>
+        <td><button class="btn btn-sm btn-outline" onclick="event.stopPropagation();showNotif('Review assigned to Priya R.')"><span class="ms" style="font-size:14px">assignment_ind</span></button></td>
+      </tr>
+      <tr onclick="openDetail('Muffler Assembly (Exhaust Silencer)','Project Apollo Legacy','2024-10-26 09:00','MA-2024-M4',0,'Generating Output','All PPAP documents — AI generating...')">
+        <td><input type="checkbox" class="row-cb"></td>
+        <td><div style="font-weight:600">Muffler Assembly (Exhaust Silencer)</div><div style="font-size:11px;color:#5a4139;font-family:'JetBrains Mono',monospace">ID: MA-2024-M4</div></td>
+        <td>Project Apollo Legacy</td>
+        <td style="font-family:'JetBrains Mono',monospace;font-size:12px">2024-10-26 09:00</td>
+        <td><div style="font-size:12px;color:#4c6078;display:flex;align-items:center;gap:5px"><span class="ms" style="font-size:15px;animation:spin 1s linear infinite">sync</span> Analyzing...</div></td>
+        <td><span class="badge gen"><span class="ms" style="font-size:13px">auto_awesome</span> Generating Output</span></td>
+        <td><button class="btn btn-sm btn-outline" onclick="event.stopPropagation();showNotif('Task queued — estimated 3 min.')"><span class="ms" style="font-size:14px">hourglass_empty</span></button></td>
+      </tr>
+      <tr onclick="openDetail('Passenger Car Seating Systems','AeroPropulsion NextGen','2024-10-22 11:45','FI-2023-Z1',100,'Ready for Distribution','Full PPAP package complete')">
+        <td><input type="checkbox" class="row-cb"></td>
+        <td><div style="font-weight:600">Passenger Car Seating Systems</div><div style="font-size:11px;color:#5a4139;font-family:'JetBrains Mono',monospace">ID: FI-2023-Z1</div></td>
+        <td>AeroPropulsion NextGen</td>
+        <td style="font-family:'JetBrains Mono',monospace;font-size:12px">2024-10-22 11:45</td>
+        <td><div class="score-bar"><div class="bar-track"><div class="bar-fill green" style="width:100%"></div></div><span style="font-size:12px;font-weight:700;color:#006a35">100%</span></div></td>
+        <td><span class="badge ready"><span class="ms fill" style="font-size:13px">check_circle</span> Ready for Dist.</span></td>
+        <td><button class="btn btn-sm btn-outline" onclick="event.stopPropagation();showNotif('Document distributed!')"><span class="ms" style="font-size:14px">send</span></button></td>
+      </tr>
+      <tr onclick="openDetail('3-Wheeler Driver Cabin Structure','Apollo Legacy','2024-10-20 15:22','DW-2024-C3',88,'Ready for Distribution','BOM, PFD, PFMEA')">
+        <td><input type="checkbox" class="row-cb"></td>
+        <td><div style="font-weight:600">3-Wheeler Driver Cabin Structure</div><div style="font-size:11px;color:#5a4139;font-family:'JetBrains Mono',monospace">ID: DW-2024-C3</div></td>
+        <td>Apollo Legacy</td>
+        <td style="font-family:'JetBrains Mono',monospace;font-size:12px">2024-10-20 15:22</td>
+        <td><div class="score-bar"><div class="bar-track"><div class="bar-fill green" style="width:88%"></div></div><span style="font-size:12px;font-weight:700;color:#006a35">88%</span></div></td>
+        <td><span class="badge ready"><span class="ms fill" style="font-size:13px">check_circle</span> Ready for Dist.</span></td>
+        <td><button class="btn btn-sm btn-outline" onclick="event.stopPropagation();showNotif('Document sent to Apollo Legacy PM.')"><span class="ms" style="font-size:14px">send</span></button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination -->
+<div class="pagination">
+  <span style="color:#5a4139">Showing 1 to 5 of 245 documents</span>
+  <div class="pag-btns">
+    <button class="pag-btn" onclick="showNotif('Previous page.')">‹</button>
+    <button class="pag-btn active">1</button>
+    <button class="pag-btn" onclick="changePage(2)">2</button>
+    <button class="pag-btn" onclick="changePage(3)">3</button>
+    <button class="pag-btn" onclick="showNotif('Navigated to page 49.')">...</button>
+    <button class="pag-btn" onclick="changePage(49)">49</button>
+    <button class="pag-btn" onclick="showNotif('Next page.')">›</button>
+  </div>
+</div>
+
+<!-- Ingest Modal -->
+<div class="modal-overlay" id="ingest-modal" onclick="if(event.target===this) classList.remove('open')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-hdr">
+      <h3><span class="ms" style="font-size:18px">upload_file</span> &nbsp;Ingest Legacy Document</h3>
+      <button onclick="document.getElementById('ingest-modal').classList.remove('open')" style="background:transparent;border:none;color:#fff;cursor:pointer"><span class="ms">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="field"><label>Part Name / Description</label><input type="text" placeholder="e.g. Brake Disc Assembly — Hero Splendor"></div>
+      <div class="field"><label>Part Number</label><input type="text" placeholder="P/N: XX-XXXX"></div>
+      <div class="field"><label>PPAP Level</label><select><option>Level 1</option><option selected>Level 3</option><option>Level 5</option></select></div>
+      <div class="field"><label>File Upload</label>
+        <div onclick="showNotif('File browser opened.')" style="border:2px dashed #e2bfb4;border-radius:8px;padding:24px;text-align:center;cursor:pointer;color:#5a4139;background:#eff4ff">
+          <span class="ms fill" style="font-size:36px;color:#d04408">upload_file</span>
+          <div style="margin-top:8px;font-size:13px;font-weight:600">Drop files here or click to upload</div>
+          <div style="font-size:11px;color:#8e7067;margin-top:4px">PDF, XLSX, DXF supported</div>
+        </div>
+      </div>
+      <div class="field"><label>Project Allocation</label>
+        <select><option>AeroPropulsion NextGen</option><option>Lunar Lander Mech</option><option>Project Apollo Legacy</option><option>New Project</option></select>
+      </div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn btn-outline" onclick="document.getElementById('ingest-modal').classList.remove('open')">Cancel</button>
+      <button class="btn btn-primary" onclick="document.getElementById('ingest-modal').classList.remove('open');showNotif('Document ingested! AI processing started.')"><span class="ms" style="font-size:15px">auto_awesome</span> Ingest & Analyze</button>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Panel -->
+<div class="detail-panel" id="detail-panel">
+  <div class="detail-hdr">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-size:15px;font-weight:700" id="dp-title">Document Detail</div>
+      <button onclick="document.getElementById('detail-panel').classList.remove('open')" style="border:none;background:transparent;cursor:pointer"><span class="ms">close</span></button>
+    </div>
+    <div id="dp-badge" style="margin-top:8px"></div>
+  </div>
+  <div class="detail-body">
+    <div class="dl">
+      <div class="dl-item"><div class="dl-label">Part Number</div><div class="dl-value" id="dp-pn" style="font-family:'JetBrains Mono',monospace"></div></div>
+      <div class="dl-item"><div class="dl-label">Project</div><div class="dl-value" id="dp-proj"></div></div>
+      <div class="dl-item"><div class="dl-label">Generated</div><div class="dl-value" id="dp-date" style="font-family:'JetBrains Mono',monospace"></div></div>
+      <div class="dl-item"><div class="dl-label">Health Score</div><div class="dl-value" id="dp-health"></div></div>
+      <div class="dl-item"><div class="dl-label">Documents Included</div><div class="dl-value" id="dp-docs" style="font-size:12px;line-height:1.8"></div></div>
+    </div>
+    <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px">
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="showNotif('Document distributed successfully!')"><span class="ms" style="font-size:16px">send</span> Distribute</button>
+      <button class="btn btn-outline" style="width:100%;justify-content:center" onclick="showNotif('Downloaded full PPAP package.')"><span class="ms" style="font-size:16px">download</span> Download Package</button>
+      <button class="btn btn-outline" style="width:100%;justify-content:center" onclick="showNotif('Opening document for review...')"><span class="ms" style="font-size:16px">open_in_new</span> View Full Report</button>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif"><span class="ms" style="font-size:16px">check_circle</span> <span id="notif-msg"></span></div>
+<style>@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style>
+
+<script>
+function showNotif(msg) {
+  const el = document.getElementById('notif');
+  document.getElementById('notif-msg').textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+function toggleAll(cb) {
+  document.querySelectorAll('.row-cb').forEach(r => r.checked = cb.checked);
+  if (cb.checked) showNotif('All documents selected.');
+}
+function distributeSelected() {
+  const n = [...document.querySelectorAll('.row-cb')].filter(r => r.checked).length;
+  if (n === 0) { showNotif('Select documents first.'); return; }
+  showNotif(`Distributing ${n} document(s)...`);
+}
+function filterTable(val) { if (val.length > 1) showNotif('Searching: "' + val + '"'); }
+function filterByStatus(val) { if (val) showNotif('Filtered by project: ' + val); }
+function filterByHealth(val) { if (val) showNotif('Filtered by health: ' + val); }
+function sortTable(col) { showNotif('Table sorted by column ' + (col + 1)); }
+function changePage(p) {
+  document.querySelectorAll('.pag-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  showNotif('Loaded page ' + p + ' of 49.');
+}
+function openDetail(title, proj, date, pn, health, status, docs) {
+  document.getElementById('dp-title').textContent = title;
+  document.getElementById('dp-pn').textContent = pn;
+  document.getElementById('dp-proj').textContent = proj;
+  document.getElementById('dp-date').textContent = date;
+  document.getElementById('dp-health').innerHTML = health + '%';
+  document.getElementById('dp-docs').innerHTML = docs.split(',').map(d => '• ' + d.trim()).join('<br>');
+  const s = status.includes('Ready') ? 'ready' : status.includes('Review') ? 'review' : status.includes('Generating') ? 'gen' : 'analyzing';
+  document.getElementById('dp-badge').innerHTML = `<span class="badge ${s}">${status}</span>`;
+  document.getElementById('detail-panel').classList.add('open');
+}
+</script>
+</body>
+</html>

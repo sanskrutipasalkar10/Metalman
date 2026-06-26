@@ -6,15 +6,46 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Logo } from "@/components/Logo";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => navigate("/dashboard"), 700);
+    
+    const form = e.target as HTMLFormElement;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement).value;
+
+    const formData = new FormData();
+    formData.append("username", email);
+    formData.append("password", password);
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/auth/token", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        login(data.access_token, data.user);
+        toast.success("Login successful");
+        navigate("/dashboard");
+      } else {
+        const error = await response.json();
+        toast.error(error.detail || "Authentication failed");
+      }
+    } catch (err) {
+      toast.error("Could not connect to server");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

@@ -724,7 +724,7 @@ def generate_control_plan_excel(
     # ── Sheet 2: ASSY_SUB_ASSY ────────────────────────────────────────────────
     if ASSY_ASSY_SHEET in tmpl_wb.sheetnames:
         ws_out = new_wb.create_sheet(ASSY_ASSY_SHEET)
-        transfuse_sheet_structure(tmpl_wb[ASSY_ASSY_SHEET], ws_out, header_rows=7)
+        transfuse_sheet_structure(tmpl_wb[ASSY_ASSY_SHEET], ws_out, header_rows=18)
         if pfd_output_path and os.path.exists(pfd_output_path):
             assy_dict_path = os.path.join(dict_dir, "assy", "cp_assy_dict.json")
             if os.path.exists(assy_dict_path):
@@ -747,7 +747,7 @@ def generate_control_plan_excel(
     # ── Sheet 4: T-BOP & Hardwares ────────────────────────────────────────────
     if BOP_SHEET in tmpl_wb.sheetnames:
         ws_out = new_wb.create_sheet(BOP_SHEET)
-        transfuse_sheet_structure(tmpl_wb[BOP_SHEET], ws_out, header_rows=6)
+        transfuse_sheet_structure(tmpl_wb[BOP_SHEET], ws_out, header_rows=19)
         bop_dict_path = os.path.join(dict_dir, "bop", "cp_bop_dict.json")
         if os.path.exists(bop_dict_path):
             with open(bop_dict_path, encoding="utf-8") as f:

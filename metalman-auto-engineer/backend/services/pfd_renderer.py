@@ -291,26 +291,190 @@ def render_temporary_step(temp_step_path, stage_name, output_dir):
     except Exception as e:
         print(f"Render failed for {stage_name}: {e}")
 
-def generate_cad_images(routing_matrix, master_step_file, output_dir):
-    if not FREECAD_CMD:
-        print("   [CAD] ERROR: FreeCAD command not found, skipping rendering.")
-        return
+# ==========================================
+# OCP ALTERNATIVE: STEP EXTRACTION WITHOUT FREECAD
+# ==========================================
+def extract_step_parts_with_ocp(master_step_file, routing_matrix, output_dir):
+    """
+    Alternative to FreeCAD subprocess: Uses cadquery-ocp's XCAF framework
+    to load a STEP assembly, traverse the named part tree, and export
+    per-stage sub-STEP files — all in pure Python, no external binary.
 
+    Returns True if at least one stage was exported, False on failure.
+    """
+    try:
+        from OCP.STEPCAFControl import STEPCAFControl_Reader
+        from OCP.XCAFApp import XCAFApp_Application
+        from OCP.XCAFDoc import XCAFDoc_DocumentTool
+        from OCP.TDF import TDF_LabelSequence, TDF_Label
+        from OCP.TDataStd import TDataStd_Name
+        from OCP.IFSelect import IFSelect_RetDone
+        from OCP.BRep import BRep_Builder
+        from OCP.TopoDS import TopoDS_Compound
+        from OCP.STEPControl import STEPControl_Writer, STEPControl_AsIs
+        from OCP.TCollection import TCollection_AsciiString, TCollection_ExtendedString
+        from OCP.TDocStd import TDocStd_Document
+
+        print("   [CAD-OCP] Starting pythonOCC/OCP STEP extraction (FreeCAD alternative)...", flush=True)
+
+        # ── 1. Initialise XCAF application & document ─────────────────────────
+        # OCP 7.8: static methods use _s() suffix; document needs ExtendedString
+        app = XCAFApp_Application.GetApplication_s()
+        doc = TDocStd_Document(TCollection_ExtendedString("XmlXCAF"))
+        app.InitDocument(doc)
+
+        reader = STEPCAFControl_Reader()
+        reader.SetNameMode(True)
+        reader.SetColorMode(True)
+
+        status = reader.ReadFile(str(master_step_file))
+        if status != IFSelect_RetDone:
+            print(f"   [CAD-OCP] ERROR: Could not read STEP file: {master_step_file}")
+            return False
+
+        reader.Transfer(doc)
+        shape_tool = XCAFDoc_DocumentTool.ShapeTool_s(doc.Main())
+
+        # ── 2. Traverse assembly tree, collect name → shape mappings ──────────
+        from OCP.XCAFDoc import XCAFDoc_ShapeTool
+        name_to_shapes = {}
+
+        def _get_label_name(label):
+            """Read TDataStd_Name attribute from a label, return as string."""
+            try:
+                attr = TDataStd_Name()
+                # OCP 7.8 uses GetID_s() for static attribute ID access
+                if label.FindAttribute(TDataStd_Name.GetID_s(), attr):
+                    return attr.Get().ToExtString()
+            except Exception:
+                pass
+            return ""
+
+        def _traverse(label, depth=0):
+            name = _get_label_name(label)
+            # Static methods in OCP 7.8 use _s suffix
+            if XCAFDoc_ShapeTool.IsShape_s(label):
+                shape = XCAFDoc_ShapeTool.GetShape_s(label)
+                if not shape.IsNull() and name:
+                    name_to_shapes.setdefault(name, []).append(shape)
+
+            components = TDF_LabelSequence()
+            XCAFDoc_ShapeTool.GetComponents_s(label, components)
+            for i in range(1, components.Length() + 1):
+                comp_lbl = components.Value(i)
+                referred = TDF_Label()
+                if XCAFDoc_ShapeTool.GetReferredShape_s(comp_lbl, referred):
+                    _traverse(referred, depth + 1)
+                else:
+                    _traverse(comp_lbl, depth + 1)
+
+        free_shapes = TDF_LabelSequence()
+        shape_tool.GetFreeShapes(free_shapes)
+        print(f"   [CAD-OCP] Top-level shapes in assembly: {free_shapes.Length()}", flush=True)
+
+        for i in range(1, free_shapes.Length() + 1):
+            _traverse(free_shapes.Value(i))
+
+        all_names = list(name_to_shapes.keys())
+        print(f"   [CAD-OCP] Total named parts found: {len(all_names)}", flush=True)
+        if all_names:
+            print(f"   [CAD-OCP] Sample labels: {all_names[:8]}", flush=True)
+
+        # ── 3. For each routing stage, find matching shapes & export STEP ──────
+        valid_routing = {k: v for k, v in routing_matrix.items() if v}
+        exported_count = 0
+
+        for stage_name, target_parts in valid_routing.items():
+            safe_name = stage_name.replace(" ", "_")
+            output_file = os.path.join(output_dir, f"temp_{safe_name}.stp")
+
+            matched_shapes = []
+            for part_no in target_parts:
+                part_str = str(part_no).strip()
+                for label_name, shapes in name_to_shapes.items():
+                    if part_str in label_name:
+                        matched_shapes.extend(shapes)
+                        break  # one match per part_no is enough
+
+            if not matched_shapes:
+                print(f"   [CAD-OCP] No shapes matched for stage '{stage_name}' (parts: {target_parts})")
+                continue
+
+            # Build compound and write STEP
+            builder = BRep_Builder()
+            compound = TopoDS_Compound()
+            builder.MakeCompound(compound)
+            for shp in matched_shapes:
+                builder.Add(compound, shp)
+
+            writer = STEPControl_Writer()
+            writer.Transfer(compound, STEPControl_AsIs)
+            writer.Write(str(output_file))
+
+            print(f"   [CAD-OCP] Exported stage '{stage_name}' → {os.path.basename(output_file)}", flush=True)
+            exported_count += 1
+
+        print(f"   [CAD-OCP] Done. Exported {exported_count}/{len(valid_routing)} stages.", flush=True)
+        return exported_count > 0
+
+    except ImportError as e:
+        print(f"   [CAD-OCP] OCP modules not available: {e}")
+        return False
+    except Exception as e:
+        print(f"   [CAD-OCP] Extraction failed: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def generate_cad_images(routing_matrix, master_step_file, output_dir):
     abs_master = os.path.abspath(master_step_file)
     abs_output_dir = os.path.abspath(output_dir)
-    
-    # 1. Filter valid stages
     valid_routing = {k: v for k, v in routing_matrix.items() if v}
+
     if not valid_routing:
         print("   [CAD] No valid stages to render.")
         return
 
-    print(f"   [CAD] Batch extracting {len(valid_routing)} stages in a single FreeCAD session...", flush=True)
+    # ── Try OCP alternative first (no external binary required) ───────────────
+    ocp_success = extract_step_parts_with_ocp(abs_master, valid_routing, abs_output_dir)
+
+    if not ocp_success:
+        # ── Fall back to FreeCAD subprocess ────────────────────────────────────
+        if not FREECAD_CMD:
+            print("   [CAD] ERROR: OCP extraction failed and FreeCAD not found. Skipping CAD rendering.")
+            return
+        print("   [CAD] OCP extraction failed — falling back to FreeCAD subprocess...", flush=True)
+        _generate_cad_images_freecad(valid_routing, abs_master, abs_output_dir)
     
+    # ── Render PNGs for whatever temp STEP files were produced ────────────────
+    stage_file_map = {}
+    for stage_name in valid_routing.keys():
+        safe_stage_name = stage_name.replace(" ", "_")
+        abs_temp_step = os.path.join(abs_output_dir, f"temp_{safe_stage_name}.stp")
+        stage_file_map[stage_name] = abs_temp_step
+
+    for i, (stage_name, abs_temp_step) in enumerate(stage_file_map.items()):
+        if os.path.exists(abs_temp_step):
+            print(f"   [CAD] [{i+1}/{len(stage_file_map)}] Rendering PNG for {stage_name}...")
+            render_temporary_step(abs_temp_step, stage_name, abs_output_dir)
+            os.remove(abs_temp_step)
+        else:
+            print(f"   [CAD] Missing step file for {stage_name}: {abs_temp_step}")
+
+    print(f"   [CAD] All images generated for PFD Sheet 1.", flush=True)
+
+
+def _generate_cad_images_freecad(valid_routing, abs_master, abs_output_dir):
+    """Original FreeCAD subprocess path — called only when OCP alternative fails."""
+    if not FREECAD_CMD:
+        return
+
+    print(f"   [CAD-FreeCAD] Batch extracting {len(valid_routing)} stages in a single FreeCAD session...", flush=True)
+
     local_worker_script = os.path.join(abs_output_dir, WORKER_SCRIPT)
     escaped_master = abs_master.replace("\\", "\\\\")
-    
-    # Create map of target files for the worker
+
     stage_file_map = {}
     for stage_name in valid_routing.keys():
         safe_stage_name = stage_name.replace(" ", "_")
@@ -325,7 +489,7 @@ import os
 
 param = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Import")
 param.SetBool("ExpandCompound", True)
-param.SetBool("UseOCAF", True) 
+param.SetBool("UseOCAF", True)
 
 master_file = r"{escaped_master}"
 routing_matrix = {valid_routing}
@@ -336,23 +500,17 @@ doc = FreeCAD.newDocument("MasterDoc")
 Import.insert(master_file, doc.Name)
 
 all_objs = doc.Objects
-obj_labels = []
-for obj in all_objs:
-    if hasattr(obj, 'Label'):
-        obj_labels.append((obj, str(obj.Label)))
+obj_labels = [(obj, str(obj.Label)) for obj in all_objs if hasattr(obj, 'Label')]
 
 for stage_name, target_parts in routing_matrix.items():
     output_file = stage_file_map.get(stage_name)
     if not output_file: continue
-    
-    print(f"Extracting stage: {{stage_name}}")
     objects_to_export = []
     for obj, label in obj_labels:
         for part in target_parts:
             if str(part).strip() in label:
                 objects_to_export.append(obj)
                 break
-    
     if objects_to_export:
         Import.export(objects_to_export, output_file)
         print(f"Exported {{stage_name}} to {{output_file}}")
@@ -363,30 +521,17 @@ sys.exit(0)
 """
     with open(local_worker_script, "w", encoding="utf-8") as f:
         f.write(worker_code)
-    
-    # Run the batch extraction
+
     result = subprocess.run([FREECAD_CMD, local_worker_script], capture_output=True, text=True)
-    
+
     if result.returncode != 0:
-        print(f"   [CAD] Batch FreeCAD extraction failed. Code: {result.returncode}")
+        print(f"   [CAD-FreeCAD] Batch extraction failed. Code: {result.returncode}")
         print(f"   [DEBUG] {result.stderr.strip()[-500:]}")
     else:
-        print(f"   [CAD] Batch extraction successful. Now rendering PNGs...")
-        
-    # 2. Render PNGs using CadQuery for each extracted STEP
-    for i, (stage_name, output_file) in enumerate(stage_file_map.items()):
-        abs_temp_step = os.path.normpath(output_file)
-        if os.path.exists(abs_temp_step):
-            print(f"   [CAD] [{i+1}/{len(stage_file_map)}] Rendering PNG for {stage_name}...")
-            render_temporary_step(abs_temp_step, stage_name, abs_output_dir)
-            os.remove(abs_temp_step)
-        else:
-            print(f"   [CAD] Missing step file for {stage_name}: {abs_temp_step}")
-            
+        print(f"   [CAD-FreeCAD] Batch extraction successful.")
+
     if os.path.exists(local_worker_script):
         os.remove(local_worker_script)
-    
-    print(f"   [CAD] All images generated for PFD Sheet 1.", flush=True)
 
 
 

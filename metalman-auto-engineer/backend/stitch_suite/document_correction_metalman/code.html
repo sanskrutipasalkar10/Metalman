@@ -1,0 +1,394 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MetalMan - Document Correction &amp; Export</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;900&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ba1a1a",
+                      "background": "#f8f9ff",
+                      "surface-variant": "#d3e4fe",
+                      "on-surface": "#0b1c30",
+                      "on-tertiary-container": "#f6fff4",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-container": "#51647d",
+                      "surface": "#f8f9ff",
+                      "secondary": "#4c6078",
+                      "surface-bright": "#f8f9ff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-fixed-variant": "#005228",
+                      "on-secondary-fixed-variant": "#35485f",
+                      "surface-tint": "#ac3400",
+                      "outline": "#8e7067",
+                      "surface-container-high": "#dce9ff",
+                      "surface-container-highest": "#d3e4fe",
+                      "primary-fixed-dim": "#ffb59d",
+                      "primary-fixed": "#ffdbd0",
+                      "on-secondary-fixed": "#061d32",
+                      "on-secondary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#ffb59d",
+                      "on-primary-container": "#fffbff",
+                      "outline-variant": "#e2bfb4",
+                      "on-primary-fixed": "#390b00",
+                      "on-error-container": "#93000a",
+                      "on-background": "#0b1c30",
+                      "on-error": "#ffffff",
+                      "on-primary-fixed-variant": "#832600",
+                      "secondary-fixed-dim": "#b4c8e4",
+                      "surface-container": "#e5eeff",
+                      "surface-container-low": "#eff4ff",
+                      "inverse-surface": "#213145",
+                      "secondary-fixed": "#d1e4ff",
+                      "primary": "#a83300",
+                      "surface-dim": "#cbdbf5",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-surface-variant": "#5a4139",
+                      "tertiary-container": "#008645",
+                      "on-tertiary-fixed": "#00210c",
+                      "primary-container": "#d04408",
+                      "tertiary": "#006a35",
+                      "secondary-container": "#cde1fe",
+                      "tertiary-fixed": "#6bfe9c",
+                      "tertiary-fixed-dim": "#4ae183"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-sm": "8px",
+                      "unit": "4px",
+                      "stack-lg": "32px",
+                      "container-padding": "24px",
+                      "gutter": "16px",
+                      "stack-md": "16px",
+                      "max-width-desktop": "1440px"
+              },
+              "fontFamily": {
+                      "headline-xl": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "JetBrains Mono"
+                      ],
+                      "label-md": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-lg-mobile": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "headline-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-md": [
+                              "13px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 p-gutter bg-surface-container-low dark:bg-inverse-surface border-r border-outline-variant w-64 docked">
+<div class="mb-stack-lg flex items-center gap-stack-sm">
+<span class="material-symbols-outlined text-primary" data-icon="precision_manufacturing">precision_manufacturing</span>
+<div>
+<h1 class="font-headline-md text-headline-md font-black text-primary">MetalMan Portal</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Precision Engineering</p>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-2 px-4 rounded-lg font-label-md text-label-md mb-stack-lg flex items-center justify-center gap-2 hover:bg-primary-container transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+            New Analysis
+        </button>
+<ul class="flex-1 flex flex-col gap-unit">
+<li>
+<a class="flex items-center gap-stack-sm p-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-container transition-all active:scale-95 duration-100 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-stack-sm p-3 rounded-lg bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary font-bold font-label-md text-label-md active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="folder_open">folder_open</span>
+                    Document Library
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-stack-sm p-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-container transition-all active:scale-95 duration-100 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="factory">factory</span>
+                    Process Registry
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-stack-sm p-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-container transition-all active:scale-95 duration-100 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                    BI Analytics
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-stack-sm p-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-container transition-all active:scale-95 duration-100 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="neurology">neurology</span>
+                    AI Health Review
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-stack-sm p-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-container transition-all active:scale-95 duration-100 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="precision_manufacturing">precision_manufacturing</span>
+                    FMEA Tools
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-stack-sm p-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-container transition-all active:scale-95 duration-100 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+                    Task Management
+                </a>
+</li>
+</ul>
+<div class="mt-auto border-t border-outline-variant pt-stack-md">
+<ul class="flex flex-col gap-unit">
+<li>
+<a class="flex items-center gap-stack-sm p-3 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                        Settings
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-stack-sm p-3 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                        Support
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="flex-1 lg:ml-64 p-container-padding max-w-max-desktop mx-auto w-full">
+<header class="mb-stack-lg flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-background">Document Correction</h2>
+<p class="font-body-sm text-body-sm text-secondary mt-unit">Queue precise AI-assisted corrections for generated technical documents.</p>
+</div>
+<button class="bg-surface text-secondary border border-outline px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:bg-surface-container-low shadow-[0_4px_8px_rgba(11,28,48,0.04)] transition-all">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                Export Final
+            </button>
+</header>
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter">
+<!-- Editor Form Panel -->
+<section class="xl:col-span-5 bg-surface-container-lowest border border-outline-variant rounded-xl p-container-padding shadow-[0_4px_8px_rgba(11,28,48,0.04)]">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-stack-md flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="edit_note">edit_note</span>
+                    New Correction
+                </h3>
+<form class="flex flex-col gap-stack-md">
+<div class="flex flex-col gap-unit">
+<label class="font-body-sm text-body-sm font-bold text-on-surface" for="doc-select">Target Document</label>
+<select class="w-full bg-surface-bright border border-outline-variant rounded-lg p-3 font-body-sm text-body-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none" id="doc-select">
+<option>Spec-Alpha-v2.pdf</option>
+<option>Tolerance-Report-Q3.docx</option>
+<option>Material-BOM-Eng.xlsx</option>
+</select>
+</div>
+<div class="flex flex-col gap-unit">
+<label class="font-body-sm text-body-sm font-bold text-on-surface" for="cell-num">Cell / Section Reference</label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg p-3 font-body-sm text-body-sm text-on-surface placeholder:text-[#94A3B8] focus:border-primary focus:ring-1 focus:ring-primary outline-none" id="cell-num" placeholder="e.g., Table 4, Row 2 or Section 3.1" type="text">
+</div>
+<div class="flex flex-col gap-unit">
+<label class="font-body-sm text-body-sm font-bold text-on-surface" for="replace-content">Replacement Content</label>
+<textarea class="w-full bg-surface-bright border border-outline-variant rounded-lg p-3 font-body-sm text-body-sm text-on-surface placeholder:text-[#94A3B8] focus:border-primary focus:ring-1 focus:ring-primary outline-none resize-none" id="replace-content" placeholder="Enter precise replacement value..." rows="4"></textarea>
+</div>
+<div class="flex gap-stack-sm mt-stack-sm">
+<button class="flex-1 bg-white border border-secondary text-secondary py-3 rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors" type="button">Clear</button>
+<button class="flex-[2] bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md shadow-sm hover:bg-primary-container transition-colors flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined" data-icon="queue">queue</span>
+                            Add to Queue
+                        </button>
+</div>
+</form>
+</section>
+<!-- Pending Changes Panel -->
+<section class="xl:col-span-7 bg-surface-container-lowest border border-outline-variant rounded-xl p-container-padding shadow-[0_4px_8px_rgba(11,28,48,0.04)] flex flex-col">
+<div class="flex justify-between items-center mb-stack-md">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="list_alt">list_alt</span>
+                        Pending Changes
+                        <span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded-full ml-2">3</span>
+</h3>
+</div>
+<div class="flex-1 overflow-auto flex flex-col gap-stack-sm min-h-[300px]">
+<!-- Item 1 -->
+<div class="bg-surface border border-outline-variant rounded-lg p-3 flex gap-4 items-start relative group hover:shadow-[0_4px_8px_rgba(11,28,48,0.04)] transition-all">
+<div class="bg-surface-container-highest p-2 rounded flex-shrink-0">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="description">description</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Spec-Alpha-v2.pdf • Table 4, Row 2</span>
+<button class="text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity hover:text-error">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+</button>
+</div>
+<div class="mt-1 flex items-center gap-2 font-body-sm text-body-sm">
+<span class="line-through text-on-surface-variant">0.05mm</span>
+<span class="material-symbols-outlined text-primary text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+<span class="text-on-surface font-semibold bg-[#FFF7ED] px-1 rounded">0.02mm</span>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="bg-surface border border-outline-variant rounded-lg p-3 flex gap-4 items-start relative group hover:shadow-[0_4px_8px_rgba(11,28,48,0.04)] transition-all">
+<div class="bg-surface-container-highest p-2 rounded flex-shrink-0">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="description">description</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Tolerance-Report-Q3.docx • Section 3.1</span>
+<button class="text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity hover:text-error">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+</button>
+</div>
+<div class="mt-1 flex items-center gap-2 font-body-sm text-body-sm">
+<span class="line-through text-on-surface-variant">Alloy 6061</span>
+<span class="material-symbols-outlined text-primary text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+<span class="text-on-surface font-semibold bg-[#FFF7ED] px-1 rounded">Alloy 7075-T6</span>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="bg-surface border border-outline-variant rounded-lg p-3 flex gap-4 items-start relative group hover:shadow-[0_4px_8px_rgba(11,28,48,0.04)] transition-all">
+<div class="bg-surface-container-highest p-2 rounded flex-shrink-0">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="description">description</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Tolerance-Report-Q3.docx • Header</span>
+<button class="text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity hover:text-error">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+</button>
+</div>
+<div class="mt-1 flex items-center gap-2 font-body-sm text-body-sm">
+<span class="line-through text-on-surface-variant">Draft</span>
+<span class="material-symbols-outlined text-primary text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+<span class="text-on-surface font-semibold bg-[#FFF7ED] px-1 rounded">Final Approved</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-stack-lg pt-stack-md border-t border-outline-variant flex justify-end">
+<button class="bg-primary text-on-primary px-6 py-3 rounded-lg font-label-md text-label-md shadow-sm hover:bg-primary-container transition-colors flex items-center gap-2">
+                        Submit All Changes
+                        <span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+</section>
+</div>
+</main>
+</body></html>

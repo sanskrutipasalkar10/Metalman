@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process Registry — Metalman</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f0f4ff;color:#0b1c30;min-height:100vh}
+.ms{font-family:'Material Symbols Outlined';vertical-align:middle;user-select:none}
+.ms.fill{font-variation-settings:'FILL' 1}
+.page-hdr{background:#fff;border-bottom:1px solid #e2bfb4;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.page-title{font-size:22px;font-weight:800}
+.page-sub{font-size:13px;color:#5a4139;margin-top:2px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:'Inter',sans-serif}
+.btn-outline{background:#fff;border:1px solid #8e7067;color:#4c6078}.btn-outline:hover{background:#eff4ff}
+.btn-primary{background:#d04408;color:#fff}.btn-primary:hover{background:#a83300}
+.btn-sm{padding:5px 12px;font-size:12px}
+/* Stats */
+.stats{display:flex;gap:12px;padding:16px 24px;flex-wrap:wrap}
+.stat{background:#fff;border:1px solid #e2bfb4;border-radius:10px;padding:14px 20px;flex:1;min-width:110px}
+.snum{font-size:26px;font-weight:800}.slabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#5a4139;margin-top:3px}
+/* Toolbar */
+.toolbar{display:flex;align-items:center;gap:10px;padding:0 24px 14px;flex-wrap:wrap}
+.srch{position:relative}
+.srch input{padding:8px 12px 8px 34px;border:1px solid #e2bfb4;border-radius:8px;font-size:13px;outline:none;background:#fff;width:240px}
+.srch input:focus{border-color:#d04408}
+.srch .si{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:#8e7067;font-size:17px}
+select.fil{padding:7px 12px;border:1px solid #e2bfb4;border-radius:8px;font-size:13px;background:#fff;outline:none;cursor:pointer;color:#0b1c30}
+/* Process tree / accordion */
+.process-group{background:#fff;border:1px solid #e2bfb4;border-radius:12px;margin:0 24px 12px;overflow:hidden}
+.group-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;transition:background .13s;user-select:none}
+.group-header:hover{background:#eff4ff}
+.group-header.open{background:#eff4ff;border-bottom:1px solid #dce9ff}
+.group-left{display:flex;align-items:center;gap:12px}
+.group-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.group-name{font-size:14px;font-weight:700}
+.group-sub{font-size:12px;color:#5a4139;margin-top:2px}
+.group-right{display:flex;align-items:center;gap:8px}
+.count-badge{background:#dce9ff;color:#4c6078;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace}
+/* Process steps inside group */
+.steps-panel{display:none;padding:0}
+.steps-panel.open{display:block}
+.step-row{display:grid;grid-template-columns:40px 1fr 140px 100px 80px 80px;align-items:center;gap:10px;padding:11px 18px;border-bottom:1px solid #f0f4ff;font-size:13px;cursor:pointer;transition:background .12s}
+.step-row:hover{background:#eff4ff}
+.step-row:last-child{border-bottom:none}
+.step-num{width:28px;height:28px;border-radius:6px;background:#eff4ff;border:1px solid #dce9ff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#d04408}
+.step-name{font-weight:600}
+.step-desc{font-size:11px;color:#5a4139;margin-top:2px}
+.step-equip{font-size:12px;color:#4c6078;font-family:'JetBrains Mono',monospace}
+.pill-status{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700}
+.ps-ok{background:#dcfce7;color:#006a35}
+.ps-rev{background:#ffdbd0;color:#a83300}
+.ps-obs{background:#e5eeff;color:#4c6078}
+.step-ct{font-size:12px;font-weight:700;font-family:'JetBrains Mono',monospace;color:#0b1c30}
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.42);backdrop-filter:blur(3px);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:14px;width:540px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow:hidden;max-height:90vh;overflow-y:auto}
+.modal-hdr{background:#d04408;color:#fff;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0}
+.modal-body{padding:22px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#5a4139;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:8px 12px;border:1px solid #e2bfb4;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none}
+.field input:focus,.field select:focus{border-color:#d04408}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-ftr{padding:14px 22px 20px;display:flex;justify-content:flex-end;gap:10px;border-top:1px solid #f0f4ff;background:#fff}
+/* Notif */
+.notif{position:fixed;bottom:20px;right:20px;background:#0b1c30;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;transform:translateY(80px);opacity:0;transition:all .3s;z-index:999;display:flex;align-items:center;gap:8px}
+.notif.show{transform:translateY(0);opacity:1}
+</style>
+</head>
+<body>
+
+<div class="page-hdr">
+  <div>
+    <div class="page-title">Manufacturing Process Registry</div>
+    <div class="page-sub">End-to-end routing sheets, cycle times & equipment master for all part families</div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn btn-outline btn-sm" onclick="showNotif('Process registry exported as PDF.')"><span class="ms" style="font-size:16px">download</span> Export</button>
+    <button class="btn btn-primary" onclick="document.getElementById('new-process-modal').classList.add('open')"><span class="ms" style="font-size:16px">add</span> Register Process</button>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat"><div class="snum" style="color:#d04408">142</div><div class="slabel">Total Processes</div></div>
+  <div class="stat"><div class="snum" style="color:#006a35">118</div><div class="slabel">Active</div></div>
+  <div class="stat"><div class="snum" style="color:#e8a700">16</div><div class="slabel">Under Review</div></div>
+  <div class="stat"><div class="snum" style="color:#4c6078">8</div><div class="slabel">Obsolete</div></div>
+  <div class="stat"><div class="snum" style="color:#d04408">24</div><div class="slabel">Part Families</div></div>
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <div class="srch"><span class="ms si">search</span><input type="text" placeholder="Search process, equipment, standard..." oninput="if(this.value.length>2)showNotif('Searching registry for: '+this.value)"></div>
+  <select class="fil" onchange="if(this.value)showNotif('Filtered by plant: '+this.value)">
+    <option value="">All Plants</option>
+    <option>Aurangabad Waluj</option>
+    <option>Pithampur</option>
+    <option>Hosur</option>
+    <option>Pantnagar</option>
+  </select>
+  <select class="fil" onchange="if(this.value)showNotif('Filtered by status: '+this.value)">
+    <option value="">All Status</option>
+    <option>Active</option>
+    <option>Under Review</option>
+    <option>Obsolete</option>
+  </select>
+  <select class="fil" onchange="if(this.value)showNotif('Filtered by family: '+this.value)">
+    <option value="">All Part Families</option>
+    <option>2-Wheeler Chassis</option>
+    <option>Motorcycle Handle</option>
+    <option>Muffler Assembly</option>
+    <option>Seating Systems</option>
+  </select>
+</div>
+
+<!-- Process Groups (Accordion) -->
+<div class="process-group">
+  <div class="group-header open" onclick="toggleGroup(this)">
+    <div class="group-left">
+      <div class="group-icon" style="background:#ffdbd0"><span class="ms fill" style="font-size:22px;color:#d04408">directions_bike</span></div>
+      <div>
+        <div class="group-name">2-Wheeler Chassis Manufacturing</div>
+        <div class="group-sub">P/N Family: TB-2024 · Aurangabad Waluj Unit I · 8 process steps</div>
+      </div>
+    </div>
+    <div class="group-right">
+      <span class="count-badge">8 steps</span>
+      <span class="pill-status ps-ok"><span class="ms fill" style="font-size:12px">check_circle</span> Active</span>
+      <span class="ms" style="color:#5a4139">expand_less</span>
+    </div>
+  </div>
+  <div class="steps-panel open">
+    <div style="display:grid;grid-template-columns:40px 1fr 140px 100px 80px 80px;gap:10px;padding:8px 18px;background:#eff4ff;border-bottom:1px solid #dce9ff;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#5a4139">
+      <div>Step</div><div>Process / Description</div><div>Equipment</div><div>Standard</div><div>Cycle Time</div><div>Status</div>
+    </div>
+    <div class="step-row" onclick="showNotif('Step 1: Blanking — Drawing M001 opened.')">
+      <div class="step-num">01</div>
+      <div><div class="step-name">Sheet Metal Blanking</div><div class="step-desc">Shear 3mm MS sheet to 1200×600 blank</div></div>
+      <div class="step-equip">CNC Turret Press</div>
+      <div style="font-size:11px;color:#4c6078">IS 2062 Gr-A</div>
+      <div class="step-ct">42 sec</div>
+      <div><span class="pill-status ps-ok">Active</span></div>
+    </div>
+    <div class="step-row" onclick="showNotif('Step 2: Deep Drawing — Drawing M002 opened.')">
+      <div class="step-num">02</div>
+      <div><div class="step-name">Deep Drawing — Frame Side Panel</div><div class="step-desc">Form chassis side rail via progressive die</div></div>
+      <div class="step-equip">400T Hydraulic Press</div>
+      <div style="font-size:11px;color:#4c6078">IS 2062</div>
+      <div class="step-ct">68 sec</div>
+      <div><span class="pill-status ps-ok">Active</span></div>
+    </div>
+    <div class="step-row" onclick="showNotif('Step 3: MIG Welding — WPS-003 opened.')">
+      <div class="step-num">03</div>
+      <div><div class="step-name">MIG Welding — Frame Assembly</div><div class="step-desc">Semi-automatic MIG welding of chassis sub-frame</div></div>
+      <div class="step-equip">OTC Daihen MIG 350A</div>
+      <div style="font-size:11px;color:#4c6078">ISO 15614</div>
+      <div class="step-ct">4.2 min</div>
+      <div><span class="pill-status ps-ok">Active</span></div>
+    </div>
+    <div class="step-row" onclick="showNotif('Step 4: Jig Drilling — Drawing M004 opened.')">
+      <div class="step-num">04</div>
+      <div><div class="step-name">CNC Drilling — Mounting Holes</div><div class="step-desc">⌀22mm H7 holes per GD&T callout</div></div>
+      <div class="step-equip">Makino S33 VMC</div>
+      <div style="font-size:11px;color:#4c6078">ASME Y14.5</div>
+      <div class="step-ct">3.1 min</div>
+      <div><span class="pill-status ps-rev"><span class="ms" style="font-size:12px">warning</span> Review</span></div>
+    </div>
+    <div class="step-row" onclick="showNotif('Step 5: Phosphating — SOP-P005 opened.')">
+      <div class="step-num">05</div>
+      <div><div class="step-name">Zinc Phosphating</div><div class="step-desc">Pre-paint corrosion treatment batch process</div></div>
+      <div class="step-equip">Phosphate Tank Line</div>
+      <div style="font-size:11px;color:#4c6078">IS 3618</div>
+      <div class="step-ct">18 min</div>
+      <div><span class="pill-status ps-ok">Active</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="process-group">
+  <div class="group-header" onclick="toggleGroup(this)">
+    <div class="group-left">
+      <div class="group-icon" style="background:#dcfce7"><span class="ms fill" style="font-size:22px;color:#006a35">speed</span></div>
+      <div>
+        <div class="group-name">Muffler Assembly — Exhaust Silencer</div>
+        <div class="group-sub">P/N Family: MA-2024 · Aurangabad Waluj Unit II · 6 process steps</div>
+      </div>
+    </div>
+    <div class="group-right">
+      <span class="count-badge">6 steps</span>
+      <span class="pill-status ps-rev"><span class="ms" style="font-size:12px">warning</span> Under Review</span>
+      <span class="ms" style="color:#5a4139">expand_more</span>
+    </div>
+  </div>
+  <div class="steps-panel">
+    <div style="display:grid;grid-template-columns:40px 1fr 140px 100px 80px 80px;gap:10px;padding:8px 18px;background:#eff4ff;border-bottom:1px solid #dce9ff;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#5a4139">
+      <div>Step</div><div>Process / Description</div><div>Equipment</div><div>Standard</div><div>Cycle Time</div><div>Status</div>
+    </div>
+    <div class="step-row" onclick="showNotif('Step 1: Tube Bending — Drawing MA001 opened.')">
+      <div class="step-num">01</div>
+      <div><div class="step-name">CNC Tube Bending</div><div class="step-desc">Bend exhaust pipe SS304, OD 52mm</div></div>
+      <div class="step-equip">BLM ELECT 80</div>
+      <div style="font-size:11px;color:#4c6078">DIN 2391</div>
+      <div class="step-ct">55 sec</div>
+      <div><span class="pill-status ps-ok">Active</span></div>
+    </div>
+    <div class="step-row" onclick="showNotif('Step 2: TIG Welding — WPS-MA002 opened — CAUTION: Weld audit required.')">
+      <div class="step-num">02</div>
+      <div><div class="step-name">TIG Welding — Canister to Pipe</div><div class="step-desc">⚠ RPN 96 — Enhanced inspection active</div></div>
+      <div class="step-equip">Lincoln Electric TIG</div>
+      <div style="font-size:11px;color:#4c6078">ISO 5817-B</div>
+      <div class="step-ct">6.5 min</div>
+      <div><span class="pill-status ps-rev"><span class="ms" style="font-size:12px">warning</span> Review</span></div>
+    </div>
+    <div class="step-row" onclick="showNotif('Step 3: LPI Test — SOP-NDT003 opened.')">
+      <div class="step-num">03</div>
+      <div><div class="step-name">Liquid Penetrant Inspection</div><div class="step-desc">100% weld inspection per FMEA corrective action</div></div>
+      <div class="step-equip">Magnaflux ZL-60D</div>
+      <div style="font-size:11px;color:#4c6078">ASTM E165</div>
+      <div class="step-ct">4.0 min</div>
+      <div><span class="pill-status ps-ok">Active</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="process-group" style="margin-bottom:24px">
+  <div class="group-header" onclick="toggleGroup(this)">
+    <div class="group-left">
+      <div class="group-icon" style="background:#eff4ff"><span class="ms fill" style="font-size:22px;color:#4c6078">motorcycle</span></div>
+      <div>
+        <div class="group-name">Motorcycle Handle Steering</div>
+        <div class="group-sub">P/N Family: HA-2024 · Pithampur Unit I · 5 process steps</div>
+      </div>
+    </div>
+    <div class="group-right">
+      <span class="count-badge">5 steps</span>
+      <span class="pill-status ps-ok"><span class="ms fill" style="font-size:12px">check_circle</span> Active</span>
+      <span class="ms" style="color:#5a4139">expand_more</span>
+    </div>
+  </div>
+  <div class="steps-panel">
+    <div style="display:grid;grid-template-columns:40px 1fr 140px 100px 80px 80px;gap:10px;padding:8px 18px;background:#eff4ff;border-bottom:1px solid #dce9ff;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#5a4139">
+      <div>Step</div><div>Process / Description</div><div>Equipment</div><div>Standard</div><div>Cycle Time</div><div>Status</div>
+    </div>
+    <div class="step-row" onclick="showNotif('Step 1: Drop Forging — Drawing HA001 opened.')">
+      <div class="step-num">01</div>
+      <div><div class="step-name">Drop Forging — Handlebar Crown</div><div class="step-desc">EN 8 steel, 10T hammer, die cavity fill check</div></div>
+      <div class="step-equip">10T Drop Hammer</div>
+      <div style="font-size:11px;color:#4c6078">IS 2004</div>
+      <div class="step-ct">28 sec</div>
+      <div><span class="pill-status ps-ok">Active</span></div>
+    </div>
+    <div class="step-row" onclick="showNotif('Step 2: Heat Treatment — SOP-HT002 opened.')">
+      <div class="step-num">02</div>
+      <div><div class="step-name">Normalizing Heat Treatment</div><div class="step-desc">870°C ±10°C soak, air cool — decarburization check</div></div>
+      <div class="step-equip">Ipsen Furnace 500kg</div>
+      <div style="font-size:11px;color:#4c6078">AMS 2759</div>
+      <div class="step-ct">45 min</div>
+      <div><span class="pill-status ps-rev"><span class="ms" style="font-size:12px">warning</span> Review</span></div>
+    </div>
+    <div class="step-row" onclick="showNotif('Step 3: CNC Machining — Program HA-NC003 opened.')">
+      <div class="step-num">03</div>
+      <div><div class="step-name">CNC Turning — Stem OD</div><div class="step-desc">Final OD 28.6 h6 tolerance turning op</div></div>
+      <div class="step-equip">Mazak Quick Turn</div>
+      <div style="font-size:11px;color:#4c6078">ISO 286 h6</div>
+      <div class="step-ct">3.8 min</div>
+      <div><span class="pill-status ps-ok">Active</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- New Process Modal -->
+<div class="modal-overlay" id="new-process-modal" onclick="if(event.target===this)classList.remove('open')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-hdr">
+      <h3><span class="ms" style="font-size:18px">add</span>&nbsp; Register New Process</h3>
+      <button onclick="document.getElementById('new-process-modal').classList.remove('open')" style="background:transparent;border:none;color:#fff;cursor:pointer"><span class="ms">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="field"><label>Part Family / Process Name</label><input type="text" placeholder="e.g. Brake Disc CNC Machining"></div>
+      <div class="g2">
+        <div class="field"><label>Part Number Family</label><input type="text" placeholder="P/N: XXX-XXXX"></div>
+        <div class="field"><label>Plant / Unit</label><select><option>Aurangabad Waluj Unit I</option><option>Aurangabad Waluj Unit II</option><option>Pithampur Unit I</option><option>Hosur</option><option>Pantnagar</option></select></div>
+      </div>
+      <div class="g2">
+        <div class="field"><label>Process Step Number</label><input type="number" min="1" placeholder="e.g. 5"></div>
+        <div class="field"><label>Cycle Time</label><input type="text" placeholder="e.g. 3.5 min"></div>
+      </div>
+      <div class="field"><label>Description</label><textarea rows="2" placeholder="Detailed process description, parameters..."></textarea></div>
+      <div class="g2">
+        <div class="field"><label>Equipment / Machine</label><input type="text" placeholder="e.g. Makino S33 VMC"></div>
+        <div class="field"><label>Quality Standard</label><input type="text" placeholder="e.g. ISO 1101, IS 2062"></div>
+      </div>
+      <div class="g2">
+        <div class="field"><label>Status</label><select><option>Active</option><option>Under Review</option><option>Obsolete</option></select></div>
+        <div class="field"><label>Process Owner</label><select><option>Sarah K.</option><option>Mike T.</option><option>Priya R.</option><option>Alex D.</option></select></div>
+      </div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn btn-outline" onclick="document.getElementById('new-process-modal').classList.remove('open')">Cancel</button>
+      <button class="btn btn-primary" onclick="document.getElementById('new-process-modal').classList.remove('open');showNotif('Process registered successfully in the registry.')"><span class="ms" style="font-size:15px">add</span> Register</button>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif"><span class="ms" style="font-size:16px">check_circle</span> <span id="notif-msg"></span></div>
+
+<script>
+function showNotif(msg){const el=document.getElementById('notif');document.getElementById('notif-msg').textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3500);}
+function toggleGroup(header) {
+  const panel = header.nextElementSibling;
+  const icon = header.querySelector('.ms:last-child');
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  header.classList.toggle('open', !isOpen);
+  icon.textContent = isOpen ? 'expand_more' : 'expand_less';
+}
+</script>
+</body>
+</html>

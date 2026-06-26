@@ -12,3 +12,6 @@ openpyxl
 opencv-python-headless
 openai
 xlsx2html
+sqlalchemy
+passlib[bcrypt]
+python-jose[cryptography]

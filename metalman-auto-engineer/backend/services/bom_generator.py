@@ -17,7 +17,7 @@ from openai import OpenAI
 # Initialize the OpenAI client pointing to the OLLAMA_BASE_URL.
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434/v1")
 OLLAMA_API_KEY = "ollama"  
-VISION_MODEL = "qwen3-vl:235b-instruct-cloud" 
+VISION_MODEL = "gemma4:31b-cloud" 
 
 client = OpenAI(
     base_url=OLLAMA_BASE_URL,

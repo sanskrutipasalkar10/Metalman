@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetalMan Engineering Automation Suite</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #f8f9ff; --surface: #ffffff; --surface-dim: #e5eeff;
+            --primary: #a83300; --primary-container: #d04408;
+            --on-surface: #0b1c30; --secondary: #4c6078;
+            --accent-green: #006a35; --accent-green-bg: #e8f5e9;
+            --outline: #c0c9d6; --dark: #111827;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; color: var(--on-surface); background: var(--bg); line-height: 1.6; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 20; vertical-align: middle; }
+
+        /* ── NAV ── */
+        .top-nav { position: sticky; top: 0; z-index: 100; background: rgba(248,249,255,.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--outline); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-brand { font-family: 'Hanken Grotesk', sans-serif; font-weight: 900; font-size: 1.35rem; color: var(--primary); display: flex; align-items: center; gap: 6px; }
+        .nav-links { display: flex; gap: 28px; font-size: 0.85rem; font-weight: 500; color: var(--secondary); }
+        .nav-links a { text-decoration: none; color: inherit; transition: color .15s; }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-actions { display: flex; gap: 10px; align-items: center; }
+        .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; cursor: pointer; border: none; text-decoration: none; transition: all .2s; }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-primary:hover { background: var(--primary-container); }
+        .btn-outline { background: transparent; border: 1.5px solid var(--outline); color: var(--on-surface); }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-dark { background: var(--dark); color: #fff; }
+        .btn-dark:hover { background: #1f2937; }
+
+        /* ── HERO ── */
+        .hero { max-width: 1200px; margin: 0 auto; padding: 80px 24px 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .hero-tag { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono'; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--primary); background: rgba(168,51,0,.08); padding: 5px 12px; border-radius: 20px; margin-bottom: 20px; }
+        .hero-tag .dot { width: 7px; height: 7px; background: var(--accent-green); border-radius: 50%; animation: pulse 1.8s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+        .hero h1 { font-family: 'Hanken Grotesk'; font-size: 2.8rem; font-weight: 900; line-height: 1.1; letter-spacing: -1px; color: var(--on-surface); margin-bottom: 18px; }
+        .hero h1 em { font-style: normal; color: var(--primary); }
+        .hero-sub { font-size: 1rem; color: var(--secondary); line-height: 1.7; margin-bottom: 28px; max-width: 520px; }
+        .hero-ctas { display: flex; gap: 12px; margin-bottom: 36px; flex-wrap: wrap; }
+        .hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+        .hero-stat { text-align: center; }
+        .hero-stat .val { font-family: 'JetBrains Mono'; font-size: 1.4rem; font-weight: 700; color: var(--primary); }
+        .hero-stat .label { font-size: 0.72rem; color: var(--secondary); margin-top: 2px; }
+        .hero-visual { background: linear-gradient(135deg, #0b1c30 0%, #1a2d45 100%); border-radius: 16px; padding: 36px; color: #fff; position: relative; overflow: hidden; }
+        .hero-visual::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(168,51,0,.25), transparent 70%); }
+        .hero-visual h4 { font-family: 'JetBrains Mono'; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,.5); margin-bottom: 24px; }
+        .metric-row { display: flex; align-items: center; gap: 14px; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+        .metric-row:last-child { border: none; }
+        .metric-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .metric-icon.teal { background: rgba(0,106,53,.2); color: #4ae183; }
+        .metric-icon.orange { background: rgba(168,51,0,.2); color: #ffb59d; }
+        .metric-icon.blue { background: rgba(59,130,246,.2); color: #93c5fd; }
+        .metric-row .big { font-family: 'Hanken Grotesk'; font-size: 1.6rem; font-weight: 800; }
+        .metric-row .desc { font-size: 0.78rem; color: rgba(255,255,255,.55); }
+
+        /* ── SECTION LAYOUT ── */
+        section { max-width: 1200px; margin: 0 auto; padding: 60px 24px; }
+        .section-tag { font-family: 'JetBrains Mono'; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); font-weight: 600; margin-bottom: 10px; }
+        .section-title { font-family: 'Hanken Grotesk'; font-size: 2rem; font-weight: 900; line-height: 1.15; margin-bottom: 14px; }
+        .section-desc { font-size: 0.95rem; color: var(--secondary); max-width: 700px; line-height: 1.7; margin-bottom: 40px; }
+
+        /* ── PILLARS GRID ── */
+        .pillars-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18px; }
+        .pillar-card { background: var(--surface); border: 1px solid var(--outline); border-radius: 12px; padding: 24px; transition: box-shadow .2s, border-color .2s; }
+        .pillar-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.06); border-color: var(--primary); }
+        .pillar-num { font-family: 'JetBrains Mono'; font-size: 0.65rem; font-weight: 700; color: var(--primary); background: rgba(168,51,0,.07); display: inline-block; padding: 2px 8px; border-radius: 4px; margin-bottom: 10px; }
+        .pillar-card h3 { font-family: 'Hanken Grotesk'; font-size: 1.05rem; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .pillar-card h3 .material-symbols-outlined { font-size: 20px; color: var(--primary); }
+        .pillar-card p { font-size: 0.82rem; color: var(--secondary); line-height: 1.65; }
+
+        /* ── TECH ENGINE ── */
+        .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .tech-card { background: var(--dark); color: #fff; border-radius: 12px; padding: 24px; }
+        .tech-card h4 { font-family: 'Hanken Grotesk'; font-size: 0.95rem; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .tech-card h4 .material-symbols-outlined { color: #ffb59d; font-size: 18px; }
+        .tech-card p { font-size: 0.8rem; color: rgba(255,255,255,.6); line-height: 1.6; }
+
+        /* ── FOOTER CTA ── */
+        .footer-cta { background: linear-gradient(135deg, #0b1c30, #1a2d45); border-radius: 16px; padding: 48px; color: #fff; text-align: center; margin: 60px auto; max-width: 1200px; }
+        .footer-cta h2 { font-family: 'Hanken Grotesk'; font-size: 1.8rem; font-weight: 900; margin-bottom: 10px; }
+        .footer-cta p { font-size: 0.9rem; color: rgba(255,255,255,.6); max-width: 550px; margin: 0 auto 28px; }
+        .footer-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .footer-form input { padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.06); color: #fff; font-size: 0.82rem; width: 200px; outline: none; }
+        .footer-form input::placeholder { color: rgba(255,255,255,.35); }
+        .footer-form input:focus { border-color: var(--primary); }
+        .foot-bar { max-width: 1200px; margin: 0 auto; padding: 20px 24px; text-align: center; font-size: 0.72rem; color: var(--secondary); border-top: 1px solid var(--outline); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; padding: 40px 20px 30px; gap: 30px; }
+            .hero h1 { font-size: 2rem; }
+            .nav-links { display: none; }
+            .pillars-grid { grid-template-columns: 1fr; }
+            .tech-grid { grid-template-columns: 1fr; }
+            .footer-cta { margin: 40px 16px; padding: 32px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== TOP NAV ===== -->
+<nav class="top-nav">
+    <div class="nav-inner">
+        <div class="nav-brand">
+            <span class="material-symbols-outlined" style="font-size:22px">precision_manufacturing</span>
+            MetalMan
+        </div>
+        <div class="nav-links">
+            <a href="#pillars">Platform</a>
+            <a href="#tech">Architecture</a>
+            <a href="#cta">Contact</a>
+        </div>
+        <div class="nav-actions">
+            <a href="#" class="btn btn-outline" id="login-btn">Enterprise Login</a>
+            <a href="#" class="btn btn-primary" id="demo-btn">Request Demo</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+    <div class="hero-content">
+        <div class="hero-tag"><span class="dot"></span> AI-FIRST ENGINE ACTIVE</div>
+        <h1>Automate Quality Documentation <em>Instantly</em></h1>
+        <p class="hero-sub">Accelerate PPAP cycles with AI‑driven parsing, 3D geometry extraction, and auto‑generated compliance sheets.</p>
+        <div class="hero-ctas">
+            <a href="#" class="btn btn-primary" id="launch-btn"><span class="material-symbols-outlined" style="font-size:16px">rocket_launch</span>Launch Portal</a>
+            <a href="#" class="btn btn-outline" id="demo-btn-2">Request Demo</a>
+        </div>
+        <img src="landing_hero_image_1779882614845.png" alt="Engineering dashboard illustration" class="hero-image" style="width:100%;max-width:400px;margin-top:20px;animation:fadeIn 1s ease-in-out;">
+    </div>
+        <div class="hero-stats">
+            <div class="hero-stat"><div class="val">&lt; 30s</div><div class="label">Blueprint Parsing Cycle</div></div>
+            <div class="hero-stat"><div class="val">92%+</div><div class="label">First-Pass Yield Target</div></div>
+            <div class="hero-stat"><div class="val">0%</div><div class="label">Layout Distortion</div></div>
+        </div>
+    </div>
+    <div class="hero-visual">
+        <h4>System Performance Matrix</h4>
+        <div class="metric-row">
+            <div class="metric-icon teal"><span class="material-symbols-outlined">speed</span></div>
+            <div><div class="big">< 30 Seconds</div><div class="desc">Per Blueprint Parsing Cycle</div></div>
+        </div>
+        <div class="metric-row">
+            <div class="metric-icon orange"><span class="material-symbols-outlined">verified</span></div>
+            <div><div class="big">92%+ FPY</div><div class="desc">First-Pass Yield Target Accuracy</div></div>
+        </div>
+        <div class="metric-row">
+            <div class="metric-icon blue"><span class="material-symbols-outlined">aspect_ratio</span></div>
+            <div><div class="big">0% Distortion</div><div class="desc">Proportional Content-Aware Scaling</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== VALUE PROP ===== -->
+<section>
+    <div class="section-tag">The Core Value Proposition</div>
+    <h2 class="section-title">Breaking the Quality Engineering Bottleneck</h2>
+    <p class="section-desc">Traditional automotive compliance and PPAP cycles are broken. Quality teams waste up to 70% of their operational bandwidth manually copying tolerances, snipping geometric frames from prints, tracking data in fragmented spreadsheets, and guessing at FMEA records.</p>
+    <div style="background:var(--surface);border:1px solid var(--outline);border-radius:12px;padding:24px;max-width:700px">
+        <h4 style="font-family:'Hanken Grotesk';font-weight:800;font-size:1rem;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+            <span class="material-symbols-outlined" style="color:var(--primary);font-size:20px">change_circle</span>
+            The MetalMan Paradigm Shift
+        </h4>
+        <p style="font-size:.85rem;color:var(--secondary);line-height:1.7">Our centralized system leverages fine-tuned spatial vision pipelines, multimodal AI agents, and headless geometry projection engines to decouple complex document reasoning from manufacturing execution, wrapping the entire workflow inside a unified interface.</p>
+    </div>
+</section>
+
+<!-- ===== 10 PILLARS ===== -->
+<section id="pillars">
+    <div class="section-tag">Deep Dive</div>
+    <h2 class="section-title">The 10 Pillars of the MetalMan Core Suite</h2>
+    <p class="section-desc">A comprehensive, modular platform covering every stage of automotive quality compliance — from document ingestion to final audit submission.</p>
+    <div class="pillars-grid">
+        <div class="pillar-card">
+            <div class="pillar-num">01</div>
+            <h3><span class="material-symbols-outlined">lock</span> Secure Portal Entry</h3>
+            <p>Enterprise-grade RBAC designed for complex supply chains. Clean, secure handshakes instantly partition data between Plant Operators, Quality Auditors, Suppliers, and Operations Executives.</p>
+        </div>
+        <div class="pillar-card">
+            <div class="pillar-num">02</div>
+            <h3><span class="material-symbols-outlined">folder_open</span> Admin Library</h3>
+            <p>Your master digital asset ecosystem. Drag, drop, and ingest large multi-page engineering prints. The system auto-assigns universal tracking IDs and clusters assets by customer accounts.</p>
+        </div>
+        <div class="pillar-card">
+            <div class="pillar-num">03</div>
+            <h3><span class="material-symbols-outlined">factory</span> Process Registry</h3>
+            <p>Map physical components to manufacturing operation sequences — from Op 10 Laser Cutting to Op 30 Robotic Welding. Establishes the flow that feeds subsequent inspection checksheets.</p>
+        </div>
+        <div class="pillar-card">
+            <div class="pillar-num">04</div>
+            <h3><span class="material-symbols-outlined">analytics</span> BI Analytics Dashboard</h3>
+            <p>Real-time visibility into document pipeline health. Track verification metrics, pinpoint bottleneck parameters, monitor parsing speeds, and display live FPY accuracy metrics.</p>
+        </div>
+        <div class="pillar-card">
+            <div class="pillar-num">05</div>
+            <h3><span class="material-symbols-outlined">checklist</span> Product Status Tracker</h3>
+            <p>Complete operational clarity over submission readiness. Monitor a visual grid charting milestone completion of all 18 standard automotive PPAP elements, flagging gaps before reviews.</p>
+        </div>
+        <div class="pillar-card">
+            <div class="pillar-num">06</div>
+            <h3><span class="material-symbols-outlined">neurology</span> AI Health Review</h3>
+            <p>Human-in-the-loop validation powered by multimodal vision reasoning. Canvas print on the left, AI-extracted parameters and confidence matrices on the right — engineers stay in control.</p>
+        </div>
+        <div class="pillar-card">
+            <div class="pillar-num">07</div>
+            <h3><span class="material-symbols-outlined">precision_manufacturing</span> FMEA Suggestion Tools</h3>
+            <p>Transform historical failures into automated protective assets. Semantic vector queries check new specs against past discrepancies to suggest preventive FMEA actions.</p>
+        </div>
+        <div class="pillar-card">
+            <div class="pillar-num">08</div>
+            <h3><span class="material-symbols-outlined">smart_toy</span> AI Technical Assistant</h3>
+            <p>A conversational window inside the workspace. Run natural language queries against engineering manuals, welding code catalogs, and geometric tolerance charts.</p>
+        </div>
+        <div class="pillar-card">
+            <div class="pillar-num">09</div>
+            <h3><span class="material-symbols-outlined">assignment</span> Task Management Board</h3>
+            <p>Turn inspection anomalies into immediate actions. Failed audits or out-of-bounds tolerances generate coordinate-locked Kanban cards routed directly to assigned quality engineers.</p>
+        </div>
+        <div class="pillar-card">
+            <div class="pillar-num">10</div>
+            <h3><span class="material-symbols-outlined">edit_note</span> Document Correction Editor</h3>
+            <p>A spreadsheet-native inline tool. Engineers overwrite data points directly inside the web view during reviews, instantly syncing modifications to the central database.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TECH INFRASTRUCTURE ===== -->
+<section id="tech">
+    <div class="section-tag">Technical Infrastructure Engine</div>
+    <h2 class="section-title">Enterprise Architecture Built to Scale</h2>
+    <div class="tech-grid">
+        <div class="tech-card">
+            <h4><span class="material-symbols-outlined">inpaint</span> Surgical Feature Inpainting</h4>
+            <p>Multi-pass HSV color-space processing locates red metadata markings, extracts coordinates, and cleanly whites them out to prepare professional files for customer submissions.</p>
+        </div>
+        <div class="tech-card">
+            <h4><span class="material-symbols-outlined">aspect_ratio</span> Content-Aware Scaling</h4>
+            <p>The layout engine calculates exact text lengths and aspect ratios programmatically, adapting row heights and grid borders cell-by-cell — no squished images or clipped text.</p>
+        </div>
+        <div class="tech-card">
+            <h4><span class="material-symbols-outlined">view_in_ar</span> STEP Geometry 2D Projection</h4>
+            <p>Headless CAD kernels read 3D STEP data, establish optimized virtual camera vectors relative to manufacturing operations, and output crisp 2D instruction diagrams on demand.</p>
+        </div>
+        <div class="tech-card">
+            <h4><span class="material-symbols-outlined">bolt</span> Asynchronous Processing Model</h4>
+            <p>Engineered as a high-velocity modular monolith. Heavy-compute vision tasks are managed by background worker loops, keeping the main UI responsive and fast.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER CTA ===== -->
+<div class="footer-cta" id="cta">
+    <h2>Standardize Your Manufacturing Quality Ecosystem Today</h2>
+    <p>Ready to eliminate manual paperwork and secure your first-pass audit approvals? Connect with our deployment team to integrate MetalMan with your engineering infrastructure.</p>
+    <div class="footer-form">
+        <input type="email" placeholder="Work Email">
+        <input type="text" placeholder="Plant Location">
+        <input type="text" placeholder="Primary Customer Base">
+        <button class="btn btn-primary" id="submit-demo-btn">
+            <span class="material-symbols-outlined" style="font-size:16px">send</span>
+            Request Deep-Dive Session
+        </button>
+    </div>
+</div>
+
+<div class="foot-bar">&copy; 2026 MetalMan Engineering Automation Suite. All Rights Reserved.</div>
+
+<script>
+    // Wire CTAs to parent shell
+    function msgParent(data) {
+        if (window.parent && window.parent !== window) {
+            window.parent.postMessage(data, '*');
+        }
+    }
+    document.getElementById('login-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        msgParent({ type: 'NAVIGATE', page: 'login.html' });
+    });
+    document.getElementById('launch-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        msgParent({ type: 'NAVIGATE', page: 'login.html' });
+    });
+    ['demo-btn','demo-btn-2','submit-demo-btn'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('click', (e) => { e.preventDefault(); alert('Demo request submitted! Our team will contact you shortly.'); });
+    });
+</script>
+</body>
+</html>

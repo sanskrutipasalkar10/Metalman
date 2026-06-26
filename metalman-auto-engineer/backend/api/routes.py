@@ -26,7 +26,29 @@ try:
 except ImportError:
     HAS_WIN32 = False
 
+from openpyxl import Workbook, load_workbook
+from openpyxl.drawing.image import Image as OpenpyxlImage
+from PIL import Image
+import base64
+from io import BytesIO
 router = APIRouter()
+
+@router.get("/demo-folders")
+async def get_demo_folders():
+    # Path to the internal stitch_suite folder
+    demo_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "stitch_suite"))
+    folders = []
+    if os.path.exists(demo_path):
+        for item in os.listdir(demo_path):
+            if os.path.isdir(os.path.join(demo_path, item)) and not item.startswith("."):
+                # Filter out landing and login pages as requested
+                if "landing" in item or "login" in item:
+                    continue
+                # Check if content_only.html or code.html exists
+                if os.path.exists(os.path.join(demo_path, item, "content_only.html")) or \
+                   os.path.exists(os.path.join(demo_path, item, "code.html")):
+                    folders.append(item)
+    return sorted(folders)
 
 class CorrectionItem(BaseModel):
     document: str
@@ -42,6 +64,7 @@ class BulkCorrectionRequest(BaseModel):
 UPLOAD_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "uploads"))
 OUTPUT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "outputs"))
 TASKS_FILE = "tasks_db.json"
+WELDING_EXCEL_FILENAME = os.path.join(OUTPUT_DIR, "welding_crops.xlsx")
 PFD_TEMPLATE_PATH     = os.path.join("assets", "pfd template.xlsx")
 BOM_TEMPLATE_PATH     = os.path.join("assets", "BLANK_BOM_TEMPLATE.xlsx")
 TOOLING_TEMPLATE_PATH = os.path.join("assets", "tooling list temp.xlsx")
@@ -70,6 +93,34 @@ def save_tasks():
             json.dump(TASKS, f, indent=2)
     except:
         pass
+
+# Ensure directories exist
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+# Welding Cropper State
+current_welding_row = 1
+
+def init_welding_excel():
+    global current_welding_row
+    try:
+        if os.path.exists(WELDING_EXCEL_FILENAME):
+            wb = load_workbook(WELDING_EXCEL_FILENAME)
+            ws = wb.active
+            current_welding_row = ws.max_row + 1
+        else:
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "welding sheet"
+            ws.cell(row=1, column=1, value="ID")
+            ws.cell(row=1, column=2, value="Cropped Image")
+            wb.save(WELDING_EXCEL_FILENAME)
+            current_welding_row = 2
+    except Exception as e:
+        print(f"[WELDING] Init error: {e}")
+        current_welding_row = 2
+
+init_welding_excel()
 
 load_tasks()
 
@@ -458,3 +509,59 @@ async def preview_excel(filename: str):
         return HTMLResponse(content=styled_html)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Preview failed: {str(e)}")
+
+@router.post("/save-crop")
+async def save_crop(image_data: str = Form(...)):
+    global current_welding_row
+    try:
+        # Decode base64 image
+        header, encoded = image_data.split(",", 1)
+        data = base64.b64decode(encoded)
+        img_buffer = BytesIO(data)
+        image = Image.open(img_buffer)
+        
+        # Save image to outputs
+        crop_id = str(uuid.uuid4())[:8]
+        crop_filename = f"crop_{crop_id}.png"
+        crop_path = os.path.join(OUTPUT_DIR, crop_filename)
+        image.save(crop_path)
+        
+        # Load existing Excel
+        wb = load_workbook(WELDING_EXCEL_FILENAME)
+        ws = wb.active
+        
+        # Add ID
+        ws.cell(row=current_welding_row, column=1, value=current_welding_row - 1)
+        
+        # Insert image in Column B
+        img = OpenpyxlImage(crop_path)
+        img.width = 250
+        img.height = 180
+        
+        # Adjust row height to fit image
+        ws.row_dimensions[current_welding_row].height = 150
+        ws.column_dimensions['B'].width = 40
+        
+        ws.add_image(img, f"B{current_welding_row}")
+        
+        wb.save(WELDING_EXCEL_FILENAME)
+        current_welding_row += 1
+        
+        return {"status": "success", "message": f"Image saved in row {current_welding_row-1}", "row": current_welding_row-1}
+    except Exception as e:
+        print(f"[WELDING] Save error: {e}")
+        return {"status": "error", "message": str(e)}
+
+@router.get("/download-excel")
+async def download_welding_excel():
+    if os.path.exists(WELDING_EXCEL_FILENAME):
+        return FileResponse(WELDING_EXCEL_FILENAME, filename="welding_report.xlsx", media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    raise HTTPException(status_code=404, detail="File not found")
+
+@router.post("/reset-excel")
+async def reset_welding_excel():
+    global current_welding_row
+    if os.path.exists(WELDING_EXCEL_FILENAME):
+        os.remove(WELDING_EXCEL_FILENAME)
+    init_welding_excel()
+    return {"status": "success", "message": "Excel has been reset"}

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Library - Document Management | MetalMind Portal</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;900&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "background": "#f8f9ff",
+                    "surface-variant": "#d3e4fe",
+                    "on-surface": "#0b1c30",
+                    "on-tertiary-container": "#f6fff4",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#51647d",
+                    "surface": "#f8f9ff",
+                    "secondary": "#4c6078",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed-variant": "#005228",
+                    "on-secondary-fixed-variant": "#35485f",
+                    "surface-tint": "#ac3400",
+                    "outline": "#8e7067",
+                    "surface-container-high": "#dce9ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "primary-fixed-dim": "#ffb59d",
+                    "primary-fixed": "#ffdbd0",
+                    "on-secondary-fixed": "#061d32",
+                    "on-secondary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#ffb59d",
+                    "on-primary-container": "#fffbff",
+                    "outline-variant": "#e2bfb4",
+                    "on-primary-fixed": "#390b00",
+                    "on-error-container": "#93000a",
+                    "on-background": "#0b1c30",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed-variant": "#832600",
+                    "secondary-fixed-dim": "#b4c8e4",
+                    "surface-container": "#e5eeff",
+                    "surface-container-low": "#eff4ff",
+                    "inverse-surface": "#213145",
+                    "secondary-fixed": "#d1e4ff",
+                    "primary": "#a83300",
+                    "surface-dim": "#cbdbf5",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-surface-variant": "#5a4139",
+                    "tertiary-container": "#008645",
+                    "on-tertiary-fixed": "#00210c",
+                    "primary-container": "#d04408",
+                    "tertiary": "#006a35",
+                    "secondary-container": "#cde1fe",
+                    "tertiary-fixed": "#6bfe9c",
+                    "tertiary-fixed-dim": "#4ae183"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "8px",
+                    "unit": "4px",
+                    "stack-lg": "32px",
+                    "container-padding": "24px",
+                    "gutter": "16px",
+                    "stack-md": "16px",
+                    "max-width-desktop": "1440px"
+            },
+            "fontFamily": {
+                    "headline-xl": ["Hanken Grotesk"],
+                    "body-sm": ["Inter"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["JetBrains Mono"],
+                    "label-md": ["JetBrains Mono"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "label-md": ["13px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Soft industrial shadow for cards */
+        .industrial-shadow {
+            box-shadow: 0 4px 6px -1px rgba(11, 28, 48, 0.04), 0 2px 4px -2px rgba(11, 28, 48, 0.04);
+        }
+        /* Processing glow effect */
+        @keyframes subtle-glow {
+            0% { box-shadow: 0 0 0 0 rgba(168, 51, 0, 0.2); }
+            50% { box-shadow: 0 0 0 4px rgba(168, 51, 0, 0.1); }
+            100% { box-shadow: 0 0 0 0 rgba(168, 51, 0, 0); }
+        }
+        .processing-glow {
+            animation: subtle-glow 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex">
+<!-- Main Content Canvas -->
+<main class="flex-1 p-container-padding flex flex-col gap-stack-lg max-w-max-desktop mx-auto w-full">
+<!-- Page Header -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-stack-md border-b border-outline-variant pb-stack-md">
+<div>
+<nav class="flex items-center gap-unit text-secondary font-label-sm text-label-sm uppercase mb-unit">
+<span>Admin Library</span>
+<span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+<span class="text-on-surface">Document Management</span>
+</nav>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">PPAP Document Registry</h2>
+<p class="font-body-sm text-body-sm text-secondary mt-1">Manage, review, and distribute generated Production Part Approval Process documentation.</p>
+</div>
+<div class="flex gap-stack-sm">
+<button class="bg-primary text-on-primary font-label-md text-label-md px-stack-md py-stack-sm rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm flex items-center gap-unit">
+<span class="material-symbols-outlined text-[18px]" data-icon="upload_file">upload_file</span>
+                    Ingest Legacy Doc
+                </button>
+</div>
+</header>
+<!-- Action Bar (Filters & Search) -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-stack-sm industrial-shadow flex flex-col md:flex-row items-center justify-between gap-stack-md">
+<div class="flex flex-1 w-full md:w-auto gap-stack-md items-center">
+<!-- Search Input -->
+<div class="relative w-full max-w-sm">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary" data-icon="search">search</span>
+<input id="search-input" class="w-full bg-surface border border-outline-variant rounded-lg pl-10 pr-4 py-2 font-body-sm text-body-sm text-on-surface placeholder:text-secondary focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="Search Part Name or Project ID..." type="text"/>
+</div>
+<!-- Filters -->
+<div class="hidden md:flex gap-unit">
+<button class="flex items-center gap-1 bg-surface border border-outline-variant px-3 py-2 rounded-lg font-label-sm text-label-sm text-on-surface hover:bg-surface-container transition-colors">
+                        Project Status
+                        <span class="material-symbols-outlined text-[16px]" data-icon="arrow_drop_down">arrow_drop_down</span>
+</button>
+<button class="flex items-center gap-1 bg-surface border border-outline-variant px-3 py-2 rounded-lg font-label-sm text-label-sm text-on-surface hover:bg-surface-container transition-colors">
+                        Health Score
+                        <span class="material-symbols-outlined text-[16px]" data-icon="arrow_drop_down">arrow_drop_down</span>
+</button>
+</div>
+</div>
+<!-- Bulk Actions Container -->
+<div class="flex gap-stack-sm w-full md:w-auto border-t md:border-t-0 md:border-l border-outline-variant pt-stack-sm md:pt-0 md:pl-stack-sm">
+<button class="flex-1 md:flex-none flex items-center justify-center gap-2 bg-surface border border-outline-variant text-secondary px-stack-md py-2 rounded-lg font-label-md text-label-md transition-all opacity-50 cursor-not-allowed" disabled="" id="bulk-distribute-btn">
+<span class="material-symbols-outlined text-[18px]" data-icon="send">send</span>
+                    Distribute Selected
+                </button>
+</div>
+</section>
+<!-- Robust Data Table -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden industrial-shadow">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse whitespace-nowrap">
+<thead class="bg-surface-container border-b border-outline-variant">
+<tr>
+<th class="px-stack-md py-stack-sm w-12 text-center">
+<input class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4 cursor-pointer" id="select-all" type="checkbox"/>
+</th>
+<th class="px-stack-md py-stack-sm font-label-sm text-label-sm uppercase text-secondary tracking-wider">Document / Part Name</th>
+<th class="px-stack-md py-stack-sm font-label-sm text-label-sm uppercase text-secondary tracking-wider">Project Allocation</th>
+<th class="px-stack-md py-stack-sm font-label-sm text-label-sm uppercase text-secondary tracking-wider">Generation Date</th>
+<th class="px-stack-md py-stack-sm font-label-sm text-label-sm uppercase text-secondary tracking-wider">AI Health Score</th>
+<th class="px-stack-md py-stack-sm font-label-sm text-label-sm uppercase text-secondary tracking-wider text-right">Distribution Status</th>
+<th class="px-stack-md py-stack-sm w-12"></th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface divide-y divide-outline-variant">
+<!-- Row 1: High Health, Ready -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-stack-md py-3 text-center">
+<input class="row-checkbox rounded border-outline-variant text-primary focus:ring-primary w-4 h-4 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-stack-md py-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="description">description</span>
+<div>
+<p class="font-semibold text-on-surface">2 Wheeler Chassis (Complete Frame)</p>
+<p class="font-label-sm text-label-sm text-secondary font-mono mt-0.5">ID: TB-2024-X9</p>
+</div>
+</div>
+</td>
+<td class="px-stack-md py-3 text-secondary font-medium">AeroPropulsion NextGen</td>
+<td class="px-stack-md py-3 text-secondary font-mono">2024-10-24 08:14Z</td>
+<td class="px-stack-md py-3">
+<div class="flex items-center gap-2">
+<div class="w-16 h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[98%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary">98%</span>
+</div>
+</td>
+<td class="px-stack-md py-3 text-right">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+                                    Ready for Dist.
+                                </span>
+</td>
+<td class="px-stack-md py-3 text-right">
+<button class="text-secondary hover:text-primary transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: Review Needed (Subtle Orange Highlight) -->
+<tr class="hover:bg-surface-container-low transition-colors group bg-[#FFF7ED]">
+<td class="px-stack-md py-3 text-center">
+<input class="row-checkbox rounded border-outline-variant text-primary focus:ring-primary w-4 h-4 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-stack-md py-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="warning">warning</span>
+<div>
+<p class="font-semibold text-on-surface">Motorcycle Handle Steering</p>
+<p class="font-label-sm text-label-sm text-secondary font-mono mt-0.5">ID: HA-2024-B1</p>
+</div>
+</div>
+</td>
+<td class="px-stack-md py-3 text-secondary font-medium">Lunar Lander Mech</td>
+<td class="px-stack-md py-3 text-secondary font-mono">2024-10-25 14:32Z</td>
+<td class="px-stack-md py-3">
+<div class="flex items-center gap-2">
+<div class="w-16 h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[72%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold">72%</span>
+</div>
+<p class="text-[10px] text-primary mt-1 leading-none">Material spec mismatch detected</p>
+</td>
+<td class="px-stack-md py-3 text-right">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full border border-primary border-dashed text-primary font-label-sm text-label-sm bg-surface-lowest">
+<span class="material-symbols-outlined text-[14px]" data-icon="engineering">engineering</span>
+                                    Engineer Review
+                                </span>
+</td>
+<td class="px-stack-md py-3 text-right">
+<button class="text-secondary hover:text-primary transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Processing Status -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-stack-md py-3 text-center">
+<input class="row-checkbox rounded border-outline-variant text-primary focus:ring-primary w-4 h-4 cursor-pointer" disabled="" type="checkbox"/>
+</td>
+<td class="px-stack-md py-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="hourglass_empty">hourglass_empty</span>
+<div>
+<p class="font-semibold text-on-surface">Muffler Assembly (Exhaust Silencer)</p>
+<p class="font-label-sm text-label-sm text-secondary font-mono mt-0.5">ID: LG-2024-M4</p>
+</div>
+</div>
+</td>
+<td class="px-stack-md py-3 text-secondary font-medium">Project Apollo Legacy</td>
+<td class="px-stack-md py-3 text-secondary font-mono">2024-10-26 09:00Z</td>
+<td class="px-stack-md py-3">
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined animate-spin text-[16px]" data-icon="sync">sync</span>
+<span class="font-label-sm text-label-sm">Analyzing...</span>
+</div>
+</td>
+<td class="px-stack-md py-3 text-right">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-container text-on-primary-container font-label-sm text-label-sm processing-glow">
+<span class="material-symbols-outlined text-[14px]" data-icon="model_training">model_training</span>
+                                    Generating Output
+                                </span>
+</td>
+<td class="px-stack-md py-3 text-right">
+<button class="text-secondary hover:text-primary transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Normal Ready -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-stack-md py-3 text-center">
+<input class="row-checkbox rounded border-outline-variant text-primary focus:ring-primary w-4 h-4 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-stack-md py-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="description">description</span>
+<div>
+<p class="font-semibold text-on-surface">Passenger Car Seating Systems</p>
+<p class="font-label-sm text-label-sm text-secondary font-mono mt-0.5">ID: FI-2023-Z1</p>
+</div>
+</div>
+</td>
+<td class="px-stack-md py-3 text-secondary font-medium">AeroPropulsion NextGen</td>
+<td class="px-stack-md py-3 text-secondary font-mono">2024-10-22 11:45Z</td>
+<td class="px-stack-md py-3">
+<div class="flex items-center gap-2">
+<div class="w-16 h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[100%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary">100%</span>
+</div>
+</td>
+<td class="px-stack-md py-3 text-right">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+                                    Ready for Dist.
+                                </span>
+</td>
+<td class="px-stack-md py-3 text-right">
+<button class="text-secondary hover:text-primary transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="bg-surface border-t border-outline-variant px-stack-md py-stack-sm flex items-center justify-between">
+<p class="font-label-sm text-label-sm text-secondary">Showing 1 to 4 of 245 documents</p>
+<div class="flex gap-unit">
+<button class="p-1 rounded hover:bg-surface-container text-secondary disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[20px]" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary">
+<span class="material-symbols-outlined text-[20px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Inline script for micro-interactions -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const selectAllCheckbox = document.getElementById('select-all');
+            const rowCheckboxes = document.querySelectorAll('.row-checkbox:not([disabled])');
+            const bulkDistributeBtn = document.getElementById('bulk-distribute-btn');
+
+            function updateBulkActionsState() {
+                const anyChecked = Array.from(rowCheckboxes).some(cb => cb.checked);
+                if (anyChecked) {
+                    bulkDistributeBtn.removeAttribute('disabled');
+                    bulkDistributeBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    bulkDistributeBtn.classList.add('hover:bg-primary', 'hover:border-primary', 'hover:text-on-primary', 'cursor-pointer');
+                } else {
+                    bulkDistributeBtn.setAttribute('disabled', 'true');
+                    bulkDistributeBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    bulkDistributeBtn.classList.remove('hover:bg-primary', 'hover:border-primary', 'hover:text-on-primary', 'cursor-pointer');
+                }
+            }
+
+            selectAllCheckbox.addEventListener('change', (e) => {
+                rowCheckboxes.forEach(cb => {
+                    cb.checked = e.target.checked;
+                });
+                updateBulkActionsState();
+            });
+
+            rowCheckboxes.forEach(cb => {
+                cb.addEventListener('change', () => {
+                    const allChecked = Array.from(rowCheckboxes).every(c => c.checked);
+                    const someChecked = Array.from(rowCheckboxes).some(c => c.checked);
+                    
+                    selectAllCheckbox.checked = allChecked;
+                    selectAllCheckbox.indeterminate = someChecked && !allChecked;
+                    
+                    updateBulkActionsState();
+                });
+            });
+        });
+    </script>
+</body></html>

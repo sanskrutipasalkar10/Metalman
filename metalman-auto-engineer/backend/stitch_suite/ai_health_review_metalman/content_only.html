@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Health Review — Metalman</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f0f4ff;color:#0b1c30;min-height:100vh}
+.ms{font-family:'Material Symbols Outlined';vertical-align:middle;user-select:none}
+.ms.fill{font-variation-settings:'FILL' 1}
+.page-hdr{background:#fff;border-bottom:1px solid #e2bfb4;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.page-title{font-size:22px;font-weight:800}
+.page-sub{font-size:13px;color:#5a4139;margin-top:2px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:'Inter',sans-serif}
+.btn-outline{background:#fff;border:1px solid #8e7067;color:#4c6078}.btn-outline:hover{background:#eff4ff}
+.btn-primary{background:#d04408;color:#fff}.btn-primary:hover{background:#a83300}
+.btn-sm{padding:5px 12px;font-size:12px}
+/* Hero metrics */
+.hero-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;padding:16px 24px}
+.hm{background:#fff;border:1px solid #e2bfb4;border-radius:10px;padding:14px 16px;position:relative;overflow:hidden}
+.hm-num{font-size:28px;font-weight:800}
+.hm-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#5a4139;margin-top:4px}
+.hm-trend{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;margin-top:6px}
+.trend-up{background:#dcfce7;color:#006a35}
+.trend-down{background:#ffdad6;color:#ba1a1a}
+.trend-neutral{background:#eff4ff;color:#4c6078}
+/* Alert banner */
+.alert-banner{margin:0 24px 16px;border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;font-size:13px}
+.alert-red{background:#ffdad6;border:1px solid #ffb4ab;color:#ba1a1a}
+.alert-yellow{background:#fff8e6;border:1px solid #e8a700;color:#7c5c00}
+/* Main grid */
+.main-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;padding:0 24px 16px}
+.card{background:#fff;border:1px solid #e2bfb4;border-radius:12px;padding:18px}
+.card-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.card-sub{font-size:12px;color:#5a4139;margin-bottom:14px}
+/* Model table */
+.model-table{width:100%;border-collapse:collapse;font-size:13px}
+.model-table th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#5a4139;padding:8px 12px;background:#eff4ff;border-bottom:1px solid #e2bfb4}
+.model-table td{padding:10px 12px;border-bottom:1px solid #f0f4ff;vertical-align:middle}
+.model-table tbody tr{cursor:pointer;transition:background .12s}
+.model-table tbody tr:hover{background:#eff4ff}
+.model-table tbody tr:last-child td{border-bottom:none}
+.status-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.pill-ok{background:#dcfce7;color:#006a35}
+.pill-warn{background:#fff8e6;color:#7c5c00;border:1px solid #e8a700}
+.pill-bad{background:#ffdad6;color:#ba1a1a}
+.pill-run{background:#eff4ff;color:#d04408}
+/* Progress compact */
+.pc-item{margin-bottom:10px}
+.pc-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;font-size:12px}
+.pc-track{height:7px;background:#e5eeff;border-radius:4px;overflow:hidden}
+.pc-fill{height:7px;border-radius:4px;transition:width 1s}
+/* Test run panel */
+.test-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 24px 16px}
+.test-card{background:#fff;border:1px solid #e2bfb4;border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s}
+.test-card:hover{border-color:#d04408;background:#eff4ff}
+.test-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.test-title{font-size:13px;font-weight:600}
+.test-sub{font-size:11px;color:#5a4139;margin-top:2px}
+.test-result{font-size:11px;font-weight:700;margin-top:4px}
+/* Log feed */
+.log-feed{max-height:180px;overflow-y:auto;background:#0b1c30;border-radius:8px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.9;color:#b4c8e4}
+.log-ok{color:#4ae183}
+.log-warn{color:#e8a700}
+.log-err{color:#ff8a8a}
+.notif{position:fixed;bottom:20px;right:20px;background:#0b1c30;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;transform:translateY(80px);opacity:0;transition:all .3s;z-index:999;display:flex;align-items:center;gap:8px}
+.notif.show{transform:translateY(0);opacity:1}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+</style>
+</head>
+<body>
+
+<div class="page-hdr">
+  <div>
+    <div class="page-title">AI Health Review</div>
+    <div class="page-sub">Model confidence, performance drift, and diagnostics dashboard</div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn btn-outline btn-sm" onclick="runDiagnostic()"><span class="ms" style="font-size:16px">play_arrow</span> Run Diagnostics</button>
+    <button class="btn btn-outline btn-sm" onclick="showNotif('Scheduled for midnight maintenance window.')"><span class="ms" style="font-size:16px">schedule</span> Schedule Retrain</button>
+    <button class="btn btn-primary btn-sm" onclick="showNotif('Health report downloaded.')"><span class="ms" style="font-size:16px">download</span> Export Report</button>
+  </div>
+</div>
+
+<!-- Alert -->
+<div class="alert-banner alert-red">
+  <span class="ms fill" style="font-size:22px">warning</span>
+  <div>
+    <strong>Material Spec Mismatch Detected</strong> — Motorcycle Handle Steering (ID: HA-2024-B1) shows 72% confidence on material classification. Manual engineer review triggered.
+    <a href="#" onclick="showNotif('Routed to Priya R. for review.');return false" style="margin-left:10px;font-weight:700;text-decoration:underline">Review Now →</a>
+  </div>
+</div>
+
+<!-- Hero Metrics -->
+<div class="hero-metrics">
+  <div class="hm"><div class="hm-num" style="color:#d04408">98.7%</div><div class="hm-label">Global Confidence</div><div class="hm-trend trend-up"><span class="ms" style="font-size:12px">trending_up</span>+0.3%</div></div>
+  <div class="hm"><div class="hm-num" style="color:#006a35">4,812</div><div class="hm-label">Docs Reviewed</div><div class="hm-trend trend-up">↑ This Month</div></div>
+  <div class="hm"><div class="hm-num" style="color:#e8a700" id="drift-val">0.12%</div><div class="hm-label">Model Drift</div><div class="hm-trend trend-neutral">Within Threshold</div></div>
+  <div class="hm"><div class="hm-num" style="color:#ba1a1a">2</div><div class="hm-label">Active Alerts</div><div class="hm-trend trend-down"><span class="ms" style="font-size:12px">priority_high</span>Urgent</div></div>
+  <div class="hm"><div class="hm-num" style="color:#4c6078">1.4s</div><div class="hm-label">Avg. Review Time</div><div class="hm-trend trend-up">-0.2s vs last wk</div></div>
+  <div class="hm"><div class="hm-num" style="color:#006a35">99.9%</div><div class="hm-label">API Uptime</div><div class="hm-trend trend-up">SLA Met</div></div>
+</div>
+
+<!-- Main Grid -->
+<div class="main-grid">
+  <!-- Model Performance Table -->
+  <div class="card">
+    <div class="card-title">Model Performance by Domain</div>
+    <div class="card-sub">Click any row to view detailed diagnosis</div>
+    <table class="model-table">
+      <thead>
+        <tr>
+          <th>Domain</th><th>Accuracy</th><th>Drift</th><th>Samples</th><th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr onclick="showDetail('Dimensional Tolerance Verification','99.1%','0.02%','1,840')">
+          <td>Dimensional Tolerance</td>
+          <td><strong style="color:#006a35">99.1%</strong></td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:12px">0.02%</td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:12px">1,840</td>
+          <td><span class="status-pill pill-ok"><span class="ms" style="font-size:12px">check_circle</span> Optimal</span></td>
+        </tr>
+        <tr onclick="showDetail('Material Spec Classification','94.3%','0.87%','2,103')">
+          <td>Material Spec Classification</td>
+          <td><strong style="color:#e8a700">94.3%</strong></td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#e8a700">0.87%</td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:12px">2,103</td>
+          <td><span class="status-pill pill-warn"><span class="ms" style="font-size:12px">warning</span> Drift</span></td>
+        </tr>
+        <tr onclick="showDetail('GD&T Callout Accuracy','97.8%','0.11%','981')">
+          <td>GD&T Callout Accuracy</td>
+          <td><strong style="color:#006a35">97.8%</strong></td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:12px">0.11%</td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:12px">981</td>
+          <td><span class="status-pill pill-ok"><span class="ms" style="font-size:12px">check_circle</span> Optimal</span></td>
+        </tr>
+        <tr onclick="showDetail('BOM Cross-Validation','96.3%','0.18%','1,420')">
+          <td>BOM Cross-Validation</td>
+          <td><strong style="color:#006a35">96.3%</strong></td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:12px">0.18%</td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:12px">1,420</td>
+          <td><span class="status-pill pill-ok"><span class="ms" style="font-size:12px">check_circle</span> Optimal</span></td>
+        </tr>
+        <tr onclick="showDetail('FMEA Risk Classification','91.2%','1.42%','654')">
+          <td>FMEA Risk Classification</td>
+          <td><strong style="color:#ba1a1a">91.2%</strong></td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#ba1a1a">1.42%</td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:12px">654</td>
+          <td><span class="status-pill pill-bad"><span class="ms" style="font-size:12px">error</span> Retrain</span></td>
+        </tr>
+        <tr onclick="showDetail('Process Flow Classification','98.2%','0.05%','2,230')">
+          <td>Process Flow Classification</td>
+          <td><strong style="color:#006a35">98.2%</strong></td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:12px">0.05%</td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:12px">2,230</td>
+          <td><span class="status-pill pill-run"><span class="ms" style="font-size:12px;animation:spin 1s linear infinite;display:inline-block">sync</span> Running</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Right: Confidence Over Time + Breakdown -->
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div class="card">
+      <div class="card-title">Confidence Trend (30 days)</div>
+      <div class="card-sub">Overall model performance over time</div>
+      <canvas id="trend-chart" height="120"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-title">Domain Confidence Breakdown</div>
+      <div class="pc-item">
+        <div class="pc-row"><span>Dimensional Tolerance</span><span style="font-weight:700;color:#006a35;font-family:'JetBrains Mono',monospace">99.1%</span></div>
+        <div class="pc-track"><div class="pc-fill" style="width:99.1%;background:#d04408"></div></div>
+      </div>
+      <div class="pc-item">
+        <div class="pc-row"><span>Material Spec</span><span style="font-weight:700;color:#e8a700;font-family:'JetBrains Mono',monospace">94.3%</span></div>
+        <div class="pc-track"><div class="pc-fill" style="width:94.3%;background:#e8a700"></div></div>
+      </div>
+      <div class="pc-item">
+        <div class="pc-row"><span>GD&T Callout</span><span style="font-weight:700;color:#006a35;font-family:'JetBrains Mono',monospace">97.8%</span></div>
+        <div class="pc-track"><div class="pc-fill" style="width:97.8%;background:#4c6078"></div></div>
+      </div>
+      <div class="pc-item">
+        <div class="pc-row"><span>FMEA Risk</span><span style="font-weight:700;color:#ba1a1a;font-family:'JetBrains Mono',monospace">91.2%</span></div>
+        <div class="pc-track"><div class="pc-fill" style="width:91.2%;background:#ba1a1a"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Test Diagnostics -->
+<div style="padding:0 24px 8px"><div style="font-size:15px;font-weight:700">Diagnostic Tests</div><div style="font-size:12px;color:#5a4139;margin-top:2px;margin-bottom:12px">Click to run individual diagnostic checks</div></div>
+<div class="test-grid">
+  <div class="test-card" onclick="runTest(this,'Inference Latency Check','1.4s avg — Within SLA','ok')">
+    <div class="test-icon" style="background:#eff4ff"><span class="ms fill" style="font-size:22px;color:#d04408">speed</span></div>
+    <div><div class="test-title">Inference Latency</div><div class="test-sub">Measure end-to-end response time</div><div class="test-result" style="color:#006a35">Last: 1.4s ✓</div></div>
+  </div>
+  <div class="test-card" onclick="runTest(this,'Confidence Calibration Test','Expected 98.7% — Measured 98.5% ✓','ok')">
+    <div class="test-icon" style="background:#eff4ff"><span class="ms fill" style="font-size:22px;color:#006a35">tune</span></div>
+    <div><div class="test-title">Confidence Calibration</div><div class="test-sub">Validate probability outputs</div><div class="test-result" style="color:#006a35">Calibrated ✓</div></div>
+  </div>
+  <div class="test-card" onclick="runTest(this,'Data Drift Detection','Material Spec domain: drift 0.87% ⚠ above 0.5% threshold','warn')">
+    <div class="test-icon" style="background:#fff8e6"><span class="ms fill" style="font-size:22px;color:#e8a700">show_chart</span></div>
+    <div><div class="test-title">Data Drift Detection</div><div class="test-sub">Check feature distribution shift</div><div class="test-result" style="color:#e8a700">⚠ Drift Detected</div></div>
+  </div>
+  <div class="test-card" onclick="runTest(this,'Adversarial Robustness Test','All 120 test cases passed ✓','ok')">
+    <div class="test-icon" style="background:#eff4ff"><span class="ms fill" style="font-size:22px;color:#4c6078">shield</span></div>
+    <div><div class="test-title">Adversarial Robustness</div><div class="test-sub">Stress test edge cases</div><div class="test-result" style="color:#006a35">120/120 passed ✓</div></div>
+  </div>
+</div>
+
+<!-- Log feed -->
+<div style="padding:0 24px 24px">
+  <div style="font-size:14px;font-weight:700;margin-bottom:8px">System Log</div>
+  <div class="log-feed" id="log-feed">
+    <span class="log-ok">[2024-10-26 14:01:22]</span> INFO :: Model heartbeat OK — confidence: 98.7%<br>
+    <span class="log-warn">[2024-10-26 14:01:18]</span> WARN :: Material Spec domain drift threshold exceeded (0.87% > 0.5%)<br>
+    <span class="log-ok">[2024-10-26 14:00:55]</span> INFO :: Processed document HA-2024-B1 — review routed to engineer<br>
+    <span class="log-ok">[2024-10-26 13:58:10]</span> INFO :: BOM cross-validation complete — TB-2024-X9: PASSED<br>
+    <span class="log-ok">[2024-10-26 13:55:02]</span> INFO :: Inference latency: 1.38s — within SLA target (2.0s)<br>
+    <span class="log-err">[2024-10-26 13:50:44]</span> ERROR :: FMEA domain retraining triggered — accuracy dropped below 92%<br>
+  </div>
+</div>
+
+<!-- Detail overlay -->
+<div id="detail-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#fff;border-radius:14px;width:420px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow:hidden">
+    <div style="background:#d04408;color:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:space-between">
+      <div style="font-size:15px;font-weight:700" id="det-title">Domain Detail</div>
+      <button onclick="document.getElementById('detail-overlay').style.display='none'" style="background:transparent;border:none;color:#fff;cursor:pointer"><span class="ms">close</span></button>
+    </div>
+    <div style="padding:20px" id="det-body"></div>
+  </div>
+</div>
+
+<div class="notif" id="notif"><span class="ms" style="font-size:16px">check_circle</span> <span id="notif-msg"></span></div>
+
+<script>
+function showNotif(msg){const el=document.getElementById('notif');document.getElementById('notif-msg').textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
+
+// Trend chart
+const ctx = document.getElementById('trend-chart').getContext('2d');
+const trendData = [97.8,98.1,97.9,98.3,98.5,98.2,98.7,98.4,98.6,98.8,98.5,98.7,98.9,98.6,98.7];
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: trendData.map((_,i) => `Oct ${i+12}`),
+    datasets: [{
+      label: 'Model Confidence',
+      data: trendData,
+      borderColor: '#d04408', backgroundColor: 'rgba(208,68,8,.08)',
+      fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#d04408', borderWidth: 2
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false }},
+    scales: {
+      y: { min: 97, max: 99.5, grid: { color: '#eff4ff' }, ticks: { callback: v => v+'%' }},
+      x: { grid: { display: false }, ticks: { maxTicksLimit: 8 }}
+    }
+  }
+});
+
+function showDetail(domain, acc, drift, samples) {
+  document.getElementById('det-title').textContent = domain;
+  document.getElementById('det-body').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+      <div style="background:#eff4ff;border-radius:8px;padding:12px;text-align:center">
+        <div style="font-size:24px;font-weight:800;color:#d04408">${acc}</div>
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#5a4139;letter-spacing:.06em;margin-top:4px">Accuracy</div>
+      </div>
+      <div style="background:#eff4ff;border-radius:8px;padding:12px;text-align:center">
+        <div style="font-size:24px;font-weight:800;color:#4c6078">${drift}</div>
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#5a4139;letter-spacing:.06em;margin-top:4px">Drift</div>
+      </div>
+    </div>
+    <div style="font-size:13px;margin-bottom:8px"><strong>Training Samples:</strong> ${samples}</div>
+    <div style="font-size:13px;color:#5a4139;line-height:1.6">Model last retrained on 2024-10-15. Next scheduled retraining: 2024-11-15. Evaluation dataset: Metalman internal docs Q3-Q4 2024.</div>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button onclick="showNotif('Retraining job queued.');document.getElementById('detail-overlay').style.display='none'" style="flex:1;padding:8px;background:#d04408;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Queue Retrain</button>
+      <button onclick="showNotif('Report opened.');document.getElementById('detail-overlay').style.display='none'" style="flex:1;padding:8px;background:#fff;border:1px solid #8e7067;color:#4c6078;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">View Full Report</button>
+    </div>`;
+  document.getElementById('detail-overlay').style.display = 'flex';
+}
+
+function runTest(card, name, result, status) {
+  const res = card.querySelector('.test-result');
+  res.textContent = '⟳ Running...';
+  res.style.color = '#4c6078';
+  setTimeout(() => {
+    res.textContent = (status==='ok'?'✓ ':'⚠ ') + result;
+    res.style.color = status==='ok'?'#006a35':'#e8a700';
+    showNotif(name + ': ' + result);
+    addLog(status==='ok'?'ok':'warn', name + ' — ' + result);
+  }, 1200 + Math.random()*800);
+}
+
+function addLog(type, msg) {
+  const now = new Date().toISOString().replace('T',' ').slice(0,19);
+  const cls = type==='ok'?'log-ok':type==='warn'?'log-warn':'log-err';
+  const lvl = type==='ok'?'INFO':type==='warn'?'WARN':'ERROR';
+  const feed = document.getElementById('log-feed');
+  feed.innerHTML = `<span class="${cls}">[${now}]</span> ${lvl} :: ${msg}<br>` + feed.innerHTML;
+}
+
+function runDiagnostic() {
+  showNotif('Full diagnostic started — estimated 15s...');
+  addLog('ok', 'Full diagnostic sequence initiated');
+  ['Inference Latency','Confidence Calibration','Drift Detection','Robustness Test'].forEach((t,i) => {
+    setTimeout(() => addLog('ok', t + ' — PASSED'), (i+1) * 1500);
+  });
+}
+</script>
+</body>
+</html>

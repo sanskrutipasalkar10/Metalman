@@ -29,3 +29,9 @@ build/
 # OS
 .DS_Store
 Thumbs.db
+
+# Project generated/runtime files
+/metalman-auto-engineer/backend/outputs/
+/metalman-auto-engineer/backend/metalman.db
+/metalman-auto-engineer/backend/tasks_db.json
+/metalman-auto-engineer/frontend/build_log.txt

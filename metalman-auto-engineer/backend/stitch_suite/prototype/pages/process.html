@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Process Library - MetalMind</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;900&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "background": "#f8f9ff",
+                    "surface-variant": "#d3e4fe",
+                    "on-surface": "#0b1c30",
+                    "on-tertiary-container": "#f6fff4",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#51647d",
+                    "surface": "#f8f9ff",
+                    "secondary": "#4c6078",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed-variant": "#005228",
+                    "on-secondary-fixed-variant": "#35485f",
+                    "surface-tint": "#ac3400",
+                    "outline": "#8e7067",
+                    "surface-container-high": "#dce9ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "primary-fixed-dim": "#ffb59d",
+                    "primary-fixed": "#ffdbd0",
+                    "on-secondary-fixed": "#061d32",
+                    "on-secondary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#ffb59d",
+                    "on-primary-container": "#fffbff",
+                    "outline-variant": "#e2bfb4",
+                    "on-primary-fixed": "#390b00",
+                    "on-error-container": "#93000a",
+                    "on-background": "#0b1c30",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed-variant": "#832600",
+                    "secondary-fixed-dim": "#b4c8e4",
+                    "surface-container": "#e5eeff",
+                    "surface-container-low": "#eff4ff",
+                    "inverse-surface": "#213145",
+                    "secondary-fixed": "#d1e4ff",
+                    "primary": "#a83300",
+                    "surface-dim": "#cbdbf5",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-surface-variant": "#5a4139",
+                    "tertiary-container": "#008645",
+                    "on-tertiary-fixed": "#00210c",
+                    "primary-container": "#d04408",
+                    "tertiary": "#006a35",
+                    "secondary-container": "#cde1fe",
+                    "tertiary-fixed": "#6bfe9c",
+                    "tertiary-fixed-dim": "#4ae183"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "8px",
+                    "unit": "4px",
+                    "stack-lg": "32px",
+                    "container-padding": "24px",
+                    "gutter": "16px",
+                    "stack-md": "16px",
+                    "max-width-desktop": "1440px"
+            },
+            "fontFamily": {
+                    "headline-xl": [
+                            "Hanken Grotesk"
+                    ],
+                    "body-sm": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Hanken Grotesk"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "label-sm": [
+                            "JetBrains Mono"
+                    ],
+                    "label-md": [
+                            "JetBrains Mono"
+                    ],
+                    "headline-lg-mobile": [
+                            "Hanken Grotesk"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Hanken Grotesk"
+                    ]
+            },
+            "fontSize": {
+                    "headline-xl": [
+                            "48px",
+                            {
+                                    "lineHeight": "56px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-sm": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-sm": [
+                            "11px",
+                            {
+                                    "lineHeight": "14px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "label-md": [
+                            "13px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "28px",
+                            {
+                                    "lineHeight": "36px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        /* Custom scrollbar for technical feel */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background-color: #CBD5E1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background-color: #94A3B8; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md h-screen overflow-hidden flex">
+<!-- Main Content Canvas -->
+<main class="ml-0 flex-1 flex h-full">
+<!-- Left Section: Process Library List View -->
+<section class="flex-1 flex flex-col h-full bg-background border-r border-outline-variant">
+<!-- Header Area -->
+<header class="px-container-padding py-stack-lg border-b border-outline-variant bg-surface-container-lowest">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-stack-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-unit">Process Library</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Central registry for certified manufacturing operations.</p>
+</div>
+<div class="flex items-center gap-stack-sm">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="pl-10 pr-4 py-2 border border-outline-variant rounded-lg bg-surface font-body-sm text-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64" placeholder="Search processes..." type="text"/>
+</div>
+<button class="flex items-center gap-unit px-gutter py-2 border border-outline-variant rounded-lg bg-surface text-secondary font-body-sm text-body-sm hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                            Filter
+                        </button>
+</div>
+</div>
+</header>
+<!-- Technical Data Table -->
+<div class="flex-1 overflow-auto p-container-padding bg-surface">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg shadow-sm overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant">
+<tr>
+<th class="py-3 px-gutter font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Process ID</th>
+<th class="py-3 px-gutter font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Operation Name</th>
+<th class="py-3 px-gutter font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Location</th>
+<th class="py-3 px-gutter font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="py-3 px-gutter font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Last Updated</th>
+<th class="py-3 px-gutter text-right font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+<td class="py-stack-md px-gutter font-label-sm text-label-sm text-secondary">WLD-8802-A</td>
+<td class="py-stack-md px-gutter">
+<div class="font-semibold text-on-surface">TIG Welding - Muffler Assembly</div>
+<div class="text-[12px] text-on-surface-variant">Thermal Joining</div>
+</td>
+<td class="py-stack-md px-gutter">Aurangabad Unit II</td>
+<td class="py-stack-md px-gutter">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-tertiary-container text-tertiary-container text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                        Ready
+                                    </span>
+</td>
+<td class="py-stack-md px-gutter text-on-surface-variant">2024-10-24</td>
+<td class="py-stack-md px-gutter text-right">
+<button class="text-secondary hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group cursor-pointer bg-surface-container-highest bg-opacity-20">
+<td class="py-stack-md px-gutter font-label-sm text-label-sm text-secondary">STP-4410-B</td>
+<td class="py-stack-md px-gutter">
+<div class="font-semibold text-on-surface">Stamping - Automobile Mudguard</div>
+<div class="text-[12px] text-on-surface-variant">Cold Forming</div>
+</td>
+<td class="py-stack-md px-gutter">Pithampur Unit I</td>
+<td class="py-stack-md px-gutter">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-container text-on-primary-container text-xs font-medium animate-pulse">
+<span class="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
+                                        Processing AI Review
+                                    </span>
+</td>
+<td class="py-stack-md px-gutter text-on-surface-variant">2024-10-25 (Live)</td>
+<td class="py-stack-md px-gutter text-right">
+<button class="text-secondary hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+<td class="py-stack-md px-gutter font-label-sm text-label-sm text-secondary">SLC-9011-C</td>
+<td class="py-stack-md px-gutter">
+<div class="font-semibold text-on-surface">Waterjet Slicing - Swing Arm Assemblies</div>
+<div class="text-[12px] text-on-surface-variant">Abrasive Cutting</div>
+</td>
+<td class="py-stack-md px-gutter">Hosur Unit</td>
+<td class="py-stack-md px-gutter">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-surface-variant text-on-surface-variant text-xs font-medium border border-outline-variant border-dashed">
+<span class="material-symbols-outlined text-[14px]">pending</span>
+                                        Pending Approval
+                                    </span>
+</td>
+<td class="py-stack-md px-gutter text-on-surface-variant">2024-10-20</td>
+<td class="py-stack-md px-gutter text-right">
+<button class="text-secondary hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+<td class="py-stack-md px-gutter font-label-sm text-label-sm text-secondary">WLD-8805-A</td>
+<td class="py-stack-md px-gutter font-semibold">MIG Welding - Standard</td>
+<td class="py-stack-md px-gutter text-on-surface-variant">Aurangabad Unit I</td>
+<td class="py-stack-md px-gutter">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-tertiary-container text-tertiary-container text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                        Ready
+                                    </span>
+</td>
+<td class="py-stack-md px-gutter text-on-surface-variant">2024-09-15</td>
+<td class="py-stack-md px-gutter text-right">
+<button class="text-secondary hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Right Section: Register New Process Panel (Visible Form Interface) -->
+<aside class="w-[480px] bg-surface-container-lowest h-full flex flex-col shadow-[-4px_0_24px_rgba(11,28,48,0.04)] z-10 relative">
+<div class="px-container-padding py-stack-lg border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
+<div class="flex items-center gap-unit">
+<span class="material-symbols-outlined text-primary">add_box</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Register New Process</h3>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors p-1 rounded hover:bg-surface-variant">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-container-padding">
+<form class="flex flex-col gap-stack-lg">
+<!-- Section: Operation Details -->
+<div>
+<h4 class="font-label-md text-label-md text-secondary uppercase tracking-wider mb-stack-md border-b border-outline-variant pb-unit">Operation Details</h4>
+<div class="space-y-stack-md">
+<div>
+<label class="font-body-sm text-body-sm font-bold text-on-surface block mb-unit" for="process-name">Process Name</label>
+<input class="w-full bg-surface border border-outline-variant rounded px-gutter py-stack-sm font-body-sm text-body-sm text-on-surface placeholder:text-[#94A3B8] focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition-all" id="process-name" placeholder="e.g., Multi-Axis CNC Milling" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-stack-md">
+<div>
+<label class="font-body-sm text-body-sm font-bold text-on-surface block mb-unit" for="category">Category</label>
+<select class="w-full bg-surface border border-outline-variant rounded px-gutter py-stack-sm font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-50 appearance-none" id="category">
+<option disabled="" selected="" value="">Select category...</option>
+<option value="thermal">Thermal Joining</option>
+<option value="cold">Cold Forming</option>
+<option value="subtractive">Subtractive Machining</option>
+<option value="additive">Additive Manufacturing</option>
+</select>
+</div>
+<div>
+<label class="font-body-sm text-body-sm font-bold text-on-surface block mb-unit" for="certification">Required Cert</label>
+<select class="w-full bg-surface border border-outline-variant rounded px-gutter py-stack-sm font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-50 appearance-none" id="certification">
+<option value="iso">ISO 9001</option>
+<option value="as9100">AS9100 Rev D</option>
+<option value="nadcap">NADCAP</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Technical Sequences -->
+<div>
+<div class="flex items-center justify-between mb-stack-md border-b border-outline-variant pb-unit">
+<h4 class="font-label-md text-label-md text-secondary uppercase tracking-wider">Technical Sequences</h4>
+<button class="text-primary hover:text-primary-container font-label-sm text-label-sm flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span> Add Step
+                            </button>
+</div>
+<div class="space-y-stack-sm">
+<!-- Sequence Item 1 -->
+<div class="bg-surface border border-outline-variant rounded-lg p-stack-sm flex gap-stack-sm items-start group">
+<div class="w-6 h-6 rounded bg-surface-container-high text-on-surface-variant flex items-center justify-center font-label-sm text-label-sm flex-shrink-0">1</div>
+<div class="flex-1">
+<input class="w-full bg-transparent border-none p-0 font-body-sm text-body-sm text-on-surface focus:ring-0 placeholder:text-[#94A3B8]" placeholder="Operation step description..." type="text" value="Material Preparation &amp; Verification"/>
+</div>
+<button class="text-on-surface-variant opacity-0 group-hover:opacity-100 hover:text-error transition-opacity" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+<!-- Sequence Item 2 -->
+<div class="bg-surface border border-outline-variant rounded-lg p-stack-sm flex gap-stack-sm items-start group">
+<div class="w-6 h-6 rounded bg-surface-container-high text-on-surface-variant flex items-center justify-center font-label-sm text-label-sm flex-shrink-0">2</div>
+<div class="flex-1">
+<input class="w-full bg-transparent border-none p-0 font-body-sm text-body-sm text-on-surface focus:ring-0 placeholder:text-[#94A3B8]" placeholder="Operation step description..." type="text"/>
+</div>
+<button class="text-on-surface-variant opacity-0 group-hover:opacity-100 hover:text-error transition-opacity" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-unit">AI review will automatically run on submitted sequences against standard manufacturing guidelines.</p>
+</div>
+</form>
+</div>
+<!-- Panel Footer Actions -->
+<div class="px-container-padding py-stack-md border-t border-outline-variant bg-surface-container-lowest flex justify-end gap-stack-sm">
+<button class="px-gutter py-2 rounded-lg font-body-sm text-body-sm font-semibold text-secondary hover:bg-surface-container-low transition-colors" type="button">
+                    Cancel
+                </button>
+<button class="px-gutter py-2 rounded-lg bg-primary text-on-primary font-body-sm text-body-sm font-semibold shadow-sm hover:opacity-90 transition-opacity flex items-center gap-unit" type="submit">
+<span class="material-symbols-outlined text-[18px]">save</span>
+                    Register Process
+                </button>
+</div>
+</aside>
+</main>
+</body></html>

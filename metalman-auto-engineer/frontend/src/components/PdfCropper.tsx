@@ -197,7 +197,7 @@ const PdfCropper = () => {
             const formData = new FormData();
             formData.append('image_data', imageData);
 
-            const response = await axios.post('http://localhost:8001/save-crop', formData);
+            const response = await axios.post('http://localhost:8000/api/save-crop', formData);
             if (response.data.status === 'success') {
                 setSavedCount(response.data.row - 1);
                 const ctx = overlayRef.current.getContext('2d');
@@ -215,12 +215,12 @@ const PdfCropper = () => {
     };
 
     const downloadExcel = () => {
-        window.open('http://localhost:8001/download-excel', '_blank');
+        window.open('http://localhost:8000/api/download-excel', '_blank');
     };
 
     const resetExcel = async () => {
         if (confirm('Are you sure?')) {
-            await axios.post('http://localhost:8001/reset-excel');
+            await axios.post('http://localhost:8000/api/reset-excel');
             setSavedCount(0);
         }
     };

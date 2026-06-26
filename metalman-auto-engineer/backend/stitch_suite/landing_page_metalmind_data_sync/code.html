@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MetalMan - Precision Engineering</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "background": "#f8f9ff",
+                        "surface-variant": "#d3e4fe",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary-container": "#f6fff4",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#51647d",
+                        "surface": "#f8f9ff",
+                        "secondary": "#4c6078",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005228",
+                        "on-secondary-fixed-variant": "#35485f",
+                        "surface-tint": "#ac3400",
+                        "outline": "#8e7067",
+                        "surface-container-high": "#dce9ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "primary-fixed-dim": "#ffb59d",
+                        "primary-fixed": "#ffdbd0",
+                        "on-secondary-fixed": "#061d32",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#ffb59d",
+                        "on-primary-container": "#fffbff",
+                        "outline-variant": "#e2bfb4",
+                        "on-primary-fixed": "#390b00",
+                        "on-error-container": "#93000a",
+                        "on-background": "#0b1c30",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#832600",
+                        "secondary-fixed-dim": "#b4c8e4",
+                        "surface-container": "#e5eeff",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-surface": "#213145",
+                        "secondary-fixed": "#d1e4ff",
+                        "primary": "#a83300",
+                        "surface-dim": "#cbdbf5",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-surface-variant": "#5a4139",
+                        "tertiary-container": "#008645",
+                        "on-tertiary-fixed": "#00210c",
+                        "primary-container": "#d04408",
+                        "tertiary": "#006a35",
+                        "secondary-container": "#cde1fe",
+                        "tertiary-fixed": "#6bfe9c",
+                        "tertiary-fixed-dim": "#4ae183"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "unit": "4px",
+                        "stack-lg": "32px",
+                        "container-padding": "24px",
+                        "gutter": "16px",
+                        "stack-md": "16px",
+                        "max-width-desktop": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["JetBrains Mono"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-md": ["13px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(11, 28, 48, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(11, 28, 48, 0.05) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col font-body-md text-body-md">
+<!-- TopNavBar Shared Component -->
+<header class="bg-surface border-b border-outline-variant sticky top-0 z-50 w-full transition-all duration-200 ease-in-out">
+<div class="flex justify-between items-center w-full px-container-padding max-w-max-desktop mx-auto h-16">
+<!-- Brand -->
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">factory</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">MetalMan</span>
+</div>
+<!-- Desktop Navigation -->
+<nav class="hidden md:flex items-center gap-stack-lg">
+<a class="text-secondary hover:text-primary transition-colors font-body-md text-body-md" href="#">Solutions</a>
+<a class="text-secondary hover:text-primary transition-colors font-body-md text-body-md" href="#">Locations</a>
+<a class="text-secondary hover:text-primary transition-colors font-body-md text-body-md" href="#">Products</a>
+<a class="text-secondary hover:text-primary transition-colors font-body-md text-body-md" href="#">Sustainability</a>
+</nav>
+<!-- Actions -->
+<div class="hidden md:flex items-center gap-gutter">
+<button class="font-label-md text-label-md text-on-surface hover:text-primary transition-colors">Enterprise Login</button>
+<button class="bg-surface-container-lowest border border-on-surface text-on-surface font-label-md text-label-md px-4 py-2 rounded-lg hover:bg-surface-container-low transition-colors">Request Demo</button>
+</div>
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="relative bg-surface-container-low overflow-hidden border-b border-outline-variant">
+<div class="absolute inset-0 bg-grid-pattern opacity-50"></div>
+<div class="relative max-w-max-desktop mx-auto px-container-padding py-24 md:py-32 flex flex-col lg:flex-row items-center gap-16">
+<!-- Text Content -->
+<div class="flex-1 flex flex-col gap-8 z-10">
+<div class="inline-flex items-center gap-2 bg-surface-container border border-outline-variant px-3 py-1 rounded-full w-fit">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">MetalMind AI Active</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">
+                        Integrated Manufacturing Hubs — <br/>
+<span class="text-primary relative inline-block">
+                            Scale without limits.
+                            <svg class="absolute w-full h-3 -bottom-1 left-0 text-primary-fixed-dim" preserveaspectratio="none" viewbox="0 0 100 10"><path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" stroke-width="4"></path></svg>
+</span>
+</h1>
+<p class="font-body-lg text-body-lg text-secondary max-w-2xl">
+                        MetalMan's MetalMind engine powers a nationwide network of precision facilities. From Two Wheeler Chassis to Mufflers, we deliver Tier-1 quality across every strategic location.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="bg-primary text-on-primary font-label-md text-label-md px-8 py-4 rounded-lg flex justify-center items-center gap-2 shadow-sm hover:bg-primary-container hover:shadow-md transition-all">
+                            Access MetalMind
+                            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="bg-transparent border border-on-surface text-on-surface font-label-md text-label-md px-8 py-4 rounded-lg flex justify-center items-center gap-2 hover:bg-surface-container transition-all">
+                            Facility Network
+                        </button>
+</div>
+</div>
+<!-- Visual/Metrics Sidebar -->
+<div class="flex-1 w-full lg:max-w-lg z-10">
+<div class="bg-inverse-surface rounded-xl p-8 shadow-xl border border-outline-variant/20 flex flex-col gap-6 relative overflow-hidden">
+<div class="absolute -top-20 -right-20 w-64 h-64 bg-primary/20 rounded-full blur-3xl"></div>
+<div class="relative z-10">
+<h3 class="font-label-sm text-label-sm text-surface-variant uppercase tracking-widest mb-6 border-b border-surface-variant/20 pb-2">Facility Throughput Matrix</h3>
+<div class="flex flex-col gap-6">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-low/10 flex items-center justify-center border border-surface-variant/20 shrink-0">
+<span class="material-symbols-outlined text-tertiary-fixed" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<div>
+<div class="font-headline-lg text-headline-lg text-on-tertiary">5 Cities</div>
+<div class="font-body-sm text-body-sm text-surface-variant">Strategic Indian Hubs</div>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-low/10 flex items-center justify-center border border-surface-variant/20 shrink-0">
+<span class="material-symbols-outlined text-primary-fixed" style="font-variation-settings: 'FILL' 1;">solar_power</span>
+</div>
+<div>
+<div class="font-headline-lg text-headline-lg text-on-tertiary">1 MW</div>
+<div class="font-body-sm text-body-sm text-surface-variant">Solar Plant in Solapur</div>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-low/10 flex items-center justify-center border border-surface-variant/20 shrink-0">
+<span class="material-symbols-outlined text-secondary-fixed" style="font-variation-settings: 'FILL' 1;">settings_input_component</span>
+</div>
+<div>
+<div class="font-headline-lg text-headline-lg text-on-tertiary">10+ Units</div>
+<div class="font-body-sm text-body-sm text-surface-variant">Unified under MetalMind AI</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Strategic Locations Section -->
+<section class="max-w-max-desktop mx-auto px-container-padding py-24">
+<div class="mb-16 text-center max-w-3xl mx-auto flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-2 block">Our Footprint</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Strategic Locations</h2>
+<p class="font-body-md text-body-md text-secondary">High-precision manufacturing units strategically placed to serve the automotive and aerospace corridors.</p>
+</div>
+<!-- Locations Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Aurangabad -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-8 hover:shadow-lg transition-all flex flex-col gap-4">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">factory</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Aurangabad</h3>
+</div>
+<p class="font-label-sm text-label-sm text-primary uppercase">Maharashtra</p>
+<div class="flex flex-col gap-3 mt-2">
+<div class="p-3 bg-surface-container-low rounded-lg border border-outline-variant/30">
+<span class="font-label-md text-label-md block text-on-surface">Waluj MIDC Complex</span>
+<p class="font-body-sm text-body-sm text-secondary">Unit I (B-30/31), Unit II (B-17), Unit III (B-12), Unit IV (B-03)</p>
+</div>
+</div>
+</div>
+<!-- Pithampur -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-8 hover:shadow-lg transition-all flex flex-col gap-4">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">precision_manufacturing</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Pithampur</h3>
+</div>
+<p class="font-label-sm text-label-sm text-primary uppercase">Madhya Pradesh</p>
+<div class="flex flex-col gap-3 mt-2">
+<div class="p-3 bg-surface-container-low rounded-lg border border-outline-variant/30">
+<span class="font-label-md text-label-md block text-on-surface">Sector 3 Industrial Area</span>
+<p class="font-body-sm text-body-sm text-secondary">Unit I (Plot 116), Unit II (Plot 502-504)</p>
+</div>
+</div>
+</div>
+<!-- Hosur -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-8 hover:shadow-lg transition-all flex flex-col gap-4">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">warehouse</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Hosur</h3>
+</div>
+<p class="font-label-sm text-label-sm text-primary uppercase">Tamil Nadu</p>
+<div class="flex flex-col gap-3 mt-2">
+<div class="p-3 bg-surface-container-low rounded-lg border border-outline-variant/30">
+<span class="font-label-md text-label-md block text-on-surface">Hosur Unit</span>
+<p class="font-body-sm text-body-sm text-secondary">Poonapalli Village Facility</p>
+</div>
+</div>
+</div>
+<!-- Pantnagar -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-8 hover:shadow-lg transition-all flex flex-col gap-4">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">architecture</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Pantnagar</h3>
+</div>
+<p class="font-label-sm text-label-sm text-primary uppercase">Uttarakhand</p>
+<div class="flex flex-col gap-3 mt-2">
+<div class="p-3 bg-surface-container-low rounded-lg border border-outline-variant/30">
+<span class="font-label-md text-label-md block text-on-surface">SIDCUL Industrial Estate</span>
+<p class="font-body-sm text-body-sm text-secondary">Pantnagar Unit (Sector-9)</p>
+</div>
+</div>
+</div>
+<!-- Solapur -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-8 hover:shadow-lg transition-all flex flex-col gap-4">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">energy_savings_leaf</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Solapur</h3>
+</div>
+<p class="font-label-sm text-label-sm text-primary uppercase">Maharashtra</p>
+<div class="flex flex-col gap-3 mt-2">
+<div class="p-3 bg-surface-container-low rounded-lg border border-outline-variant/30">
+<span class="font-label-md text-label-md block text-on-surface">Solapur Facility</span>
+<p class="font-body-sm text-body-sm text-secondary">Sustainable Hub with 1 MW Solar Plant</p>
+</div>
+</div>
+</div>
+<!-- Product Capabilities Card -->
+<div class="bg-primary text-on-primary rounded-xl p-8 shadow-lg flex flex-col justify-center">
+<h3 class="font-headline-md text-headline-md mb-4">Core Products</h3>
+<ul class="flex flex-col gap-2 font-body-sm text-body-sm opacity-90">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">check_circle</span> Two Wheeler Chassis</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">check_circle</span> Handlebars</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">check_circle</span> Mufflers</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">check_circle</span> Main Stands</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">check_circle</span> Brake Pedals</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- MetalMind Section -->
+<section class="max-w-max-desktop mx-auto px-container-padding py-24 border-t border-outline-variant">
+<div class="bg-inverse-surface rounded-xl overflow-hidden flex flex-col md:flex-row border border-outline-variant">
+<div class="flex-1 p-8 md:p-12 flex flex-col justify-center">
+<span class="font-label-sm text-label-sm text-primary-fixed uppercase tracking-widest mb-4">MetalMind Core</span>
+<h3 class="font-headline-lg text-headline-lg text-on-tertiary mb-4">Unified Intelligence for Multi-Unit Ops</h3>
+<p class="font-body-md text-body-md text-surface-variant mb-8 max-w-xl">
+                            Our MetalMind AI integrates all units—from Aurangabad to Pantnagar—into a single digital twin. Real-time monitoring of chassis production, handlebar fabrication, and muffler assembly ensures zero-deviation quality.
+                        </p>
+<button class="bg-surface-container-lowest text-on-surface font-label-md text-label-md px-6 py-3 rounded-lg w-fit hover:bg-surface-variant transition-colors">
+                            Explore MetalMind
+                        </button>
+</div>
+<div class="flex-1 relative min-h-[300px] bg-on-surface border-l border-surface-variant/10">
+<div class="absolute inset-4 bg-[#0a111a] rounded-lg border border-surface-variant/20 p-4 font-label-sm text-label-sm overflow-hidden flex flex-col">
+<div class="flex items-center gap-2 mb-4 border-b border-surface-variant/20 pb-2">
+<div class="w-3 h-3 rounded-full bg-error"></div>
+<div class="w-3 h-3 rounded-full bg-surface-variant"></div>
+<div class="w-3 h-3 rounded-full bg-tertiary-fixed"></div>
+<span class="text-surface-variant ml-2">metalmind-dashboard.log</span>
+</div>
+<div class="text-tertiary-fixed opacity-80 leading-relaxed font-mono">
+                                &gt; synchronizing multi-unit data...<br/>
+                                &gt; [AUR-UNIT-I] Chassis assembly nominal<br/>
+                                &gt; [PIT-UNIT-II] Handlebar welding active<br/>
+                                &gt; [PAN-UNIT-I] Muffler QA validated<br/>
+                                &gt; <span class="text-primary-fixed">Solar load (SOL-FACILITY): 1.2 MW peak</span><br/>
+                                &gt; network status: [STABLE]<br/>
+                                &gt; optimization complete for all 5 hubs
+                            </div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Shared Component -->
+<footer class="bg-surface-container-highest border-t border-outline-variant w-full py-stack-lg px-container-padding flex flex-col md:flex-row justify-between items-center gap-gutter">
+<div class="font-headline-md text-headline-md text-primary font-bold">
+            MetalMan
+        </div>
+<div class="flex flex-wrap justify-center gap-4">
+<a class="font-body-sm text-body-sm text-secondary hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-secondary hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-secondary hover:text-primary transition-colors" href="#">Security Compliance</a>
+<a class="font-body-sm text-body-sm text-secondary hover:text-primary transition-colors" href="#">Facility Map</a>
+</div>
+<div class="font-label-sm text-label-sm text-secondary text-center md:text-right max-w-xs">
+            © 2024 MetalMan Engineering Automation. Multi-unit Precision. Powered by MetalMind.
+        </div>
+</footer>
+</body></html>

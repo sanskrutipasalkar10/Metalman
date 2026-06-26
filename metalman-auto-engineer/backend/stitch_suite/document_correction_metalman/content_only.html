@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document Correction — Metalman</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f0f4ff;color:#0b1c30;min-height:100vh}
+.ms{font-family:'Material Symbols Outlined';vertical-align:middle;user-select:none}
+.ms.fill{font-variation-settings:'FILL' 1}
+.page-hdr{background:#fff;border-bottom:1px solid #e2bfb4;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.page-title{font-size:22px;font-weight:800}
+.page-sub{font-size:13px;color:#5a4139;margin-top:2px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:'Inter',sans-serif}
+.btn-outline{background:#fff;border:1px solid #8e7067;color:#4c6078}.btn-outline:hover{background:#eff4ff}
+.btn-primary{background:#d04408;color:#fff}.btn-primary:hover{background:#a83300}
+.btn-sm{padding:5px 12px;font-size:12px}
+/* Layout */
+.main-layout{display:grid;grid-template-columns:340px 1fr;gap:0;height:calc(100vh - 65px);overflow:hidden}
+/* Queue Panel */
+.queue-panel{background:#fff;border-right:1px solid #e2bfb4;display:flex;flex-direction:column;overflow:hidden}
+.queue-header{padding:14px 16px;border-bottom:1px solid #f0f4ff;display:flex;align-items:center;justify-content:space-between}
+.queue-title{font-size:14px;font-weight:700}
+.queue-filter{display:flex;gap:4px;padding:10px 12px;border-bottom:1px solid #f0f4ff;flex-wrap:wrap}
+.qf-btn{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid #e2bfb4;background:#fff;color:#4c6078;transition:all .13s}
+.qf-btn.active{background:#d04408;color:#fff;border-color:#d04408}
+.queue-list{flex:1;overflow-y:auto;padding:8px}
+.queue-item{padding:12px;border-radius:10px;border:1px solid #e2bfb4;background:#fff;margin-bottom:8px;cursor:pointer;transition:all .15s}
+.queue-item:hover{border-color:#d04408;background:#eff4ff}
+.queue-item.active{border-color:#d04408;background:#ffdbd0}
+.qi-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.qi-name{font-size:13px;font-weight:600;line-height:1.3}
+.qi-pn{font-size:10px;color:#5a4139;font-family:'JetBrains Mono',monospace;margin-top:2px}
+.qi-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700;white-space:nowrap}
+.qi-meta{display:flex;gap:8px;align-items:center;font-size:11px;color:#5a4139;flex-wrap:wrap;margin-top:4px}
+/* Editor Panel */
+.editor-panel{display:flex;flex-direction:column;overflow:hidden}
+.editor-header{background:#fff;border-bottom:1px solid #e2bfb4;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;flex-wrap:wrap;gap:8px}
+.editor-title{font-size:15px;font-weight:700}
+.editor-sub{font-size:12px;color:#5a4139;margin-top:2px}
+.editor-body{flex:1;display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+/* Diff view */
+.diff-pane{padding:18px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.diff-pane.left{border-right:1px solid #e2bfb4;background:#fff8f6}
+.diff-pane.right{background:#f6fff8}
+.pane-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:6px}
+.pane-label.orig{background:#ffdad6;color:#ba1a1a}
+.pane-label.corr{background:#dcfce7;color:#006a35}
+/* Text editor */
+.doc-section{background:#fff;border:1px solid #e2bfb4;border-radius:8px;padding:14px;margin-bottom:10px}
+.section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#5a4139;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.doc-field{width:100%;border:none;font-size:13px;font-family:'Inter',sans-serif;color:#0b1c30;resize:vertical;outline:none;line-height:1.6;background:transparent}
+.doc-field.error-field{border:1px solid #ba1a1a;border-radius:6px;padding:6px 8px;background:#fff8f6}
+.doc-field.corrected{border:1px solid #006a35;border-radius:6px;padding:6px 8px;background:#f6fff8}
+/* Diff highlighting */
+.diff-del{background:#ffdad6;color:#ba1a1a;text-decoration:line-through;border-radius:3px;padding:0 3px}
+.diff-add{background:#dcfce7;color:#006a35;font-weight:600;border-radius:3px;padding:0 3px}
+/* Action bar */
+.action-bar{background:#fff;border-top:1px solid #e2bfb4;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;flex-wrap:wrap;gap:8px}
+.issue-counter{font-size:13px;color:#5a4139;display:flex;align-items:center;gap:6px}
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.42);backdrop-filter:blur(3px);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:14px;width:460px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow:hidden}
+.modal-hdr{background:#d04408;color:#fff;padding:16px 22px;display:flex;align-items:center;justify-content:space-between}
+.modal-body{padding:22px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#5a4139;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:8px 12px;border:1px solid #e2bfb4;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none}
+.field input:focus,.field select:focus{border-color:#d04408}
+.modal-ftr{padding:0 22px 20px;display:flex;justify-content:flex-end;gap:10px}
+/* Notif */
+.notif{position:fixed;bottom:20px;right:20px;background:#0b1c30;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;transform:translateY(80px);opacity:0;transition:all .3s;z-index:999;display:flex;align-items:center;gap:8px}
+.notif.show{transform:translateY(0);opacity:1}
+/* correction chips */
+.correction-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;background:#ffdbd0;color:#a83300;border:1px solid #ffb59d;cursor:pointer;margin:3px}
+.correction-chip:hover{background:#ffb59d}
+.correction-chip.resolved{background:#dcfce7;color:#006a35;border-color:#86efac}
+</style>
+</head>
+<body>
+<div class="page-hdr">
+  <div>
+    <div class="page-title">Document Correction</div>
+    <div class="page-sub">AI-flagged engineering document review and manual correction workflow</div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-outline btn-sm" onclick="showNotif('Correction report generated.')"><span class="ms" style="font-size:16px">download</span> Export Log</button>
+    <button class="btn btn-primary" onclick="document.getElementById('upload-modal').classList.add('open')"><span class="ms" style="font-size:16px">upload_file</span> Upload Document</button>
+  </div>
+</div>
+
+<div class="main-layout">
+  <!-- Queue Panel -->
+  <div class="queue-panel">
+    <div class="queue-header">
+      <div class="queue-title">Correction Queue</div>
+      <span style="background:#ffdad6;color:#ba1a1a;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:700">5 Pending</span>
+    </div>
+    <div class="queue-filter">
+      <button class="qf-btn active" onclick="setFilter(this,'All')">All</button>
+      <button class="qf-btn" onclick="setFilter(this,'Material')">Material Spec</button>
+      <button class="qf-btn" onclick="setFilter(this,'GD&T')">GD&T</button>
+      <button class="qf-btn" onclick="setFilter(this,'BOM')">BOM</button>
+    </div>
+    <div class="queue-list">
+      <div class="queue-item active" onclick="loadDoc(0)">
+        <div class="qi-top">
+          <div><div class="qi-name">Motorcycle Handle Steering</div><div class="qi-pn">ID: HA-2024-B1</div></div>
+          <span class="qi-badge" style="background:#ffdad6;color:#ba1a1a">🔴 Critical</span>
+        </div>
+        <div class="qi-meta">
+          <span><span class="ms" style="font-size:13px">warning</span> Material Spec Mismatch</span>
+          <span>·</span><span>3 issues</span>
+        </div>
+      </div>
+      <div class="queue-item" onclick="loadDoc(1)">
+        <div class="qi-top">
+          <div><div class="qi-name">2-Wheeler Chassis Control Plan</div><div class="qi-pn">ID: TB-2024-X9-CP</div></div>
+          <span class="qi-badge" style="background:#fff8e6;color:#7c5c00;border:1px solid #e8a700">⚠ High</span>
+        </div>
+        <div class="qi-meta">
+          <span><span class="ms" style="font-size:13px">rule</span> GD&T Callout Error</span>
+          <span>·</span><span>1 issue</span>
+        </div>
+      </div>
+      <div class="queue-item" onclick="loadDoc(2)">
+        <div class="qi-top">
+          <div><div class="qi-name">Muffler Assembly PFMEA</div><div class="qi-pn">ID: MA-2024-M4-PFMEA</div></div>
+          <span class="qi-badge" style="background:#fff8e6;color:#7c5c00;border:1px solid #e8a700">⚠ High</span>
+        </div>
+        <div class="qi-meta">
+          <span><span class="ms" style="font-size:13px">priority_high</span> RPN Calculation Error</span>
+          <span>·</span><span>2 issues</span>
+        </div>
+      </div>
+      <div class="queue-item" onclick="loadDoc(3)">
+        <div class="qi-top">
+          <div><div class="qi-name">Seating System BOM Rev C</div><div class="qi-pn">ID: FI-2023-Z1-BOM</div></div>
+          <span class="qi-badge" style="background:#eff4ff;color:#4c6078">Med</span>
+        </div>
+        <div class="qi-meta">
+          <span><span class="ms" style="font-size:13px">list_alt</span> BOM Line Item Mismatch</span>
+          <span>·</span><span>4 issues</span>
+        </div>
+      </div>
+      <div class="queue-item" onclick="loadDoc(4)">
+        <div class="qi-top">
+          <div><div class="qi-name">3-Wheeler Cabin Process Flow</div><div class="qi-pn">ID: DW-2024-C3-PFD</div></div>
+          <span class="qi-badge" style="background:#eff4ff;color:#4c6078">Low</span>
+        </div>
+        <div class="qi-meta">
+          <span><span class="ms" style="font-size:13px">account_tree</span> Sequence Step Missing</span>
+          <span>·</span><span>1 issue</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Editor Panel -->
+  <div class="editor-panel">
+    <div class="editor-header">
+      <div>
+        <div class="editor-title" id="ed-title">Motorcycle Handle Steering — Control Plan</div>
+        <div class="editor-sub" id="ed-sub">ID: HA-2024-B1 · AI detected 3 issues · Assigned to Priya R.</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-outline btn-sm" onclick="acceptAll()"><span class="ms" style="font-size:14px">done_all</span> Accept All AI Fixes</button>
+        <button class="btn btn-primary btn-sm" onclick="submitCorrection()"><span class="ms" style="font-size:14px">check_circle</span> Submit Correction</button>
+      </div>
+    </div>
+
+    <!-- AI Issue Chips -->
+    <div style="padding:10px 20px;background:#fff;border-bottom:1px solid #f0f4ff;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+      <span style="font-size:11px;font-weight:700;color:#5a4139;text-transform:uppercase;letter-spacing:.06em">AI Flags:</span>
+      <span class="correction-chip" id="chip0" onclick="scrollToIssue(0)"><span class="ms" style="font-size:13px">warning</span> Material Grade Error</span>
+      <span class="correction-chip" id="chip1" onclick="scrollToIssue(1)"><span class="ms" style="font-size:13px">straighten</span> Tolerance Out of Range</span>
+      <span class="correction-chip" id="chip2" onclick="scrollToIssue(2)"><span class="ms" style="font-size:13px">person</span> Missing Approver Sign-off</span>
+    </div>
+
+    <div class="editor-body">
+      <!-- Original -->
+      <div class="diff-pane left" id="orig-pane">
+        <div class="pane-label orig"><span class="ms fill" style="font-size:16px">error</span> Original Document (AI-Flagged)</div>
+
+        <div class="doc-section">
+          <div class="section-label"><span>1. Material Specification</span><span style="color:#ba1a1a;font-size:11px">⚠ Issue #1</span></div>
+          <div style="font-size:13px;line-height:1.8">
+            Part: Motorcycle Handle Steering — Handlebar Crown<br>
+            Material: <span class="diff-del">AISI 1020 MS</span><br>
+            Heat Treatment: Normalizing at 870°C<br>
+            Surface Hardness: HRC 28-32<br>
+            Tensile Strength (Min): <span class="diff-del">310 MPa</span>
+          </div>
+        </div>
+
+        <div class="doc-section">
+          <div class="section-label"><span>2. Dimensional Tolerances</span><span style="color:#ba1a1a;font-size:11px">⚠ Issue #2</span></div>
+          <div style="font-size:13px;line-height:1.8">
+            Stem OD: 28.6 <span class="diff-del">±0.5mm</span> (h6 fit required)<br>
+            Crown bore: ⌀25.4 H7<br>
+            Flatness (base): <span class="diff-del">0.08mm</span><br>
+            Runout (stem): 0.02mm TIR
+          </div>
+        </div>
+
+        <div class="doc-section">
+          <div class="section-label"><span>3. Approval & Sign-off</span><span style="color:#ba1a1a;font-size:11px">⚠ Issue #3</span></div>
+          <div style="font-size:13px;line-height:1.8">
+            Prepared by: R. Sharma<br>
+            Checked by: <span class="diff-del">[BLANK]</span><br>
+            Approved by: <span class="diff-del">[BLANK]</span><br>
+            Document Rev: A · Date: 2024-10-25
+          </div>
+        </div>
+      </div>
+
+      <!-- Corrected -->
+      <div class="diff-pane right" id="corr-pane">
+        <div class="pane-label corr"><span class="ms fill" style="font-size:16px">check_circle</span> Corrected Document (Editable)</div>
+
+        <div class="doc-section" style="border-color:#86efac">
+          <div class="section-label"><span>1. Material Specification</span><span style="color:#006a35;font-size:11px" id="fix0-label">✓ AI Fix Applied</span></div>
+          <div style="font-size:13px;line-height:1.8">
+            Part: Motorcycle Handle Steering — Handlebar Crown<br>
+            Material: <span class="diff-add" id="fix0">EN 8 (BS970) as per IS 2004</span><br>
+            Heat Treatment: Normalizing at 870°C<br>
+            Surface Hardness: HRC 28-32<br>
+            Tensile Strength (Min): <span class="diff-add" id="fix0b">540 MPa</span>
+          </div>
+        </div>
+
+        <div class="doc-section" style="border-color:#86efac">
+          <div class="section-label"><span>2. Dimensional Tolerances</span><span style="color:#006a35;font-size:11px" id="fix1-label">✓ AI Fix Applied</span></div>
+          <div style="font-size:13px;line-height:1.8">
+            Stem OD: 28.6 <span class="diff-add" id="fix1">-0.013/-0.033mm</span> (h6 per ISO 286)<br>
+            Crown bore: ⌀25.4 H7<br>
+            Flatness (base): <span class="diff-add" id="fix1b">0.03mm</span><br>
+            Runout (stem): 0.02mm TIR
+          </div>
+        </div>
+
+        <div class="doc-section" style="border-color:#86efac">
+          <div class="section-label"><span>3. Approval & Sign-off</span><span style="color:#006a35;font-size:11px" id="fix2-label">→ Manual Entry</span></div>
+          <div style="font-size:13px;line-height:1.8">
+            Prepared by: R. Sharma<br>
+            Checked by: <input type="text" id="checked-by" placeholder="Enter name..." style="border:1px solid #86efac;border-radius:5px;padding:2px 8px;font-size:13px;font-family:Inter,sans-serif;outline:none;background:#f6fff8;width:160px" oninput="updateApproval()"><br>
+            Approved by: <input type="text" id="approved-by" placeholder="Enter name..." style="border:1px solid #86efac;border-radius:5px;padding:2px 8px;font-size:13px;font-family:Inter,sans-serif;outline:none;background:#f6fff8;width:160px" oninput="updateApproval()"><br>
+            Document Rev: <span class="diff-add">B</span> · Date: <span class="diff-add">2024-10-26</span>
+          </div>
+        </div>
+
+        <div style="background:#eff4ff;border-radius:8px;padding:12px 14px;border:1px solid #dce9ff;font-size:12px;display:flex;gap:8px">
+          <span class="ms fill" style="font-size:18px;color:#d04408">auto_awesome</span>
+          <div><strong>AI Confidence:</strong> All corrections above have been validated against Metalman material library (MM-MAT-DB-2024) and ISO 286 tolerance tables. Manual approval sign-off required before submission.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <div class="issue-counter">
+        <span class="ms fill" style="font-size:18px;color:#d04408">error</span>
+        <span id="issue-text">3 issues remaining · 0 resolved</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" onclick="showNotif('Document returned to engineer with notes.')"><span class="ms" style="font-size:14px">undo</span> Return</button>
+        <button class="btn btn-outline btn-sm" onclick="showNotif('Correction history saved as draft.')"><span class="ms" style="font-size:14px">save</span> Save Draft</button>
+        <button class="btn btn-primary" onclick="submitCorrection()"><span class="ms" style="font-size:14px">check_circle</span> Submit for Approval</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upload Modal -->
+<div class="modal-overlay" id="upload-modal" onclick="if(event.target===this)classList.remove('open')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-hdr">
+      <h3><span class="ms" style="font-size:18px">upload_file</span>&nbsp; Upload for AI Review</h3>
+      <button onclick="document.getElementById('upload-modal').classList.remove('open')" style="background:transparent;border:none;color:#fff;cursor:pointer"><span class="ms">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="field"><label>Document Type</label>
+        <select><option>Control Plan</option><option>PFMEA</option><option>BOM</option><option>Process Flow Diagram</option><option>ISIR</option><option>Other</option></select>
+      </div>
+      <div class="field"><label>Part / Assembly Name</label><input type="text" placeholder="e.g. Motorcycle Handle Steering"></div>
+      <div class="field"><label>File Upload</label>
+        <div onclick="showNotif('File browser opened.')" style="border:2px dashed #e2bfb4;border-radius:8px;padding:24px;text-align:center;cursor:pointer;color:#5a4139;background:#eff4ff">
+          <span class="ms fill" style="font-size:36px;color:#d04408">upload_file</span>
+          <div style="margin-top:8px;font-size:13px;font-weight:600">Drop or click to upload</div>
+          <div style="font-size:11px;color:#8e7067;margin-top:4px">PDF, XLSX, DOCX supported</div>
+        </div>
+      </div>
+      <div class="field"><label>Priority</label>
+        <select><option>🔴 Critical</option><option>⚠ High</option><option>Medium</option><option>Low</option></select>
+      </div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn btn-outline" onclick="document.getElementById('upload-modal').classList.remove('open')">Cancel</button>
+      <button class="btn btn-primary" onclick="document.getElementById('upload-modal').classList.remove('open');showNotif('Document queued for AI analysis. Results in ~30s.')"><span class="ms" style="font-size:15px">auto_awesome</span> Analyze with AI</button>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif"><span class="ms" style="font-size:16px">check_circle</span> <span id="notif-msg"></span></div>
+
+<script>
+function showNotif(msg){const el=document.getElementById('notif');document.getElementById('notif-msg').textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3500);}
+
+let resolved = 0;
+const docs = [
+  {title:'Motorcycle Handle Steering — Control Plan', sub:'ID: HA-2024-B1 · AI detected 3 issues · Assigned to Priya R.'},
+  {title:'2-Wheeler Chassis — Control Plan', sub:'ID: TB-2024-X9-CP · AI detected 1 issue · Assigned to Sarah K.'},
+  {title:'Muffler Assembly PFMEA', sub:'ID: MA-2024-M4-PFMEA · AI detected 2 issues · Assigned to Mike T.'},
+  {title:'Seating System BOM Rev C', sub:'ID: FI-2023-Z1-BOM · AI detected 4 issues · Assigned to Alex D.'},
+  {title:'3-Wheeler Cabin Process Flow', sub:'ID: DW-2024-C3-PFD · AI detected 1 issue · Unassigned'},
+];
+
+function loadDoc(idx) {
+  document.querySelectorAll('.queue-item').forEach((el,i)=>el.classList.toggle('active',i===idx));
+  document.getElementById('ed-title').textContent = docs[idx].title;
+  document.getElementById('ed-sub').textContent = docs[idx].sub;
+  showNotif('Loaded: ' + docs[idx].title);
+  resolved = 0;
+  updateCounter();
+  document.querySelectorAll('.correction-chip').forEach(c=>c.classList.remove('resolved'));
+}
+
+function setFilter(btn, label) {
+  document.querySelectorAll('.qf-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  showNotif('Filtered by: ' + label);
+}
+
+function scrollToIssue(idx) {
+  const pane = document.getElementById('orig-pane');
+  const sections = pane.querySelectorAll('.doc-section');
+  if(sections[idx]) sections[idx].scrollIntoView({behavior:'smooth'});
+  const chip = document.getElementById('chip'+idx);
+  if(!chip.classList.contains('resolved')) {
+    chip.classList.add('resolved');
+    chip.innerHTML = '<span class="ms" style="font-size:13px">check_circle</span> ' + ['Material Grade Fixed','Tolerance Fixed','Sign-off Added'][idx];
+    resolved++;
+    updateCounter();
+  }
+}
+
+function acceptAll() {
+  for(let i=0;i<3;i++) scrollToIssue(i);
+  showNotif('All AI corrections accepted.');
+}
+
+function updateApproval() {
+  const cb = document.getElementById('checked-by').value.trim();
+  const ab = document.getElementById('approved-by').value.trim();
+  if(cb && ab && !document.getElementById('chip2').classList.contains('resolved')) scrollToIssue(2);
+}
+
+function updateCounter() {
+  const total = 3;
+  const rem = total - resolved;
+  const el = document.getElementById('issue-text');
+  el.textContent = rem + ' issue' + (rem!==1?'s':'') + ' remaining · ' + resolved + ' resolved';
+  el.previousElementSibling.style.color = rem===0?'#006a35':'#d04408';
+}
+
+function submitCorrection() {
+  if(resolved < 3) { showNotif('Please resolve all ' + (3-resolved) + ' remaining issues first.'); return; }
+  showNotif('Correction submitted for approval! Added to review queue.');
+  setTimeout(()=>showNotif('Approval email sent to Engineering Manager.'),2000);
+}
+</script>
+</body>
+</html>

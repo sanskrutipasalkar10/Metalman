@@ -1,0 +1,309 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>FMEA AI Recommendation</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "background": "#f8f9ff",
+                        "surface-variant": "#d3e4fe",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary-container": "#f6fff4",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#51647d",
+                        "surface": "#f8f9ff",
+                        "secondary": "#4c6078",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005228",
+                        "on-secondary-fixed-variant": "#35485f",
+                        "surface-tint": "#ac3400",
+                        "outline": "#8e7067",
+                        "surface-container-high": "#dce9ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "primary-fixed-dim": "#ffb59d",
+                        "primary-fixed": "#ffdbd0",
+                        "on-secondary-fixed": "#061d32",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#ffb59d",
+                        "on-primary-container": "#fffbff",
+                        "outline-variant": "#e2bfb4",
+                        "on-primary-fixed": "#390b00",
+                        "on-error-container": "#93000a",
+                        "on-background": "#0b1c30",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#832600",
+                        "secondary-fixed-dim": "#b4c8e4",
+                        "surface-container": "#e5eeff",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-surface": "#213145",
+                        "secondary-fixed": "#d1e4ff",
+                        "primary": "#a83300",
+                        "surface-dim": "#cbdbf5",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-surface-variant": "#5a4139",
+                        "tertiary-container": "#008645",
+                        "on-tertiary-fixed": "#00210c",
+                        "primary-container": "#d04408",
+                        "tertiary": "#006a35",
+                        "secondary-container": "#cde1fe",
+                        "tertiary-fixed": "#6bfe9c",
+                        "tertiary-fixed-dim": "#4ae183"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "unit": "4px",
+                        "stack-lg": "32px",
+                        "container-padding": "24px",
+                        "gutter": "16px",
+                        "stack-md": "16px",
+                        "max-width-desktop": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["JetBrains Mono"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-md": ["13px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+
+        /* Subtle pulse for processing status */
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .animate-pulse-soft {
+            animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex">
+<!-- Main Content Canvas -->
+<main class="flex-1 p-container-padding max-w-max-desktop mx-auto w-full">
+<!-- Header Section -->
+<header class="mb-stack-lg flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 mb-2 text-secondary">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Process Registry</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary">Laser Welding Sub-Assembly</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background flex items-center gap-3">
+                    AI Failure Mode Suggestions
+                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed border border-primary-fixed-dim font-label-sm text-label-sm animate-pulse-soft">
+<span class="material-symbols-outlined text-[14px]">neurology</span>
+                        AI Assisting
+                    </span>
+</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-3xl">
+                    Review automated failure mode predictions based on historical telemetry and similar manufacturing tolerances. Accept valid modes to populate the final FMEA document.
+                </p>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 bg-surface text-secondary border border-outline-variant rounded-lg font-body-sm text-body-sm hover:bg-surface-container transition-colors shadow-sm shadow-on-background/5">
+                    Export Draft
+                </button>
+<button class="px-4 py-2 bg-primary text-on-primary rounded-lg font-body-sm text-body-sm hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm shadow-primary/20">
+<span class="material-symbols-outlined text-[18px]">done_all</span>
+                    Approve All Recommended
+                </button>
+</div>
+</header>
+<!-- Insights Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-stack-lg">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 shadow-sm shadow-on-background/5">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-md text-label-md text-secondary uppercase">Total Suggestions</span>
+<span class="material-symbols-outlined text-secondary">list_alt</span>
+</div>
+<div class="font-headline-xl text-headline-xl text-on-background">12</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 shadow-sm shadow-on-background/5">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-md text-label-md text-error uppercase">High Severity Risk</span>
+<span class="material-symbols-outlined text-error">warning</span>
+</div>
+<div class="font-headline-xl text-headline-xl text-error">3</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 shadow-sm shadow-on-background/5 relative overflow-hidden">
+<!-- Decorative background pattern for AI confidence -->
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-tertiary/10 rounded-full blur-2xl"></div>
+<div class="flex justify-between items-start mb-2 relative z-10">
+<span class="font-label-md text-label-md text-tertiary uppercase">Avg AI Confidence</span>
+<span class="material-symbols-outlined text-tertiary">psychiatry</span>
+</div>
+<div class="font-headline-xl text-headline-xl text-tertiary relative z-10">89%</div>
+</div>
+</div>
+<!-- Technical Data Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm shadow-on-background/5">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant">
+<tr>
+<th class="p-3 font-label-sm text-label-sm text-secondary uppercase tracking-wider">Process Step</th>
+<th class="p-3 font-label-sm text-label-sm text-secondary uppercase tracking-wider">Potential Failure Mode</th>
+<th class="p-3 font-label-sm text-label-sm text-secondary uppercase tracking-wider">Potential Causes</th>
+<th class="p-3 font-label-sm text-label-sm text-secondary uppercase tracking-wider">AI Confidence</th>
+<th class="p-3 font-label-sm text-label-sm text-secondary uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface divide-y divide-outline-variant">
+<!-- AI Highlighted Row 1 -->
+<tr class="bg-primary-fixed-dim/10 hover:bg-primary-fixed-dim/20 transition-colors group">
+<td class="p-3 align-top">
+<span class="font-label-md text-label-md">10. Focus Calibration</span>
+</td>
+<td class="p-3 align-top max-w-xs">
+<strong class="block text-on-background mb-1">Focal point shift during continuous operation</strong>
+<span class="text-on-surface-variant text-[13px]">Thermal expansion of optics mount causing &gt;0.05mm deviation.</span>
+</td>
+<td class="p-3 align-top max-w-xs">
+<ul class="list-disc list-inside text-on-surface-variant text-[13px] space-y-1">
+<li>Inadequate cooling flow (Chiller Temp &gt; 22C)</li>
+<li>Optics mount material fatigue</li>
+</ul>
+</td>
+<td class="p-3 align-top">
+<div class="inline-flex items-center gap-1.5 bg-surface-container-highest px-2 py-1 rounded text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+                                    94%
+                                </div>
+</td>
+<td class="p-3 align-top text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 flex items-center justify-center rounded-full text-secondary hover:bg-surface-container hover:text-on-background transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full text-error hover:bg-error-container hover:text-on-error-container transition-colors" title="Reject">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-tertiary-container text-on-tertiary-container hover:opacity-90 transition-opacity" title="Accept">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- AI Highlighted Row 2 -->
+<tr class="bg-primary-fixed-dim/10 hover:bg-primary-fixed-dim/20 transition-colors group">
+<td class="p-3 align-top">
+<span class="font-label-md text-label-md">20. Weld Execution</span>
+</td>
+<td class="p-3 align-top max-w-xs">
+<strong class="block text-on-background mb-1">Incomplete penetration (Lack of Fusion)</strong>
+<span class="text-on-surface-variant text-[13px]">Weld pool does not reach required depth (spec: 2.5mm min).</span>
+</td>
+<td class="p-3 align-top max-w-xs">
+<ul class="list-disc list-inside text-on-surface-variant text-[13px] space-y-1">
+<li>Laser power output degradation (&lt; 95% nominal)</li>
+<li>Travel speed too high (&gt; 120mm/s)</li>
+</ul>
+</td>
+<td class="p-3 align-top">
+<div class="inline-flex items-center gap-1.5 bg-surface-container-highest px-2 py-1 rounded text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+                                    88%
+                                </div>
+</td>
+<td class="p-3 align-top text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 flex items-center justify-center rounded-full text-secondary hover:bg-surface-container hover:text-on-background transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full text-error hover:bg-error-container hover:text-on-error-container transition-colors" title="Reject">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-tertiary-container text-on-tertiary-container hover:opacity-90 transition-opacity" title="Accept">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Standard Row (User added manually previously, for context) -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="p-3 align-top">
+<span class="font-label-md text-label-md">20. Weld Execution</span>
+</td>
+<td class="p-3 align-top max-w-xs">
+<strong class="block text-on-background mb-1">Porosity in weld seam</strong>
+<span class="text-on-surface-variant text-[13px]">Gas entrapment visible in X-ray inspection.</span>
+</td>
+<td class="p-3 align-top max-w-xs">
+<ul class="list-disc list-inside text-on-surface-variant text-[13px] space-y-1">
+<li>Shielding gas flow rate too low</li>
+<li>Surface contamination (oil/grease)</li>
+</ul>
+</td>
+<td class="p-3 align-top">
+<span class="text-secondary font-label-sm text-label-sm">Manual Entry</span>
+</td>
+<td class="p-3 align-top text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 flex items-center justify-center rounded-full text-secondary hover:bg-surface-container hover:text-on-background transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer Pagination/Status -->
+<div class="bg-surface-container-lowest border-t border-outline-variant p-3 flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-secondary">Showing 1-3 of 12 suggestions</span>
+<div class="flex items-center gap-2">
+<button class="p-1 rounded text-secondary hover:bg-surface-container transition-colors disabled:opacity-50">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="p-1 rounded text-secondary hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

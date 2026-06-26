@@ -10,6 +10,9 @@ import Dashboard from "./pages/Dashboard.tsx";
 import Correction from "./pages/Correction.tsx";
 import Cropper from "./pages/Cropper.tsx";
 
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import StitchDemo from "./pages/StitchDemo.tsx";
+
 
 const queryClient = new QueryClient();
 
@@ -22,9 +25,30 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/correction" element={<Correction />} />
-          <Route path="/cropper" element={<Cropper />} />
+          
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/correction" element={
+            <ProtectedRoute>
+              <Correction />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/cropper" element={
+            <ProtectedRoute>
+              <Cropper />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/stitch" element={
+            <ProtectedRoute>
+              <StitchDemo />
+            </ProtectedRoute>
+          } />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
