@@ -18,6 +18,10 @@ GREEN_FONT = Font(color='00B050', bold=True, size=28)
 # 1. SYSTEM CONFIGURATION
 # ==========================================
 def find_freecad_cmd():
+    """Locate FreeCADCmd. Only available on Windows dev environments; returns None on Linux/Render."""
+    import platform
+    if platform.system() != "Windows":
+        return None  # FreeCAD not available on Render (Linux); OCP cadquery is used instead
     print("Locating FreeCAD Command Line Engine...")
     search_paths = glob.glob(r"C:\Program Files\FreeCAD*\bin\FreeCADCmd.exe")
     if not search_paths:
@@ -27,6 +31,7 @@ def find_freecad_cmd():
     return search_paths[0]
 
 FREECAD_CMD = find_freecad_cmd()
+
 WORKER_SCRIPT = "slicer_worker.py"
 
 # ==========================================
