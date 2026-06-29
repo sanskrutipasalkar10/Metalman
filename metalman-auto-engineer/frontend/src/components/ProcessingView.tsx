@@ -5,6 +5,7 @@ import { Progress } from "@/components/ui/progress";
 import { CADWireframe } from "./CADWireframe";
 import { ExcelPreviewModal } from "./ExcelPreviewModal";
 import { cn } from "@/lib/utils";
+import { API_BASE } from "@/lib/api";
 
 interface Props {
   taskId: string;
@@ -28,7 +29,7 @@ export const ProcessingView = ({ taskId, onReset }: Props) => {
 
   const pollStatus = useCallback(async () => {
     try {
-      const resp = await fetch(`http://127.0.0.1:8000/api/status/${taskId}`);
+      const resp = await fetch(`${API_BASE}/api/status/${taskId}`);
       const data = await resp.json();
       
       if (data.status === "not_found") return;
@@ -38,7 +39,7 @@ export const ProcessingView = ({ taskId, onReset }: Props) => {
       setMessage(data.message || "");
       
       if (data.stl_url && !stlUrl) {
-        setStlUrl(`http://127.0.0.1:8000${data.stl_url}`);
+        setStlUrl(`${API_BASE}${data.stl_url}`);
       }
 
       if (data.status === "completed") {
@@ -99,7 +100,7 @@ export const ProcessingView = ({ taskId, onReset }: Props) => {
                   variant="ghost" 
                   size="sm" 
                   className="h-8 text-xs text-primary"
-                  onClick={() => window.open(`http://127.0.0.1:8000${f.url}`, '_blank')}
+                  onClick={() => window.open(`${API_BASE}${f.url}`, '_blank')}
                 >
                   <Download className="mr-1.5 h-3.5 w-3.5" /> Get File
                 </Button>
@@ -112,7 +113,7 @@ export const ProcessingView = ({ taskId, onReset }: Props) => {
           <Button 
             className="h-12 w-full bg-accent text-accent-foreground shadow-orange hover:bg-accent-hover"
             onClick={() => {
-              if (files.length > 0) window.open(`http://127.0.0.1:8000${files[0].url}`, '_blank');
+              if (files.length > 0) window.open(`${API_BASE}${files[0].url}`, '_blank');
             }}
           >
             <Download className="mr-2 h-4 w-4" /> Download Primary Output

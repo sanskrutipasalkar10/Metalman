@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Loader2, Download, Maximize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { API_BASE } from "@/lib/api";
 
 interface Props {
   filename: string | null;
@@ -10,11 +11,11 @@ interface Props {
 
 export const ExcelPreviewModal = ({ filename, onClose }: Props) => {
   const actualFilename = filename?.split('/').pop() || "";
-  const previewUrl = `http://127.0.0.1:8000/api/preview/${actualFilename}`;
+  const previewUrl = `${API_BASE}/api/preview/${actualFilename}`;
 
   const handleDownload = () => {
     if (filename) {
-        window.open(`http://127.0.0.1:8000/outputs/${actualFilename}`, '_blank');
+        window.open(`${API_BASE}/outputs/${actualFilename}`, '_blank');
     }
   };
 

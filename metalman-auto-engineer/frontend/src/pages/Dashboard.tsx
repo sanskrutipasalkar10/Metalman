@@ -8,6 +8,7 @@ import { UploadZone } from "@/components/UploadZone";
 import { ProcessingView } from "@/components/ProcessingView";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { API_BASE } from "@/lib/api";
 
 const OUTPUTS = [
   { id: "bom",          label: "Bill of Materials (BOM)",        desc: "Consolidated list of parts for NPD costing and procurement" },
@@ -46,7 +47,7 @@ const Dashboard = () => {
     formData.append("outputs", JSON.stringify(outputs));
     
     try {
-      const resp = await fetch("http://127.0.0.1:8000/api/analyze", {
+      const resp = await fetch(`${API_BASE}/api/analyze`, {
         method: "POST",
         body: formData,
       });

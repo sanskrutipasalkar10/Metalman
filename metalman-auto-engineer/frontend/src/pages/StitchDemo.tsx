@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { LayoutDashboard, ExternalLink, ChevronRight } from "lucide-react";
+import { API_BASE } from "@/lib/api";
 
 /* ── module metadata ─────────────────────────────────────── */
 const MODULE_META: Record<string, { label: string; icon: string; desc: string }> = {
@@ -18,7 +19,7 @@ const MODULE_META: Record<string, { label: string; icon: string; desc: string }>
 
 /* ── helpers ─────────────────────────────────────────────── */
 const getFrameSrc = (folder: string) =>
-  `http://127.0.0.1:8000/stitch-demo/${folder}/content_only.html`;
+  `${API_BASE}/stitch-demo/${folder}/content_only.html`;
 
 const getLabel = (folder: string) =>
   MODULE_META[folder]?.label ?? folder.replace(/_/g, " ");
@@ -34,7 +35,7 @@ const StitchDemo = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/demo-folders")
+    fetch(`${API_BASE}/api/demo-folders`)
       .then(r => r.json())
       .then((data: string[]) => {
         setFolders(data);
@@ -135,7 +136,7 @@ const StitchDemo = () => {
             </span>
             {active && (
               <button
-                onClick={() => window.open(`http://127.0.0.1:8000/stitch-demo/${active}/code.html`, "_blank")}
+                onClick={() => window.open(`${API_BASE}/stitch-demo/${active}/code.html`, "_blank")}
                 className="flex items-center gap-1.5 rounded-md border border-[#e2bfb4]/60 px-2.5 py-1 text-[11px] font-medium text-[#4c6078] hover:bg-[#dce9ff] transition-all"
               >
                 <ExternalLink className="h-3 w-3" /> Full View

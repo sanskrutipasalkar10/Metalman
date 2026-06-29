@@ -71,8 +71,10 @@ app.add_middleware(
 app.include_router(routes.router, prefix="/api")
 app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 
-# Serve generated outputs statically
-app.mount("/outputs", StaticFiles(directory="outputs"), name="outputs")
+import os
+outputs_dir = "/data/outputs" if os.path.exists("/data") else "outputs"
+os.makedirs(outputs_dir, exist_ok=True)
+app.mount("/outputs", StaticFiles(directory=outputs_dir), name="outputs")
 
 # Serve Stitch Demo statically
 app.mount("/stitch-demo", StaticFiles(directory="stitch_suite"), name="stitch-demo")

@@ -1,6 +1,7 @@
 import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Lock, Mail } from "lucide-react";
+import { API_BASE } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,7 +28,7 @@ const Login = () => {
     formData.append("password", password);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/auth/token", {
+      const response = await fetch(`${API_BASE}/api/auth/token`, {
         method: "POST",
         body: formData,
       });

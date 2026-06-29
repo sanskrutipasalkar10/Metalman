@@ -10,6 +10,7 @@ import { Logo } from "@/components/Logo";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Eye } from "lucide-react";
 import { ExcelPreviewModal } from "@/components/ExcelPreviewModal";
+import { API_BASE } from "@/lib/api";
 
 const DOCUMENT_OPTIONS = [
   { value: "bom", label: "Bill of Materials (BOM)" },
@@ -344,7 +345,7 @@ const Correction = () => {
 
   useEffect(() => {
     if (taskId) {
-      fetch(`http://127.0.0.1:8000/api/status/${taskId}`)
+      fetch(`${API_BASE}/api/status/${taskId}`)
         .then(res => res.json())
         .then(data => {
           if (data.files) {
@@ -421,7 +422,7 @@ const Correction = () => {
     setModifiedFiles([]);
 
     try {
-      const resp = await fetch("http://127.0.0.1:8000/api/correct", {
+      const resp = await fetch(`${API_BASE}/api/correct`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -704,7 +705,7 @@ const Correction = () => {
                           type="button"
                           variant="outline"
                           className="h-14 flex-1 text-sm font-bold border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-300 justify-start px-4"
-                          onClick={() => window.open(`http://127.0.0.1:8000${file.url}`, "_blank")}
+                          onClick={() => window.open(`${API_BASE}${file.url}`, "_blank")}
                         >
                           <Download className="mr-3 h-5 w-5 shrink-0" />
                           <span className="truncate text-left">

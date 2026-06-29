@@ -19,11 +19,12 @@ from services.correction_service import apply_bulk_correction
 from xlsx2html import xlsx2html
 from fastapi.responses import HTMLResponse, FileResponse
 import io
-import pythoncom
 try:
+    import pythoncom
     import win32com.client
     HAS_WIN32 = True
 except ImportError:
+    pythoncom = None
     HAS_WIN32 = False
 
 from openpyxl import Workbook, load_workbook
@@ -61,9 +62,10 @@ class BulkCorrectionRequest(BaseModel):
     corrections: List[CorrectionItem]
 
 
-UPLOAD_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "uploads"))
-OUTPUT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "outputs"))
-TASKS_FILE = "tasks_db.json"
+DATA_DIR = "/data" if os.path.exists("/data") else os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+UPLOAD_DIR = os.path.abspath(os.path.join(DATA_DIR, "uploads"))
+OUTPUT_DIR = os.path.abspath(os.path.join(DATA_DIR, "outputs"))
+TASKS_FILE = os.path.join(DATA_DIR, "tasks_db.json")
 WELDING_EXCEL_FILENAME = os.path.join(OUTPUT_DIR, "welding_crops.xlsx")
 PFD_TEMPLATE_PATH     = os.path.join("assets", "pfd template.xlsx")
 BOM_TEMPLATE_PATH     = os.path.join("assets", "BLANK_BOM_TEMPLATE.xlsx")

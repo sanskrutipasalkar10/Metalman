@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: metalman-backend
+    env: python
+    rootDir: metalman-auto-engineer/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    disk:
+      name: metalman-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:////data/metalman.db
+      - key: OPENAI_API_KEY
+        sync: false
