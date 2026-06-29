@@ -1,11 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
-import { CheckCircle2, Download, RotateCcw, Sparkles, AlertCircle, ExternalLink, Edit, Eye } from "lucide-react";
+import { CheckCircle2, Download, RotateCcw, Sparkles, AlertCircle, ExternalLink, Edit, Eye, Wifi } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { CADWireframe } from "./CADWireframe";
 import { ExcelPreviewModal } from "./ExcelPreviewModal";
 import { cn } from "@/lib/utils";
-import { API_BASE } from "@/lib/api";
+import { API_BASE, fetchWithRetry } from "@/lib/api";
 
 interface Props {
   taskId: string;
@@ -26,18 +26,36 @@ export const ProcessingView = ({ taskId, onReset }: Props) => {
   const [files, setFiles] = useState<GeneratedFile[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [previewFile, setPreviewFile] = useState<string | null>(null);
+  const [reconnecting, setReconnecting] = useState(false);
+  const [reconnectAttempt, setReconnectAttempt] = useState(0);
 
   const pollStatus = useCallback(async () => {
     try {
-      const resp = await fetch(`${API_BASE}/api/status/${taskId}`);
+      const resp = await fetchWithRetry(
+        `${API_BASE}/api/status/${taskId}`,
+        undefined,
+        {
+          maxRetries: 5,
+          initialDelay: 2000,
+          maxDelay: 30_000,
+          onRetry: (attempt) => {
+            setReconnecting(true);
+            setReconnectAttempt(attempt);
+          },
+        }
+      );
+
+      // Successfully connected — clear reconnecting state
+      setReconnecting(false);
+      setReconnectAttempt(0);
+
       const data = await resp.json();
-      
       if (data.status === "not_found") return;
 
       setStatus(data.status);
       setProgress(data.progress || 0);
       setMessage(data.message || "");
-      
+
       if (data.stl_url && !stlUrl) {
         setStlUrl(`${API_BASE}${data.stl_url}`);
       }
@@ -50,7 +68,8 @@ export const ProcessingView = ({ taskId, onReset }: Props) => {
         setError(data.error || "An unknown error occurred during generation.");
       }
     } catch (err) {
-      console.error("Polling failed:", err);
+      console.error("Polling failed after all retries:", err);
+      setReconnecting(true); // keep showing banner if all retries fail
     }
   }, [taskId, stlUrl]);
 
@@ -157,6 +176,17 @@ export const ProcessingView = ({ taskId, onReset }: Props) => {
 
   return (
     <div className="animate-in fade-in duration-500 overflow-hidden rounded-2xl border border-border bg-card shadow-elevated">
+
+      {/* Cold-start reconnecting banner */}
+      {reconnecting && (
+        <div className="flex items-center gap-3 border-b border-yellow-500/20 bg-yellow-500/10 px-5 py-3 text-sm text-yellow-400">
+          <Wifi className="h-4 w-4 animate-pulse shrink-0" />
+          <span>
+            Server is waking up (free tier cold start) — reconnecting
+            {reconnectAttempt > 0 ? ` (attempt ${reconnectAttempt}/5)` : ""}…
+          </span>
+        </div>
+      )}
       {/* 3D viewport */}
       <div className="relative h-[380px] overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-primary/20">
         <div className="absolute inset-0 grid-bg opacity-[0.05]" />

@@ -1,7 +1,7 @@
 import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Lock, Mail } from "lucide-react";
-import { API_BASE } from "@/lib/api";
+import { API_BASE, fetchWithRetry } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,10 +28,18 @@ const Login = () => {
     formData.append("password", password);
 
     try {
-      const response = await fetch(`${API_BASE}/api/auth/token`, {
-        method: "POST",
-        body: formData,
-      });
+      toast.info("Connecting to server…");
+      const response = await fetchWithRetry(
+        `${API_BASE}/api/auth/token`,
+        { method: "POST", body: formData },
+        {
+          maxRetries: 4,
+          initialDelay: 2000,
+          maxDelay: 20_000,
+          onRetry: (attempt) =>
+            toast.info(`Server waking up — retrying (${attempt}/4)…`),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -43,7 +51,7 @@ const Login = () => {
         toast.error(error.detail || "Authentication failed");
       }
     } catch (err) {
-      toast.error("Could not connect to server");
+      toast.error("Could not connect to server. The backend may be starting up — please try again.");
     } finally {
       setLoading(false);
     }
