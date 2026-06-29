@@ -14,4 +14,5 @@ openai
 xlsx2html
 sqlalchemy
 passlib[bcrypt]
-python-jose[cryptography]
+python-jose[cryptography]
+cadquery==2.7.0
